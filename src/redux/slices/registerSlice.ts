@@ -36,7 +36,7 @@ const registerSlice = createSlice({
                 state.message = action.payload;
             })
             .addCase(createBuyer.rejected, (state, action) => {
-                state.message = action.payload as string;
+                state.message = 'Yêu cầu đăng ký không thành công. Tài khoản đã tồn tại !';
                 state.isLoading = false;
                 state.isError = true;
             });
