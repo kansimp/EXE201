@@ -7,23 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
     return (
         <div className="App">
-            <Router>
+            <Router basename="/EXE201">
                 <Routes>
                     {publicRoute.map((route: RouteType, index: number) => {
                         const Page = route.component;
                         let Layout = MainLayout;
                         if (route.layout === null) {
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <>
-                                            <Page />
-                                        </>
-                                    }
-                                />
-                            );
+                            return <Route key={index} path={route.path} element={<Page />} />;
                         }
 
                         return (
@@ -40,6 +30,7 @@ function App() {
                     })}
                 </Routes>
             </Router>
+
             <ToastContainer />
         </div>
     );
