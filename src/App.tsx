@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoute, RouteType } from '@routes/routes';
 import MainLayout from '@layouts/MainLayout';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
                     {publicRoute.map((route: RouteType, index: number) => {
                         const Page = route.component;
                         let Layout = MainLayout;
+
                         if (route.layout === null) {
                             return (
                                 <Route

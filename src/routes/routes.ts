@@ -4,6 +4,7 @@ import Register from "@components/pages/Register/Register";
 import { ComponentType } from "react";
 import LoginForm from "@components/pages/Login/Login";
 import UserProfile from "@components/pages/UserProfile/UserProfile";
+import VerifyAccount from "@components/pages/VerifyAccount/VerifyAccount";
 
 export type RouteType = {
   path: string;
@@ -31,6 +32,11 @@ const publicRoute: RouteType[] = [
     path: "/userprofile",
     component: UserProfile,
     layout: MainLayout,
+  },
+  {
+    path: "/verify",
+    component: VerifyAccount,
+    layout: null,
   },
 ];
 
