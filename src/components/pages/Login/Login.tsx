@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../../redux/slices/userSlice";
 import Souvi from "../../../assets/images/souvi.png";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
 const LoginForm = () => {
   const isLoadingLogin = useAppSelector((state) => state.user.loading);
+  const navigate = useNavigate();
+
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -26,10 +28,14 @@ const LoginForm = () => {
     setRememberMe(e.target.checked);
   };
   const dispatch = useAppDispatch();
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let UserCredential = { ...formValue, rememberMe }; // Truyền cả rememberMe nếu cần
-    dispatch(loginUser(UserCredential));
+    let UserCredential = { ...formValue, rememberMe: false }; // Truyền cả rememberMe nếu cần
+    const login = await dispatch(loginUser(UserCredential)).unwrap();
+    // Check for successful login
+    if (login === "Successfully Sign in") {
+      navigate("/");
+    }
   };
 
   return (
