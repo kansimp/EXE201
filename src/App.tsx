@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
     return (
         <div className="App">
-            <Router basename="/EXE201">
+            <Router>
                 <Routes>
                     {publicRoute.map((route: RouteType, index: number) => {
                         const Page = route.component;
