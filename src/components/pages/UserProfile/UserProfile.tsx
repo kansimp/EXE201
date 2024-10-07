@@ -1,4 +1,13 @@
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { userProfile } from "../../../redux/slices/profileSlice";
+
 const UserProfile = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.profile.user);
+  useEffect(() => {
+    dispatch(userProfile());
+  }, []);
   return (
     <div className="bg-white min-h-screen flex items-center justify-center">
       <div className="w-full max-w-7xl px-6 py-4 md:p-8 rounded-lg shadow-md bg-white">
@@ -8,7 +17,7 @@ const UserProfile = () => {
           <div className="flex flex-col items-center space-y-6">
             <img
               className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-pink-400 dark:ring-indigo-500"
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+              src={user?.avatar as string}
               alt="Bordered avatar"
             />
             <div className="flex flex-col space-y-3">
@@ -30,26 +39,40 @@ const UserProfile = () => {
             <div className="flex flex-col sm:flex-row sm:space-x-4">
               <div className="w-full">
                 <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">
-                  Tên
+                  Họ
                 </label>
                 <input
                   type="text"
                   id="first_name"
                   className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   required
+                  value={user?.first_name as string}
                 />
               </div>
               <div className="w-full">
                 <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">
-                  Điện thoại
+                  Tên
                 </label>
                 <input
                   type="text"
-                  id="first_name"
+                  id="last_name"
                   className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                   required
+                  value={user?.last_name as string}
                 />
               </div>
+            </div>
+            <div className="w-full">
+              <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">
+                Điện thoại
+              </label>
+              <input
+                type="text"
+                id="phone"
+                className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                required
+                value={user?.phone as string}
+              />
             </div>
             <div className="mb-4">
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">
@@ -60,6 +83,7 @@ const UserProfile = () => {
                 id="email"
                 className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                 required
+                value={user?.email as string}
               />
             </div>
             <div className="mb-4">
@@ -71,6 +95,11 @@ const UserProfile = () => {
                 id="profession"
                 className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                 required
+                value={
+                  user?.dob
+                    ? `${user.dob[0]}-${String(user.dob[1]).padStart(2, "0")}-${String(user.dob[2]).padStart(2, "0")}`
+                    : ""
+                }
               />
             </div>
             <div className="mb-6">
@@ -82,6 +111,7 @@ const UserProfile = () => {
                 id="profession"
                 className="bg-indigo-50 border border-pink-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                 required
+                value={user?.address as string}
               />
             </div>
             <div className="flex justify-end">
