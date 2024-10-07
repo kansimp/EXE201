@@ -3,6 +3,7 @@ import Home from "@pages/Home/Home";
 import Register from "@components/pages/Register/Register";
 import { ComponentType } from "react";
 import LoginForm from "@components/pages/Login/Login";
+import UserProfile from "@components/pages/UserProfile/UserProfile";
 
 export type RouteType = {
   path: string;
@@ -25,6 +26,11 @@ const publicRoute: RouteType[] = [
     path: "/login",
     component: LoginForm,
     layout: null,
+  },
+  {
+    path: "/userprofile",
+    component: UserProfile,
+    layout: MainLayout,
   },
 ];
 
