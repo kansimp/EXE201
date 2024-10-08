@@ -23,7 +23,9 @@
             "@api/*": ["api/*"],
             "@layouts/*": ["layouts/*"],
             "@routes/*": ["routes/*"],
-            "@images/*": ["assets/images/*"]
+            "@images/*": ["assets/images/*"],
+            "@setup/*": ["setup/*"],
+            "@redux/*": ["redux/*"]
         }
     },
     "include": ["src"]
