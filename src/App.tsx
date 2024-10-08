@@ -38,6 +38,9 @@ function App() {
                 />
               );
             }
+            if (route.layout === null) {
+              return <Route key={index} path={route.path} element={<Page />} />;
+            }
 
             return (
               <Route
@@ -53,6 +56,7 @@ function App() {
           })}
         </Routes>
       </Router>
+
       <ToastContainer />
     </div>
   );
