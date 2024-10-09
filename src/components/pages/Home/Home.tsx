@@ -45,7 +45,7 @@ const bestSaler = [
         price: 123000,
     },
 ];
-const newProducts = [
+export const newProducts = [
     {
         id: '1',
         imgSource: spMoi,
