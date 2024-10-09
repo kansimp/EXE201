@@ -79,7 +79,7 @@ const newProducts = [
         imgSource: spMoi,
         title: 'Móc Khóa Labubu',
         brand: 'sgShop',
-        price: 150000,
+        price: 160000,
     },
 ];
 function Home() {
