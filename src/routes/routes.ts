@@ -8,6 +8,8 @@ import VerifyAccount from "@components/pages/VerifyAccount/VerifyAccount";
 import AuthLayout from "@layouts/AuthLayout";
 import AuthHeader from "@layouts/AuthHeader";
 import ResetScreen from "@components/pages/Password/SendEmailResetPassWord";
+import ChangePasswordScreen from "@components/pages/ChangePassWord/ChangePassWord";
+import AccountScreen from "@components/pages/Account/Account";
 
 export type RouteType = {
   path: string;
@@ -47,9 +49,14 @@ const publicRoute: RouteType[] = [
     layout: AuthLayout,
   },
   {
-    path: "/auth",
-    component: AuthHeader,
-    layout: null,
+    path: "/change-password",
+    component: ChangePasswordScreen,
+    layout: AuthLayout,
+  },
+  {
+    path: "/account",
+    component: AccountScreen,
+    layout: MainLayout,
   },
 ];
 
