@@ -122,9 +122,12 @@ const LoginForm = () => {
                     />
                     <p className="text-sm">Remember me</p>
                   </div>
-                  <p className="text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2">
+                  <Link
+                    to="/reset-password"
+                    className="text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2"
+                  >
                     Quên mật khẩu?
-                  </p>
+                  </Link>
                 </div>
                 <div className="w-full flex flex-col my-4">
                   <button

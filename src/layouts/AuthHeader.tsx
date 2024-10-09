@@ -24,11 +24,11 @@ const AuthHeader = () => {
             <div className="brand-img-wrap flex items-center justify-center">
               <img className="site-brand-img" src={Souvi} alt="" />
             </div>
-            <span className="site-brand-text">SouVI</span>
+            <span className="site-brand-text">Souvi</span>
           </SiteBrandWrapper>
           <div className="flex items-center">
             <ButtonGroupWrapper className="flex items-center">
-              <BaseLinkOutlineDark to="/sign_up">Trang Chủ</BaseLinkOutlineDark>
+              <BaseLinkOutlineDark to="/">Trang Chủ</BaseLinkOutlineDark>
             </ButtonGroupWrapper>
           </div>
         </div>
