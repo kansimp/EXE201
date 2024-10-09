@@ -24,8 +24,11 @@
             "@layouts/*": ["layouts/*"],
             "@routes/*": ["routes/*"],
             "@images/*": ["assets/images/*"],
+            "@icons/*": ["assets/icons/*"],
             "@setup/*": ["setup/*"],
-            "@redux/*": ["redux/*"]
+            "@redux/*": ["redux/*"],
+            "@styles/*": ["styles/*"],
+            "@common/*": ["common/*"]
         }
     },
     "include": ["src"]
