@@ -45,7 +45,7 @@ const bestSaler = [
         price: 123000,
     },
 ];
-const newProducts = [
+export const newProducts = [
     {
         id: '1',
         imgSource: spMoi,
@@ -79,7 +79,7 @@ const newProducts = [
         imgSource: spMoi,
         title: 'Móc Khóa Labubu',
         brand: 'sgShop',
-        price: 123000,
+        price: 160000,
     },
 ];
 function Home() {

@@ -10,6 +10,7 @@ import AuthHeader from "@layouts/AuthHeader";
 import ResetScreen from "@components/pages/Password/SendEmailResetPassWord";
 import ChangePasswordScreen from "@components/pages/ChangePassWord/ChangePassWord";
 import AccountScreen from "@components/pages/Account/Account";
+import ProductDetail from "@components/pages/ProductDetail/ProductDetail";
 
 export type RouteType = {
   path: string;
@@ -56,6 +57,11 @@ const publicRoute: RouteType[] = [
   {
     path: "/account",
     component: AccountScreen,
+    layout: MainLayout,
+  },
+  {
+    path: "/product/details",
+    component: ProductDetail,
     layout: MainLayout,
   },
 ];
