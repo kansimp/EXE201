@@ -5,9 +5,9 @@ import { ComponentType } from "react";
 import LoginForm from "@components/pages/Login/Login";
 import UserProfile from "@components/pages/UserProfile/UserProfile";
 import VerifyAccount from "@components/pages/VerifyAccount/VerifyAccount";
-import Header from "@components/pages/Admin/Header/Header";
 import AuthLayout from "@layouts/AuthLayout";
 import AuthHeader from "@layouts/AuthHeader";
+import ResetScreen from "@components/pages/Password/SendEmailResetPassWord";
 
 export type RouteType = {
   path: string;
@@ -24,7 +24,7 @@ const publicRoute: RouteType[] = [
   {
     path: "/register",
     component: Register,
-    layout: null,
+    layout: AuthLayout,
   },
   {
     path: "/login",
@@ -39,7 +39,12 @@ const publicRoute: RouteType[] = [
   {
     path: "/verify",
     component: VerifyAccount,
-    layout: null,
+    layout: AuthLayout,
+  },
+  {
+    path: "/reset-password",
+    component: ResetScreen,
+    layout: AuthLayout,
   },
   {
     path: "/auth",
