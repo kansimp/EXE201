@@ -5,6 +5,7 @@ import userReducer from "./slices/userSlice";
 import verifyReducer from "./slices/verifySlice";
 import profileReducer from "./slices/profileSlice";
 import sendEmailResetPasswordReducer from "./slices/sendEmailSlice";
+import sidebarReducer from "./slices/sidebarSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     verify: verifyReducer,
     profile: profileReducer,
     sendEmail: sendEmailResetPasswordReducer,
+    sidebar: sidebarReducer,
   },
 });
 
