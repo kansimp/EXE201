@@ -9,6 +9,7 @@ import AuthLayout from '@layouts/AuthLayout';
 import AuthHeader from '@layouts/AuthHeader';
 import ResetScreen from '@components/pages/Password/SendEmailResetPassWord';
 import ProductDetail from '@components/pages/ProductDetail/ProductDetail';
+import Product from '@components/pages/Product/Product';
 
 export type RouteType = {
     path: string;
@@ -20,6 +21,11 @@ const publicRoute: RouteType[] = [
     {
         path: '/',
         component: Home,
+        layout: MainLayout,
+    },
+    {
+        path: '/product',
+        component: Product,
         layout: MainLayout,
     },
     {
