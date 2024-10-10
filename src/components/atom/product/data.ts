@@ -63,3 +63,46 @@ export const servicesData: Service[] = [
         text: 'Free Shipping & Returns',
     },
 ];
+type ProductFilter = {
+    id: string;
+    title: string;
+};
+
+export const ProductFilterList: ProductFilter[] = [
+    {
+        id: 'prod_filter_1',
+        title: 'Tops',
+    },
+    {
+        id: 'prod_filter_2',
+        title: 'Printed T-shirts',
+    },
+    {
+        id: 'prod_filter_3',
+        title: 'Plain T-shirts',
+    },
+    {
+        id: 'prod_filter_4',
+        title: 'Kurti',
+    },
+    {
+        id: 'prod_filter_5',
+        title: 'Boxers',
+    },
+    {
+        id: 'prod_filter_6',
+        title: 'Full sleeve T-shirts',
+    },
+    {
+        id: 'prod_filter_7',
+        title: 'Joggers',
+    },
+    {
+        id: 'prod_filter_8',
+        title: 'Payjamas',
+    },
+    {
+        id: 'prod_filter_9',
+        title: 'Jeans',
+    },
+];
