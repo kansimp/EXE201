@@ -68,10 +68,9 @@ const NavMenuWrapper = styled.nav`
 
 const UserMenu = () => {
   const location = useLocation();
-
   return (
     <div>
-      <Title titleText={"Hello Richard"} />
+      <Title titleText={"SOUVI"} />
       <p className="text-base font-light italic">Welcome to your account.</p>
 
       <NavMenuWrapper>

@@ -1,13 +1,19 @@
 import Breadcrumb from "@common/Breadcrum";
 import Title from "@common/Title";
 import UserMenu from "@components/user/User";
+import { useAppDispatch, useAppSelector } from "@redux/hook";
+import { userProfile } from "@redux/slices/profileSlice";
 import { BaseLinkGreen } from "@styles/button";
 import { FormElement, Input } from "@styles/form";
 import { Container } from "@styles/styles";
 import { breakpoints, defaultTheme } from "@styles/themes/default";
 import { UserContent, UserDashboardWrapper } from "@styles/user";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import HomeIcon from "@mui/icons-material/Home";
+import { getAllDistrict, getAllProvince } from "@redux/slices/addressSlice";
 
 const AccountScreenWrapper = styled.main`
   .address-list {
@@ -58,6 +64,50 @@ const breadcrumbItems = [
 ];
 
 const AccountScreen = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.profile.user);
+  const listProvince = useAppSelector((state) => state.address.listProvince);
+  const listDistrict = useAppSelector((state) => state.address.listDistrict);
+  const [editMode, setEditMode] = useState(false);
+  const [editedUser, setEditedUser] = useState({
+    full_name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+    email: user?.email || "",
+    phone: user?.phone || "",
+    dob: user?.dob || "",
+    gender: user?.gender || "",
+    address: user?.address || "",
+  });
+  const [idProvice, setIdProvince] = useState({ id: "0", name: "chon tinh" });
+  const [district, setDistrict] = useState("0");
+  useEffect(() => {
+    dispatch(getAllProvince());
+    dispatch(getAllDistrict(idProvice.id));
+    dispatch(userProfile());
+  }, [dispatch]);
+
+  const handleEditToggle = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    if (field === "full_name") {
+      const [firstName, ...lastName] = value.split(" ");
+      setEditedUser((prev) => ({
+        ...prev,
+        first_name: firstName,
+        last_name: lastName.join(" "),
+        full_name: value,
+      }));
+    } else {
+      setEditedUser((prev) => ({ ...prev, [field]: value }));
+    }
+  };
+
+  // const handleSaveChanges = () => {
+  //   dispatch(updateUserProfile(editedUser));
+  //   setEditMode(false);
+  // };
+
   return (
     <AccountScreenWrapper className="page-py-spacing mb-8 mt-8">
       <Container>
@@ -69,9 +119,10 @@ const AccountScreen = () => {
             <div className="flex flex-col items-center space-y-6 mb-5">
               <img
                 className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-gray-400 dark:ring-indigo-500"
-                src={""}
+                src={user?.avatar as string}
                 alt="Bordered avatar"
               />
+
               <div className="flex flex-col space-y-3">
                 <button
                   type="button"
@@ -82,97 +133,174 @@ const AccountScreen = () => {
               </div>
             </div>
             <form>
-              <div className="form-wrapper">
+              <div className="form-wrapper mb-12">
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Your Name
+                  <label htmlFor="first_name" className="form-label font-semibold text-base">
+                    Tên
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
+                      id="first_name"
                       className="form-elem-control text-outerspace font-semibold"
-                      value="Richard Doe"
-                      readOnly
+                      value={editedUser.full_name}
+                      readOnly={!editMode}
+                      onChange={(e) => handleInputChange("full_name", e.target.value)}
                     />
-                    <button type="button" className="form-control-change-btn">
-                      Change
+                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
+                      <ModeEditIcon />
                     </button>
                   </div>
                 </FormElement>
+                {/* Các phần tử form khác được cấu trúc tương tự */}
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Email Address
+                  <label htmlFor="email" className="form-label font-semibold text-base">
+                    Email
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="email"
+                      id="email"
                       className="form-elem-control text-outerspace font-semibold"
-                      value="richard@gmail.com"
-                      readOnly
+                      value={editedUser.email}
+                      readOnly={!editMode}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
                     />
-                    <button type="button" className="form-control-change-btn">
-                      Change
+                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
+                      <ModeEditIcon />
                     </button>
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
                   <label htmlFor="" className="form-label font-semibold text-base">
-                    Phone Number
+                    Số điện thoại
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
                       className="form-elem-control text-outerspace font-semibold"
-                      value="+9686 6864 3434"
-                      readOnly
+                      value={editedUser.phone}
+                      readOnly={!editMode}
+                      onChange={(e) => handleInputChange("phone", e.target.value)}
                     />
-                    <button type="button" className="form-control-change-btn">
-                      Change
+                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
+                      <ModeEditIcon />
                     </button>
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
                   <label htmlFor="" className="form-label font-semibold text-base">
-                    Password
+                    Ngày sinh
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
-                      type="password"
+                      type="text"
                       className="form-elem-control text-outerspace font-semibold"
-                      value="Pass Key"
+                      value={
+                        user?.dob
+                          ? `${user.dob[0]}-${String(user.dob[1]).padStart(2, "0")}-${String(user.dob[2]).padStart(
+                              2,
+                              "0"
+                            )}`
+                          : ""
+                      }
                       readOnly
                     />
                     <button type="button" className="form-control-change-btn">
-                      Change
+                      <ModeEditIcon />
                     </button>
                   </div>
                 </FormElement>
-              </div>
-              <div>
-                <h4 className="text-2xl">My Contact Addresss</h4>
-                <div className="address-list grid">
-                  <div className="address-item grid">
-                    <p className="text-outerspace text-lg font-semibold address-title">Richard Doe</p>
-                    <p className="text-gray text-base font-medium address-description">
-                      1/4 Watson Street Flat, East Coastal Road, Ohio City
-                    </p>
-                    <ul className="address-tags flex flex-wrap">
-                      <li className="text-gray text-base font-medium inline-flex items-center justify-center">Home</li>
-                      <li className="text-gray text-base font-medium inline-flex items-center justify-center">
-                        Default billing address
-                      </li>
-                    </ul>
-                    <div className="address-btns flex">
-                      <Link to="/" className="text-base text-outerspace font-semibold">
-                        Remove
-                      </Link>
-                      <div className="btn-separator"></div>
-                      <Link to="/" className="text-base text-outerspace font-semibold">
-                        Edit
-                      </Link>
-                    </div>
+                <FormElement className="form-elem">
+                  <label htmlFor="" className="form-label font-semibold text-base">
+                    Giới Tính
+                  </label>
+                  <div className="form-input-wrapper flex items-center">
+                    <Input
+                      type="text"
+                      className="form-elem-control text-outerspace font-semibold"
+                      value={editedUser.gender}
+                      readOnly={!editMode}
+                      onChange={(e) => handleInputChange("gender", e.target.value)}
+                    />
+                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
+                      <ModeEditIcon />
+                    </button>
                   </div>
-                </div>
+                </FormElement>
+                <FormElement className="form-elem">
+                  <label htmlFor="" className="form-label font-semibold text-base">
+                    Tên Đường , Số nhà
+                  </label>
+                  <div className="form-input-wrapper flex items-center">
+                    <Input
+                      type="text"
+                      className="form-elem-control text-outerspace font-semibold"
+                      value={editedUser.address}
+                      readOnly={!editMode}
+                      onChange={(e) => handleInputChange("gender", e.target.value)}
+                    />
+                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
+                      <ModeEditIcon />
+                    </button>
+                  </div>
+                </FormElement>
+                <FormElement className="form-elem">
+                  <label htmlFor="" className="form-label font-semibold text-base">
+                    Tỉnh
+                  </label>
+                  <select
+                    id="Tinh"
+                    value={JSON.stringify(idProvice)}
+                    onChange={(e) => {
+                      setIdProvince(JSON.parse(e.target.value));
+                    }}
+                    className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">Chọn Tỉnh ...</option>
+                    {listProvince.map((province, index) => {
+                      return (
+                        <option key={index} value={JSON.stringify({ id: province.id, name: province.name })}>
+                          {province.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </FormElement>
+                <FormElement className="form-elem">
+                  <label htmlFor="" className="form-label font-semibold text-base">
+                    Huyện
+                  </label>
+                  <select
+                    id="huyen"
+                    value={district}
+                    onChange={(e) => {
+                      setDistrict(e.target.value);
+                    }}
+                    className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">Chọn Huyện ...</option>
+                    {listDistrict.map((district, index) => {
+                      return (
+                        <option key={index} value={district.name}>
+                          {district.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </FormElement>
+              </div>
+
+              <div className="flex w-full">
+                {editMode && (
+                  <button
+                    type="button"
+                    className="py-3.5 px-7 text-base font-medium text-white bg-green-800 rounded-lg mt-5 ml-auto mr-12"
+                    // onClick={handleSaveChanges}
+                  >
+                    Lưu thay đổi
+                  </button>
+                )}
               </div>
             </form>
           </UserContent>

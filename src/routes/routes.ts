@@ -50,7 +50,7 @@ const publicRoute: RouteType[] = [
     layout: AuthLayout,
   },
   {
-    path: "/change-password",
+    path: "/change-password/:token",
     component: ChangePasswordScreen,
     layout: AuthLayout,
   },

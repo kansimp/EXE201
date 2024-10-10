@@ -4,21 +4,36 @@ import { useState, FC } from "react";
 
 const PasswordToggleButton = styled.button`
   position: absolute;
-  bottom: 100%;
-  right: 0;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 
   .pwd-toggle-text {
     padding-left: 5px;
+    font-size: 0.8rem;
   }
+`;
+
+const FormElemBlock = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 interface PasswordInputProps {
   fieldName: string;
   name: string;
+  value: string; // Add value prop
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Add onChange prop
   errorMsg?: string;
 }
 
-const PasswordInput: FC<PasswordInputProps> = ({ fieldName, name, errorMsg = "" }) => {
+const PasswordInput: FC<PasswordInputProps> = ({ fieldName, name, value, onChange, errorMsg = "" }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
@@ -30,24 +45,30 @@ const PasswordInput: FC<PasswordInputProps> = ({ fieldName, name, errorMsg = "" 
       <label htmlFor={name} className="form-elem-label">
         {fieldName}
       </label>
-      <div className="form-elem-block">
-        <Input type={showPassword ? "text" : "password"} placeholder="" name={name} className="form-elem-control" />
-
-        <PasswordToggleButton type="button" className="pwd-value-toggle flex items-center" onClick={togglePassword}>
+      <FormElemBlock className="form-elem-block">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder=""
+          name={name}
+          value={value} // Set value prop
+          onChange={onChange} // Set onChange prop
+          className="form-elem-control"
+        />
+        <PasswordToggleButton type="button" className="pwd-value-toggle" onClick={togglePassword}>
           {showPassword ? (
             <>
               <i className="bi bi-eye-fill"></i>
-              <span className="pwd-toggle-text text-sm">Hide</span>
+              <span className="pwd-toggle-text">Hide</span>
             </>
           ) : (
             <>
               <i className="bi bi-eye-slash-fill"></i>
-              <span className="pwd-toggle-text text-sm">Show</span>
+              <span className="pwd-toggle-text">Show</span>
             </>
           )}
         </PasswordToggleButton>
-      </div>
-      <span className="form-elem-error text-end font-medium">{errorMsg}</span>
+      </FormElemBlock>
+      {errorMsg && <span className="form-elem-error text-end font-medium">{errorMsg}</span>}
     </FormElement>
   );
 };
