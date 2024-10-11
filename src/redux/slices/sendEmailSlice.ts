@@ -6,7 +6,6 @@ type sendEmailResetPasswordType = {
   email: string;
 };
 
-// Tạo action async để gửi yêu cầu quên mật khẩu
 export const sendEmailResetPassword = createAsyncThunk(
   "user/resetPassword",
   async (resetData: sendEmailResetPasswordType) => {
@@ -22,7 +21,6 @@ export const sendEmailResetPassword = createAsyncThunk(
   }
 );
 
-// Định nghĩa kiểu cho state của Reset Password
 type sendEmailResetPasswordStateType = {
   loading: boolean | null;
   message: string | null;

@@ -4,6 +4,7 @@ import MainLayout from "@layouts/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthLayout from "@layouts/AuthLayout";
+import AdminLayout from "@layouts/AdminLayouts";
 
 function App() {
   return (
@@ -34,6 +35,18 @@ function App() {
                     <AuthLayout>
                       <Page />
                     </AuthLayout>
+                  }
+                />
+              );
+            } else if (route.layout === AdminLayout) {
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <AdminLayout>
+                      <Page />
+                    </AdminLayout>
                   }
                 />
               );

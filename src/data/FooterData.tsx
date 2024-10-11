@@ -1,3 +1,4 @@
+import Labubu from "@images/spmoi.jpg";
 type Link = {
   text: string;
   url: string;
@@ -19,7 +20,14 @@ type SocialLink = {
   site_icon: string;
   site_url: string;
 };
-
+type WishlistItem = {
+  id: string;
+  name: string;
+  color: string;
+  quantity: number;
+  price: number;
+  imgSource: string;
+};
 const footerData: FooterSection[] = [
   {
     id: "f_need_help",
@@ -89,5 +97,39 @@ const socialLinksData: SocialLink[] = [
     site_url: "www.linkedin.com",
   },
 ];
+const wishlistData: WishlistItem[] = [
+  {
+    id: "wishlist_1",
+    name: "Blue Flower Print Crop Top",
+    color: "yellow",
+    quantity: 1,
+    price: 29,
+    imgSource: Labubu,
+  },
+  {
+    id: "wishlist_2",
+    name: "Yellow Flower Print Dress",
+    color: "yellow",
+    quantity: 4,
+    price: 40,
+    imgSource: Labubu,
+  },
+  {
+    id: "wishlist_3",
+    name: "White Hoodie long sleeve",
+    color: "white",
+    quantity: 1,
+    price: 123,
+    imgSource: Labubu,
+  },
+  {
+    id: "wishlist_4",
+    name: "Brown men’s long sleeve T-shirt",
+    color: "brown",
+    quantity: 6,
+    price: 42,
+    imgSource: Labubu,
+  },
+];
 
-export { footerData, socialLinksData };
+export { footerData, socialLinksData, wishlistData };

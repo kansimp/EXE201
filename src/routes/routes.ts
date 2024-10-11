@@ -6,9 +6,15 @@ import LoginForm from '@components/pages/Login/Login';
 import UserProfile from '@components/pages/UserProfile/UserProfile';
 import VerifyAccount from '@components/pages/VerifyAccount/VerifyAccount';
 import AuthLayout from '@layouts/AuthLayout';
+import AuthHeader from '@layouts/AuthHeader';
 import ResetScreen from '@components/pages/Password/SendEmailResetPassWord';
+import ChangePasswordScreen from '@components/pages/ChangePassWord/ChangePassWord';
+import AccountScreen from '@components/pages/Account/Account';
 import ProductDetail from '@components/pages/ProductDetail/ProductDetail';
 import Product from '@components/pages/Product/Product';
+import WishListScreen from '@components/pages/Wishlist/Wishlist';
+import AdminLayout from '@layouts/AdminLayouts';
+import Dashboard from '@components/pages/Admin/Dashboard';
 import Cart from '@components/pages/Cart/Cart';
 
 export type RouteType = {
@@ -21,16 +27,6 @@ const publicRoute: RouteType[] = [
     {
         path: '/',
         component: Home,
-        layout: MainLayout,
-    },
-    {
-        path: '/product',
-        component: Product,
-        layout: MainLayout,
-    },
-    {
-        path: '/product/details',
-        component: ProductDetail,
         layout: MainLayout,
     },
     {
@@ -57,6 +53,36 @@ const publicRoute: RouteType[] = [
         path: '/reset-password',
         component: ResetScreen,
         layout: AuthLayout,
+    },
+    {
+        path: '/change-password/:token',
+        component: ChangePasswordScreen,
+        layout: AuthLayout,
+    },
+    {
+        path: '/account',
+        component: AccountScreen,
+        layout: MainLayout,
+    },
+    {
+        path: '/product/details',
+        component: ProductDetail,
+        layout: MainLayout,
+    },
+    {
+        path: '/product',
+        component: Product,
+        layout: MainLayout,
+    },
+    {
+        path: '/wishlist',
+        component: WishListScreen,
+        layout: MainLayout,
+    },
+    {
+        path: '/admin',
+        component: Dashboard,
+        layout: AdminLayout,
     },
     {
         path: '/cart',
