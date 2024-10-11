@@ -12,6 +12,9 @@ import ChangePasswordScreen from "@components/pages/ChangePassWord/ChangePassWor
 import AccountScreen from "@components/pages/Account/Account";
 import ProductDetail from "@components/pages/ProductDetail/ProductDetail";
 import Product from "@components/pages/Product/Product";
+import WishListScreen from "@components/pages/Wishlist/Wishlist";
+import AdminLayout from "@layouts/AdminLayouts";
+import Dashboard from "@components/pages/Admin/Dashboard";
 
 export type RouteType = {
   path: string;
@@ -69,6 +72,16 @@ const publicRoute: RouteType[] = [
     path: "/product",
     component: Product,
     layout: MainLayout,
+  },
+  {
+    path: "/wishlist",
+    component: WishListScreen,
+    layout: MainLayout,
+  },
+  {
+    path: "/admin",
+    component: Dashboard,
+    layout: AdminLayout,
   },
 ];
 

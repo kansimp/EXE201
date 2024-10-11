@@ -71,7 +71,7 @@ const UserMenu = () => {
   return (
     <div>
       <Title titleText={"SOUVI"} />
-      <p className="text-base font-light italic">Welcome to your account.</p>
+      <p className="text-base font-light italic">Chào mừng đến với tài khoản .</p>
 
       <NavMenuWrapper>
         <ul className="nav-menu-list grid">
@@ -85,7 +85,7 @@ const UserMenu = () => {
               <span className="nav-link-icon flex items-center justify-center">
                 <img src="./assets/icons/ac_orders.svg" alt="" />
               </span>
-              <span className="text-base font-semibold nav-link-text no-wrap">My orders</span>
+              <span className="text-base font-semibold nav-link-text no-wrap">Danh sách đặt hàng</span>
             </Link>
           </li>
           <li className="nav-menu-item">
@@ -98,7 +98,7 @@ const UserMenu = () => {
               <span className="nav-link-icon flex items-center justify-center">
                 <img src="./assets/icons/ac_heart.svg" alt="" />
               </span>
-              <span className="text-base font-semibold nav-link-text no-wrap">Wishlist</span>
+              <span className="text-base font-semibold nav-link-text no-wrap">Danh sách yêu thích</span>
             </Link>
           </li>
           <li className="nav-menu-item">
@@ -111,7 +111,7 @@ const UserMenu = () => {
               <span className="nav-link-icon flex items-center justify-center">
                 <img src="./assets/icons/ac_user.svg" alt="" />
               </span>
-              <span className="text-base font-semibold nav-link-text no-wrap">My Account</span>
+              <span className="text-base font-semibold nav-link-text no-wrap">Tài khoản</span>
             </Link>
           </li>
           <li className="nav-menu-item">
@@ -119,7 +119,7 @@ const UserMenu = () => {
               <span className="nav-link-icon flex items-center justify-center">
                 <img src="./assets/icons/ac_sign_out.svg" alt="" />
               </span>
-              <span className="text-base font-semibold nav-link-text no-wrap">Sign out</span>
+              <span className="text-base font-semibold nav-link-text no-wrap">Đăng xuất</span>
             </Link>
           </li>
         </ul>
