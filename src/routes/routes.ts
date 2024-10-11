@@ -6,10 +6,10 @@ import LoginForm from '@components/pages/Login/Login';
 import UserProfile from '@components/pages/UserProfile/UserProfile';
 import VerifyAccount from '@components/pages/VerifyAccount/VerifyAccount';
 import AuthLayout from '@layouts/AuthLayout';
-import AuthHeader from '@layouts/AuthHeader';
 import ResetScreen from '@components/pages/Password/SendEmailResetPassWord';
 import ProductDetail from '@components/pages/ProductDetail/ProductDetail';
 import Product from '@components/pages/Product/Product';
+import Cart from '@components/pages/Cart/Cart';
 
 export type RouteType = {
     path: string;
@@ -59,9 +59,9 @@ const publicRoute: RouteType[] = [
         layout: AuthLayout,
     },
     {
-        path: '/auth',
-        component: AuthHeader,
-        layout: null,
+        path: '/cart',
+        component: Cart,
+        layout: MainLayout,
     },
 ];
 
