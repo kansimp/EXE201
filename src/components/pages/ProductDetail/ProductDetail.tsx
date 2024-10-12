@@ -3,13 +3,15 @@ import { Container } from '@styles/styles';
 import Breadcrumb from '@common/Breadcrumb';
 import { product_one } from './data';
 import ProductPreview from '@atom/product/ProductPreview';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BaseLinkGreen } from '@styles/button';
 import { currencyFormat } from '../../utils/helper';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
 import ProductDescriptionTab from '@atom/product/ProductDescriptionTab';
 import ProductSimilar from '@atom/product/ProductSimilar';
 import ProductServices from '@atom/product/ProductServices';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { addItem } from '@redux/slices/cartSlice';
 
 const DetailsScreenWrapper = styled.main`
     margin: 40px 0;
@@ -182,6 +184,10 @@ const ProductColorWrapper = styled.div`
 `;
 
 const ProductDetailsScreen: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const items = useAppSelector((state) => state.cart.items);
+    const { id } = useParams();
+
     const stars = Array.from({ length: 5 }, (_, index) => (
         <span
             key={index}
@@ -256,7 +262,13 @@ const ProductDetailsScreen: React.FC = () => {
                             </div>
                         </ProductColorWrapper>
                         <div className="btn-and-price flex items-center flex-wrap">
-                            <BaseLinkGreen to="/cart" as={BaseLinkGreen} className="prod-add-btn">
+                            <BaseLinkGreen
+                                as={BaseLinkGreen}
+                                className="prod-add-btn"
+                                onClick={() => {
+                                    dispatch(addItem({ id: product_one.id }));
+                                }}
+                            >
                                 <span className="prod-add-btn-icon">
                                     <i className="bi bi-cart2"></i>
                                 </span>

@@ -49,7 +49,7 @@ const ProductCardWrapper = styled(Link)`
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     return (
-        <ProductCardWrapper key={product.id} to="/product/details">
+        <ProductCardWrapper key={product.id} to={`/product/${product.id}`}>
             <div className="product-img">
                 <img className="object-fit-cover" src={product.imgSource} alt={product.title} />
                 <button type="button" className="product-wishlist-icon flex items-center justify-center bg-white">

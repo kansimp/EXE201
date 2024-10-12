@@ -128,6 +128,7 @@ const ProductListScreen: React.FC = () => {
                             </ul>
                         </div>
                         <ProductList products={newProducts.slice(0, 12)} />
+                        {/* số lượng product hiện ra */}
                     </ProductsContentRight>
                 </ProductsContent>
             </Container>
