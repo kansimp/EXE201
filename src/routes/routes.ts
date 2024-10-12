@@ -64,11 +64,7 @@ const publicRoute: RouteType[] = [
         component: AccountScreen,
         layout: MainLayout,
     },
-    {
-        path: '/product/details',
-        component: ProductDetail,
-        layout: MainLayout,
-    },
+
     {
         path: '/product',
         component: Product,
@@ -87,6 +83,11 @@ const publicRoute: RouteType[] = [
     {
         path: '/cart',
         component: Cart,
+        layout: MainLayout,
+    },
+    {
+        path: '/product/:id',
+        component: ProductDetail,
         layout: MainLayout,
     },
 ];
