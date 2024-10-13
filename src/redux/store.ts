@@ -8,6 +8,8 @@ import sendEmailResetPasswordReducer from './slices/sendEmailSlice';
 import sidebarReducer from './slices/sidebarSlice';
 import changePasswordReducer from './slices/changePassWord';
 import cartReducer from './slices/cartSlice';
+import postReducer from './slices/postSlice';
+import postDetailReducer from './slices/postdetailSlice';
 
 export const store = configureStore({
     reducer: {
@@ -20,6 +22,8 @@ export const store = configureStore({
         sidebar: sidebarReducer,
         changePassword: changePasswordReducer,
         cart: cartReducer,
+        post: postReducer,
+        postDetail: postDetailReducer,
     },
 });
 

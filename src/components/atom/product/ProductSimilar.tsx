@@ -6,8 +6,8 @@ import ProductList from './ProductList';
 const ProductSimilar = () => {
     return (
         <Section>
-            <Title titleText={'Similar Products'} />
-            <ProductList products={newProducts.slice(0, 4)} />
+            <Title titleText={'Các Sản Phẩm Liên Quan'} />
+            {/* <ProductList products={newProducts.slice(0, 4)} /> */}
         </Section>
     );
 };

@@ -6,6 +6,9 @@ import Catalog from '@atom/catalog/Catalog';
 import Feedback from '@atom/feedback/Feedback';
 import nen from '@images/banchay.jpg';
 import spMoi from '@images/spmoi.jpg';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { getAllPostByDateDesc } from '@redux/slices/postSlice';
+import { useEffect } from 'react';
 
 const HomeScreenWrapper = styled.main``;
 const bestSaler = [
@@ -83,13 +86,27 @@ export const newProducts = [
     },
 ];
 function Home() {
+    const dispatch = useAppDispatch();
+    const listPostByDateDesc = useAppSelector((state) => state.post.listPost);
+    useEffect(() => {
+        dispatch(getAllPostByDateDesc());
+    }, []);
     return (
         <HomeScreenWrapper>
             <Hero />
             <Featured />
             <Category />
-            <Catalog catalogTitle={'Các Sản Mới'} products={bestSaler} />
-            <Catalog catalogTitle={'Các Sản Phẩm Bán Chạy'} products={newProducts} />
+            {listPostByDateDesc.length > 0 ? (
+                <Catalog catalogTitle={'Các Sản Phẩm Mới'} products={listPostByDateDesc} />
+            ) : (
+                <>Loading</>
+            )}
+            {listPostByDateDesc.length > 0 ? (
+                <Catalog catalogTitle={'Các Sản Phẩm Bán Chạy'} products={listPostByDateDesc} />
+            ) : (
+                <>Loading</>
+            )}
+
             <Feedback />
         </HomeScreenWrapper>
     );

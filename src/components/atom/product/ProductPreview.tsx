@@ -1,16 +1,14 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
+import { Post } from '@redux/slices/postSlice';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { getProductChoose } from '@redux/slices/postdetailSlice';
 
-// Define the types for the preview images
-interface PreviewImage {
-    id: string;
-    imgSource: string;
-}
-
-interface ProductPreviewProps {
-    previewImages: PreviewImage[];
-}
+type ProductPreviewProps = {
+    post: Post | null;
+    id: number;
+};
 
 const ProductPreviewWrapper = styled.div`
     grid-template-columns: 72px auto;
@@ -89,8 +87,14 @@ const ProductPreviewWrapper = styled.div`
     }
 `;
 
-const ProductPreview: React.FC<ProductPreviewProps> = ({ previewImages }) => {
-    const [activePreviewImage, setActivePreviewImage] = useState<string>(previewImages[0].imgSource);
+const ProductPreview: React.FC<ProductPreviewProps> = ({ post, id }) => {
+    const dispatch = useAppDispatch();
+    const [activePreviewImage, setActivePreviewImage] = useState<string | undefined>(post?.products[0].image);
+    useEffect(() => {
+        if (post) {
+            dispatch(getProductChoose({ id: post.id, productId: post.products[0].product_id }));
+        }
+    }, [post]);
 
     const handlePreviewImageChange = (previewImage: string) => {
         setActivePreviewImage(previewImage);
@@ -99,14 +103,17 @@ const ProductPreview: React.FC<ProductPreviewProps> = ({ previewImages }) => {
     return (
         <ProductPreviewWrapper className="grid items-center">
             <div className="preview-items w-full">
-                {previewImages.map((previewImage) => (
+                {post?.products.map((product) => (
                     <div
                         className="preview-item-wrapper"
-                        key={previewImage.id}
-                        onClick={() => handlePreviewImageChange(previewImage.imgSource)}
+                        key={product.product_id}
+                        onClick={async () => {
+                            await handlePreviewImageChange(product.image);
+                            dispatch(getProductChoose({ id: post.id, productId: product.product_id }));
+                        }}
                     >
                         <div className="preview-item">
-                            <img src={previewImage.imgSource} alt="" className="object-fit-cover" />
+                            <img src={product.image} alt="" className="object-fit-cover" />
                         </div>
                     </div>
                 ))}
