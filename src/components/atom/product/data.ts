@@ -15,21 +15,21 @@ export const productDescriptionTabHeads: TabHead[] = [
     {
         id: 'tab-description',
         tabHead: 'tabDescription',
-        tabText: 'Description',
+        tabText: 'Mô tả',
         badgeValue: null,
         badgeColor: '',
     },
     {
         id: 'tab-comments',
         tabHead: 'tabComments',
-        tabText: 'User Comments',
+        tabText: 'Nhận xét',
         badgeValue: 10,
         badgeColor: 'purple',
     },
     {
         id: 'tab-QNA',
         tabHead: 'tabQNA',
-        tabText: 'Question & Answer',
+        tabText: 'Hỏi đáp',
         badgeValue: 4,
         badgeColor: 'outerspace',
     },
@@ -45,22 +45,22 @@ export const servicesData: Service[] = [
     {
         id: 'service_1',
         icon: card_icon,
-        text: 'Secure Payment',
+        text: 'Thanh Toán Online',
     },
     {
         id: 'service_2',
         icon: size_icon,
-        text: 'Size & fit',
+        text: 'Sản Phẩm Đa Dạng',
     },
     {
         id: 'service_3',
         icon: shipping_icon,
-        text: 'Free Shipping',
+        text: 'Miễn Phí Vận Chuyển',
     },
     {
         id: 'service_4',
         icon: return_icon,
-        text: 'Free Shipping & Returns',
+        text: 'Miễn Phí Đổi Trả',
     },
 ];
 type ProductFilter = {

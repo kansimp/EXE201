@@ -98,73 +98,74 @@ const ProductListScreen: React.FC = () => {
         { label: 'Products', link: '' },
     ];
 
-    return (
-        <main className="page-py-spacing">
-            <Container>
-                <Breadcrumb items={breadcrumbItems} />
-                <ProductsContent className="grid items-start">
-                    <ProductsContentLeft>
-                        <ProductFilter />
-                    </ProductsContentLeft>
-                    <ProductsContentRight>
-                        <div className="products-right-top flex items-center justify-between">
-                            <h4 className="text-xxl">Gấu Bông</h4>
-                            <ul className="products-right-nav flex items-center justify-end flex-wrap">
-                                <li>
-                                    <Link to="/" className="active text-lg font-semibold">
-                                        Đề xuất
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/" className="text-lg font-semibold">
-                                        Giá tăng dần
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/" className="text-lg font-semibold">
-                                        Giá giảm dần
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <ProductList products={newProducts.slice(0, 12)} />
-                        {/* số lượng product hiện ra */}
-                    </ProductsContentRight>
-                </ProductsContent>
-            </Container>
-            <Section>
-                <Container>
-                    <DescriptionContent>
-                        <Title titleText={'Clothing for Everyone Online'} />
-                        <ContentStylings className="text-base content-stylings">
-                            <h4>Reexplore Clothing Collection Online at Achats.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, molestiae ex atque
-                                similique consequuntur ipsum sapiente inventore magni ducimus sequi nemo id, numquam
-                                officiis fugit pariatur esse, totam facere ullam?
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur nam magnam placeat
-                                nesciunt ipsa amet, vel illo veritatis eligendi voluptatem!
-                            </p>
-                            <h4>One-stop Destination to Shop Every Clothing for Everyone: Achats.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo iure doloribus optio
-                                aliquid id. Quos quod delectus, dolor est ab exercitationem odio quae quas qui
-                                doloremque. Esse natus minima ratione reiciendis nostrum, quam, quisquam modi aut, neque
-                                hic provident dolorem.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi laborum dolorem deserunt
-                                aperiam voluptate mollitia.
-                            </p>
-                            <Link to="/">See More</Link>
-                        </ContentStylings>
-                    </DescriptionContent>
-                </Container>
-            </Section>
-        </main>
-    );
+    // return (
+    //     <main className="page-py-spacing">
+    //         <Container>
+    //             <Breadcrumb items={breadcrumbItems} />
+    //             <ProductsContent className="grid items-start">
+    //                 <ProductsContentLeft>
+    //                     <ProductFilter />
+    //                 </ProductsContentLeft>
+    //                 <ProductsContentRight>
+    //                     <div className="products-right-top flex items-center justify-between">
+    //                         <h4 className="text-xxl">Gấu Bông</h4>
+    //                         <ul className="products-right-nav flex items-center justify-end flex-wrap">
+    //                             <li>
+    //                                 <Link to="/" className="active text-lg font-semibold">
+    //                                     Đề xuất
+    //                                 </Link>
+    //                             </li>
+    //                             <li>
+    //                                 <Link to="/" className="text-lg font-semibold">
+    //                                     Giá tăng dần
+    //                                 </Link>
+    //                             </li>
+    //                             <li>
+    //                                 <Link to="/" className="text-lg font-semibold">
+    //                                     Giá giảm dần
+    //                                 </Link>
+    //                             </li>
+    //                         </ul>
+    //                     </div>
+    //                     <ProductList products={newProducts.slice(0, 12)} />
+    //                     {/* số lượng product hiện ra */}
+    //                 </ProductsContentRight>
+    //             </ProductsContent>
+    //         </Container>
+    //         <Section>
+    //             <Container>
+    //                 <DescriptionContent>
+    //                     <Title titleText={'Clothing for Everyone Online'} />
+    //                     <ContentStylings className="text-base content-stylings">
+    //                         <h4>Reexplore Clothing Collection Online at Achats.</h4>
+    //                         <p>
+    //                             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, molestiae ex atque
+    //                             similique consequuntur ipsum sapiente inventore magni ducimus sequi nemo id, numquam
+    //                             officiis fugit pariatur esse, totam facere ullam?
+    //                         </p>
+    //                         <p>
+    //                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur nam magnam placeat
+    //                             nesciunt ipsa amet, vel illo veritatis eligendi voluptatem!
+    //                         </p>
+    //                         <h4>One-stop Destination to Shop Every Clothing for Everyone: Achats.</h4>
+    //                         <p>
+    //                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo iure doloribus optio
+    //                             aliquid id. Quos quod delectus, dolor est ab exercitationem odio quae quas qui
+    //                             doloremque. Esse natus minima ratione reiciendis nostrum, quam, quisquam modi aut, neque
+    //                             hic provident dolorem.
+    //                         </p>
+    //                         <p>
+    //                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi laborum dolorem deserunt
+    //                             aperiam voluptate mollitia.
+    //                         </p>
+    //                         <Link to="/">See More</Link>
+    //                     </ContentStylings>
+    //                 </DescriptionContent>
+    //             </Container>
+    //         </Section>
+    //     </main>
+    // );
+    return <>Product</>;
 };
 
 export default ProductListScreen;
