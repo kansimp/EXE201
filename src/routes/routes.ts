@@ -15,6 +15,7 @@ import Product from "@components/pages/Product/Product";
 import WishListScreen from "@components/pages/Wishlist/Wishlist";
 import AdminLayout from "@layouts/AdminLayouts";
 import Dashboard from "@components/pages/Admin/Dashboard";
+import UserTable from "@components/pages/Admin/UserTable";
 
 export type RouteType = {
   path: string;
@@ -81,6 +82,11 @@ const publicRoute: RouteType[] = [
   {
     path: "/admin",
     component: Dashboard,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin/tables",
+    component: UserTable,
     layout: AdminLayout,
   },
 ];

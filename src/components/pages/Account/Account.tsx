@@ -14,6 +14,7 @@ import styled from "styled-components";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import HomeIcon from "@mui/icons-material/Home";
 import { getAllDistrict, getAllProvince } from "@redux/slices/addressSlice";
+import { uploadUserImage } from "@redux/slices/uploadAvatar";
 
 const AccountScreenWrapper = styled.main`
   .address-list {
@@ -79,6 +80,7 @@ const AccountScreen = () => {
   });
   const [idProvice, setIdProvince] = useState({ id: "0", name: "chon tinh" });
   const [district, setDistrict] = useState("0");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   useEffect(() => {
     dispatch(getAllProvince());
     dispatch(getAllDistrict(idProvice.id));
@@ -89,6 +91,22 @@ const AccountScreen = () => {
     setEditMode(!editMode);
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  const handleImageUpload = () => {
+    if (imageFile && user?.account_id) {
+      dispatch(uploadUserImage({ userId: user.account_id, image: imageFile }))
+        .unwrap()
+        .then(() => {
+          alert("Image uploaded successfully!");
+        });
+    }
+  };
   const handleInputChange = (field: string, value: string) => {
     if (field === "full_name") {
       const [firstName, ...lastName] = value.split(" ");
@@ -122,9 +140,10 @@ const AccountScreen = () => {
                 src={user?.avatar as string}
                 alt="Bordered avatar"
               />
-
               <div className="flex flex-col space-y-3">
+                <input type="file" accept="image/*" onChange={handleFileChange} />
                 <button
+                  onClick={handleImageUpload}
                   type="button"
                   className="py-3.5 px-7 text-base font-medium text-white bg-gray-800 rounded-lg border border-pink-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200 focus:outline-none"
                 >

@@ -136,15 +136,16 @@ const LoginForm = () => {
                   >
                     {isLoadingLogin == true ? "Loading!!!" : "Đăng nhập"}
                   </button>
-
-                  <button className="w-full text-[#060606] my-2 bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center cursor-pointer">
-                    Đăng kí
-                  </button>
+                  <Link to="/register">
+                    <button className="w-full text-[#060606] my-2 bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center cursor-pointer">
+                      Đăng kí
+                    </button>
+                  </Link>
                 </div>
               </form>
               <p className="flex flex-wrap account-rel-text">
                 Bạn chưa có tài khoản ?
-                <Link to="/sign_up" className="font-medium">
+                <Link to="/register" className="font-medium">
                   Đăng ký ngay tại đây !!
                 </Link>
               </p>
