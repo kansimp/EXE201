@@ -93,6 +93,7 @@ const ProductPreview: React.FC<ProductPreviewProps> = ({ post, id }) => {
     useEffect(() => {
         if (post) {
             dispatch(getProductChoose({ id: post.id, productId: post.products[0].product_id }));
+            setActivePreviewImage(post.products[0]?.image);
         }
     }, [post]);
 
