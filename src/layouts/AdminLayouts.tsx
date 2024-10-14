@@ -1,5 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import HeaderAdmin from "./HeaderAdmin";
+import SidebarAdmin from "./SideBarAdmin";
 
 const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -9,7 +10,7 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
+        <SidebarAdmin sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}
@@ -19,8 +20,8 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
-          <main>
-            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">{children}</div>
+          <main className="bg-graylight">
+            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 4xl:px-1 ">{children}</div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
         </div>
