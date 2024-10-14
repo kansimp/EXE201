@@ -38,7 +38,13 @@ const ProductCardWrapper = styled(Link)`
         }
     }
 `;
-
+const ProductTitle = styled.p`
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+`;
 const ProductItem: React.FC<ProductItemProps> = ({ post }) => {
     const prices = post.products.map((product) => product.price);
 
@@ -53,7 +59,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ post }) => {
                 </button>
             </div>
             <div className="product-info">
-                <p className="font-normal">{post.title}</p>
+                <ProductTitle className="font-normal">{post.title}</ProductTitle>
                 <div className="flex items-center justify-between text-sm font-medium">
                     <span className="text-gray-400">{post.products[0].shop_name}</span>
                     <span className="text-outerspace font-bold text-red-400">
