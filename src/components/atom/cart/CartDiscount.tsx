@@ -43,13 +43,13 @@ const CartDiscountWrapper = styled.div`
 const CartDiscount = () => {
     return (
         <CartDiscountWrapper>
-            <h3 className="text-xxl text-outerspace">Discount Codes</h3>
-            <p className="text-base text-gray-150">Enter your coupon code if you have one.</p>
+            <h3 className="text-xxl text-outerspace">Mã giảm giá</h3>
+            <p className="text-base text-gray-150">Nhập mã phiếu giảm giá của bạn nếu bạn có.</p>
             <form action="">
                 <div className="coupon-group flex">
-                    <Input type="text" className="coupon-input w-full" placeholder="Search" />
+                    <Input type="text" className="coupon-input w-full" placeholder="Tìm kiếm" />
                     <BaseButtonOuterspace type="submit" className="coupon-btn no-wrap h-full">
-                        <p className="text-xs">Apply Coupon</p>
+                        <p className="text-xs">Áp dụng mã giảm giá</p>
                     </BaseButtonOuterspace>
                 </div>
             </form>
@@ -58,7 +58,7 @@ const CartDiscount = () => {
                 to="/"
                 className="contd-shop-btn w-full text-gray-150"
             >
-                continue shopping
+                tiếp tục mua sắm
             </BaseLinkOutlinePlatinum>
         </CartDiscountWrapper>
     );

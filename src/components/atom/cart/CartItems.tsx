@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
-import { CartItems } from '@components/pages/Cart/data';
+import { CartItem } from '@redux/slices/cartSlice';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { addItem, removeItem, clearCart, deleteItem } from '@redux/slices/cartSlice';
 
 const CartTableRowWrapper = styled.tr`
     .cart-tbl {
@@ -59,65 +61,61 @@ const CartTableRowWrapper = styled.tr`
     }
 `;
 type CartItemProps = {
-    cartItem: CartItems;
+    cartItem: CartItem;
 };
-const CartItem = ({ cartItem }: CartItemProps) => {
+const CartItemCB = ({ cartItem }: CartItemProps) => {
+    const dispatch = useAppDispatch();
     return (
-        <CartTableRowWrapper key={cartItem.id}>
+        <CartTableRowWrapper key={cartItem.item.product_id}>
             <td>
                 <div className="cart-tbl-prod grid">
                     <div className="cart-prod-img">
-                        <img src={cartItem.imgSource} className="object-fit-cover" alt="" />
+                        <img src={cartItem.item.image} className="object-fit-cover" alt="" />
                     </div>
                     <div className="cart-prod-info">
-                        <h4 className="text-base">{cartItem.title}</h4>
+                        <h4 className="text-base">{cartItem.item.product_name}</h4>
                         <p className="text-sm text-gray-150 inline-flex">
-                            <span className="font-semibold">Color: </span> {cartItem.color}
-                        </p>
-                        <p className="text-sm text-gray-150 inline-flex">
-                            <span className="font-semibold">Size:</span>
-                            {cartItem.size}
+                            <span className="font-semibold">Cửa Hàng: </span> {cartItem.item.shop_name}
                         </p>
                     </div>
                 </div>
             </td>
             <td>
-                <span className="text-lg font-bold text-outerspace">${cartItem.price}</span>
+                <span className="text-lg font-bold text-outerspace">₫{cartItem.item.price}</span>
             </td>
             <td>
                 <div className="cart-tbl-qty flex items-center">
-                    <button className="qty-dec-btn">
+                    <button className="qty-dec-btn" onClick={() => dispatch(removeItem(cartItem.item))}>
                         <i className="bi bi-dash-lg"></i>
                     </button>
                     <span className="qty-value inline-flex items-center justify-center font-medium text-outerspace">
-                        2
+                        {cartItem.quantity}
                     </span>
-                    <button className="qty-inc-btn">
+                    <button className="qty-inc-btn" onClick={() => dispatch(addItem(cartItem.item))}>
                         <i className="bi bi-plus-lg"></i>
                     </button>
                 </div>
             </td>
             <td>
-                <span className="cart-tbl-shipping uppercase text-gray-150 font-bold">
-                    {cartItem.shipping === 0 ? 'Free' : cartItem.shipping}
-                </span>
+                <span className="cart-tbl-shipping uppercase text-gray-150 font-bold">FREE</span>
             </td>
             <td>
-                <span className="text-lg font-bold text-outerspace">${cartItem.price * cartItem.quantity}</span>
+                <span className="text-lg font-bold text-outerspace">₫{cartItem.item.price * cartItem.quantity}</span>
             </td>
             <td>
-                <div className="cart-tbl-actions flex justify-center">
-                    <Link to="/" className="tbl-del-action text-red-500">
-                        <i className="bi bi-trash3"></i>
-                    </Link>
+                <div
+                    className="cart-tbl-actions flex justify-center"
+                    onClick={() => dispatch(deleteItem(cartItem.item))}
+                >
+                    <i className="bi bi-trash3 tbl-del-action text-red-500"></i>
                 </div>
             </td>
         </CartTableRowWrapper>
     );
 };
 
-export default CartItem;
+export default CartItemCB;
 
-CartItem.propTypes = {
+CartItemCB.propTypes = {
     cartItem: PropTypes.object,
 };

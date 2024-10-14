@@ -251,7 +251,7 @@ const ProductDetailsScreen: React.FC = () => {
                             </ProductSizeWrapper>
                             <ProductColorWrapper>
                                 <div className="prod-colors-top flex items-center flex-wrap">
-                                    <p className="text-lg font-semibold text-outerspace">Chọn Màu: </p>
+                                    <p className="text-lg font-semibold text-outerspace">Chọn màu: </p>
                                 </div>
                                 <div className="prod-colors-list flex items-center">
                                     {product_one?.colors?.map((color, index) => (
@@ -267,7 +267,7 @@ const ProductDetailsScreen: React.FC = () => {
                                     as={BaseLinkGreen}
                                     className="prod-add-btn"
                                     onClick={() => {
-                                        dispatch(addItem({ id: product_one.id }));
+                                        dispatch(addItem(productDetail));
                                     }}
                                 >
                                     <span className="prod-add-btn-icon">
