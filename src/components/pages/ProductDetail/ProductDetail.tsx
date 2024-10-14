@@ -3,13 +3,17 @@ import { Container } from '@styles/styles';
 import Breadcrumb from '@common/Breadcrumb';
 import { product_one } from './data';
 import ProductPreview from '@atom/product/ProductPreview';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BaseLinkGreen } from '@styles/button';
 import { currencyFormat } from '../../utils/helper';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
 import ProductDescriptionTab from '@atom/product/ProductDescriptionTab';
 import ProductSimilar from '@atom/product/ProductSimilar';
 import ProductServices from '@atom/product/ProductServices';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { addItem } from '@redux/slices/cartSlice';
+import { useEffect } from 'react';
+import { getPostDetail } from '@redux/slices/postdetailSlice';
 
 const DetailsScreenWrapper = styled.main`
     margin: 40px 0;
@@ -182,6 +186,16 @@ const ProductColorWrapper = styled.div`
 `;
 
 const ProductDetailsScreen: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const postDetail = useAppSelector((state) => state.postDetail.postDetail);
+    const productDetail = useAppSelector((state) => state.postDetail.productDetail);
+    const items = useAppSelector((state) => state.cart.items);
+    const { id } = useParams();
+    const numericId = Number(id);
+    useEffect(() => {
+        dispatch(getPostDetail(numericId));
+    }, []);
+
     const stars = Array.from({ length: 5 }, (_, index) => (
         <span
             key={index}
@@ -196,9 +210,8 @@ const ProductDetailsScreen: React.FC = () => {
     ));
 
     const breadcrumbItems = [
-        { label: 'Trang Chủ', link: '' },
-        { label: 'Gấu Bông', link: '' },
-        { label: 'Labubu', link: '' },
+        { label: 'Trang chủ', link: '/' },
+        { label: `${postDetail?.products[0].category_name}`, link: '' },
     ];
 
     return (
@@ -206,70 +219,73 @@ const ProductDetailsScreen: React.FC = () => {
             <Container>
                 <Breadcrumb items={breadcrumbItems} />
                 <DetailsContent className="grid">
-                    <ProductPreview previewImages={product_one.previewImages} />
-                    <ProductDetailsWrapper>
-                        <h2 className="prod-title font-bold text-2xl">{product_one.title}</h2>
-                        <div className="flex items-center rating-and-comments flex-wrap">
-                            <div className="prod-rating flex items-center text-yellow-400">
-                                {stars}
-                                <span className="text-gray-700 text-xs">{product_one.rating}</span>
+                    {postDetail ? <ProductPreview post={postDetail} id={numericId} /> : <>Loading ...</>}
+                    {productDetail ? (
+                        <ProductDetailsWrapper>
+                            <h2 className="prod-title font-bold text-2xl">{productDetail?.product_name}</h2>
+                            <div className="flex items-center rating-and-comments flex-wrap">
+                                <div className="prod-rating flex items-center text-yellow-400">
+                                    {stars}
+                                    {/* <span className="text-gray-700 text-xs"></span> */}
+                                </div>
+                                <div className="prod-comments flex items-start">
+                                    <span className="prod-comment-icon text-gray-700">
+                                        <i className="bi bi-chat-left-text"></i>
+                                    </span>
+                                    <span className="prod-comment-text text-sm text-gray-700">{10} comment(s)</span>
+                                </div>
                             </div>
-                            <div className="prod-comments flex items-start">
-                                <span className="prod-comment-icon text-gray-700">
-                                    <i className="bi bi-chat-left-text"></i>
-                                </span>
-                                <span className="prod-comment-text text-sm text-gray-700">
-                                    {product_one.comments_count} comment(s)
-                                </span>
-                            </div>
-                        </div>
 
-                        <ProductSizeWrapper>
-                            <div className="prod-size-top flex items-center flex-wrap">
-                                <p className="text-lg font-semibold text-outerspace">Select size</p>
-                                <Link to="/" className="text-lg text-gray-700 font-medium">
-                                    Size Guide &nbsp; <i className="bi bi-arrow-right"></i>
-                                </Link>
-                            </div>
-                            <div className="prod-size-list flex items-center">
-                                {product_one.sizes.map((size, index) => (
-                                    <div className="prod-size-item" key={index}>
-                                        <input type="radio" name="size" />
-                                        <span className="flex items-center justify-center font-medium text-outerspace text-sm">
-                                            {size}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </ProductSizeWrapper>
-                        <ProductColorWrapper>
-                            <div className="prod-colors-top flex items-center flex-wrap">
-                                <p className="text-lg font-semibold text-outerspace">Colours Available</p>
-                            </div>
-                            <div className="prod-colors-list flex items-center">
-                                {product_one?.colors?.map((color, index) => (
-                                    <div className="prod-colors-item" key={index}>
-                                        <input type="radio" name="colors" />
-                                        <span className="prod-colorbox" style={{ background: `${color}` }}></span>
-                                    </div>
-                                ))}
-                            </div>
-                        </ProductColorWrapper>
-                        <div className="btn-and-price flex items-center flex-wrap">
-                            <BaseLinkGreen to="/cart" as={BaseLinkGreen} className="prod-add-btn">
-                                <span className="prod-add-btn-icon">
-                                    <i className="bi bi-cart2"></i>
+                            <ProductSizeWrapper>
+                                <div className="prod-size-top flex items-center flex-wrap">
+                                    <p className="text-sm font-semibold text-outerspace">
+                                        Tên Cửa Hàng: {productDetail?.shop_name}
+                                    </p>
+                                    <Link to="/" className="text-sm text-gray-700 font-thin">
+                                        Ghé Thăm Cửa Hàng &nbsp; <i className="bi bi-arrow-right"></i>
+                                    </Link>
+                                    <p className="text-sm font-semibold text-outerspace">
+                                        Mô Tả: {productDetail?.description}
+                                    </p>
+                                </div>
+                            </ProductSizeWrapper>
+                            <ProductColorWrapper>
+                                <div className="prod-colors-top flex items-center flex-wrap">
+                                    <p className="text-lg font-semibold text-outerspace">Chọn Màu: </p>
+                                </div>
+                                <div className="prod-colors-list flex items-center">
+                                    {product_one?.colors?.map((color, index) => (
+                                        <div className="prod-colors-item" key={index}>
+                                            <input type="radio" name="colors" />
+                                            <span className="prod-colorbox" style={{ background: `${color}` }}></span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </ProductColorWrapper>
+                            <div className="btn-and-price flex items-center flex-wrap">
+                                <BaseLinkGreen
+                                    as={BaseLinkGreen}
+                                    className="prod-add-btn"
+                                    onClick={() => {
+                                        dispatch(addItem({ id: product_one.id }));
+                                    }}
+                                >
+                                    <span className="prod-add-btn-icon">
+                                        <i className="bi bi-cart2"></i>
+                                    </span>
+                                    <span className="prod-add-btn-text">Thêm vào giỏ hàng</span>
+                                </BaseLinkGreen>
+                                <span className="prod-price text-xl font-bold text-outerspace text-red-500">
+                                    ₫{productDetail?.price}
                                 </span>
-                                <span className="prod-add-btn-text">Add to cart</span>
-                            </BaseLinkGreen>
-                            <span className="prod-price text-xl font-bold text-outerspace">
-                                {currencyFormat(product_one.price)}
-                            </span>
-                        </div>
-                        <ProductServices />
-                    </ProductDetailsWrapper>
+                            </div>
+                            <ProductServices />
+                        </ProductDetailsWrapper>
+                    ) : (
+                        <>Loading ...</>
+                    )}
                 </DetailsContent>
-                <ProductDescriptionTab />
+                <ProductDescriptionTab post={postDetail} />
                 <ProductSimilar />
             </Container>
         </DetailsScreenWrapper>

@@ -1,18 +1,12 @@
 import { Container, Section } from '@styles/styles';
 import Title from '@common/Title';
 import ProductList from '@atom/product/ProductList';
+import { Post } from '@redux/slices/postSlice';
 
-// Định nghĩa kiểu dữ liệu cho props
-interface CatalogProps {
+type CatalogProps = {
     catalogTitle: string;
-    products: Array<{
-        id: string;
-        title: string;
-        brand: string;
-        price: number;
-        imgSource: string;
-    }>;
-}
+    products: Post[];
+};
 
 const Catalog: React.FC<CatalogProps> = ({ catalogTitle, products }) => {
     return (

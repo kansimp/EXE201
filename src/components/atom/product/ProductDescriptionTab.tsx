@@ -5,6 +5,7 @@ import Title from '@common/Title';
 import { ContentStylings } from '@styles/styles';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
 import ProductDescriptionMedia from './ProductDescriptionMedia';
+import { Post } from '@redux/slices/postSlice';
 
 interface TabHead {
     id: string;
@@ -123,8 +124,10 @@ const DescriptionTabsWrapper = styled.div`
         }
     }
 `;
-
-const ProductDescriptionTab = () => {
+type ProductDescriptionTabProps = {
+    post: Post | null;
+};
+const ProductDescriptionTab = ({ post }: ProductDescriptionTabProps) => {
     const [activeDesTab, setActiveDesTab] = useState<string>(productDescriptionTabHeads[0].tabHead);
 
     const handleTabChange = (tabHead: string) => {
@@ -133,7 +136,7 @@ const ProductDescriptionTab = () => {
 
     return (
         <DetailsContent>
-            <Title titleText={'Product Description'} />
+            <Title titleText={'Mô Tả Sản Phẩm'} />
             <div className="details-content-wrapper grid">
                 <DescriptionTabsWrapper>
                     <div className="tabs-heads flex items-center flex-wrap">
@@ -160,36 +163,7 @@ const ProductDescriptionTab = () => {
                     <div className="tabs-contents">
                         <div className={`tabs-content ${activeDesTab === 'tabDescription' ? 'show' : ''}`}>
                             <ContentStylings>
-                                <p>
-                                    100% Bio-washed Cotton makes the fabric extra soft & silky. Lorem, ipsum dolor sit
-                                    amet consectetur adipisicing elit. Consectetur, odio. Infinite range of matte-finish
-                                    HD prints.
-                                </p>
-                                <h4>Specifications:</h4>
-                                <ul>
-                                    <li>Fabric: Bio-washed Cotton</li>
-                                    <li>Pattern: Printed</li>
-                                    <li>Fit: Regular-fit</li>
-                                    <li>Nect: Round Neck</li>
-                                    <li>Sleeve: Half-sleeves</li>
-                                    <li>Style: Casual Wear</li>
-                                </ul>
-                                <p>
-                                    *Important: Please make sure that the mobile number is filled Lorem ipsum dolor sit
-                                    amet consectetur adipisicing elit. Provident, blanditiis.
-                                </p>
-                                <h4>Why should you shop at Outfit store?</h4>
-                                <ul>
-                                    <li>Guaranteed Good material quality</li>
-                                    <li>Rate convection stitching.</li>
-                                </ul>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsam nostrum
-                                    praesentium nulla deleniti, facere mollitia dolore laboriosam, non iure deserunt
-                                    alias repellat perspiciatis asperiores ab quia nam tenetur voluptate sint animi!
-                                    Vitae aliquam cupiditate iste fuga expedita? Odio, impedit?
-                                </p>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur, fugiat.</p>
+                                <p>{post?.description}</p>
                             </ContentStylings>
                         </div>
                         <div

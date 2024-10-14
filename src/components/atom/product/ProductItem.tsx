@@ -2,18 +2,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { commonCardStyles } from '@styles/card';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
-
-// Định nghĩa kiểu dữ liệu cho sản phẩm
-interface Product {
-    id: string;
-    title: string;
-    brand: string;
-    price: number;
-    imgSource: string;
-}
+import { Post } from '@redux/slices/postSlice';
 
 interface ProductItemProps {
-    product: Product;
+    post: Post;
 }
 
 const ProductCardWrapper = styled(Link)`
@@ -47,20 +39,26 @@ const ProductCardWrapper = styled(Link)`
     }
 `;
 
-const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ post }) => {
+    const prices = post.products.map((product) => product.price);
+
+    const highestPrice = Math.max(...prices);
+    const lowestPrice = Math.min(...prices);
     return (
-        <ProductCardWrapper key={product.id} to="/product/details">
+        <ProductCardWrapper key={post.id} to={`/product/${post.id}`}>
             <div className="product-img">
-                <img className="object-fit-cover" src={product.imgSource} alt={product.title} />
+                <img className="object-fit-cover" src={post.products[0].image} alt="Ảnh sản phẩm" />
                 <button type="button" className="product-wishlist-icon flex items-center justify-center bg-white">
                     <i className="bi bi-heart"></i>
                 </button>
             </div>
             <div className="product-info">
-                <p className="font-normal">{product.title}</p>
+                <p className="font-normal">{post.title}</p>
                 <div className="flex items-center justify-between text-sm font-medium">
-                    <span className="text-gray-400">{product.brand}</span>
-                    <span className="text-outerspace font-bold text-red-400">₫{product.price}</span>
+                    <span className="text-gray-400">{post.products[0].shop_name}</span>
+                    <span className="text-outerspace font-bold text-red-400">
+                        ₫{lowestPrice} - ₫{highestPrice}
+                    </span>
                 </div>
             </div>
         </ProductCardWrapper>

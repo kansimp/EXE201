@@ -7,7 +7,10 @@ import profileReducer from "./slices/profileSlice";
 import sendEmailResetPasswordReducer from "./slices/sendEmailSlice";
 import sidebarReducer from "./slices/sidebarSlice";
 import changePasswordReducer from "./slices/changePassWord";
-
+import cartReducer from "./slices/cartSlice";
+import postReducer from "./slices/postSlice";
+import postDetailReducer from "./slices/postdetailSlice";
+import listUserReducer from "./slices/listUserSlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -18,6 +21,10 @@ export const store = configureStore({
     sendEmail: sendEmailResetPasswordReducer,
     sidebar: sidebarReducer,
     changePassword: changePasswordReducer,
+    cart: cartReducer,
+    post: postReducer,
+    postDetail: postDetailReducer,
+    listUser: listUserReducer,
   },
 });
 

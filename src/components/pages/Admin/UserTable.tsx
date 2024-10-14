@@ -1,102 +1,51 @@
-import ProductOne from "@images/bestSaler.jpg";
-type Product = {
-  image: string;
-  name: string;
-  category: string;
-  price: number;
-  sold: number;
-  profit: number;
-};
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useEffect } from "react";
+import Paper from "@mui/material/Paper";
+import { useAppDispatch, useAppSelector } from "@redux/hook";
+import { getAllUsers } from "@redux/slices/listUserSlice";
 
-const productData: Product[] = [
-  {
-    image: ProductOne,
-    name: "Apple Watch Series 7",
-    category: "Electronics",
-    price: 296,
-    sold: 22,
-    profit: 45,
-  },
-  {
-    image: ProductOne,
-    name: "Macbook Pro M1",
-    category: "Electronics",
-    price: 546,
-    sold: 12,
-    profit: 125,
-  },
-  {
-    image: ProductOne,
-    name: "Dell Inspiron 15",
-    category: "Electronics",
-    price: 443,
-    sold: 64,
-    profit: 247,
-  },
-  {
-    image: ProductOne,
-    name: "HP Probook 450",
-    category: "Electronics",
-    price: 499,
-    sold: 72,
-    profit: 103,
-  },
+const columns: GridColDef[] = [
+  { field: "first_name", headerName: "First Name", width: 150 },
+  { field: "last_name", headerName: "Last Name", width: 150 },
+  { field: "role_Name", headerName: "Role", width: 150 },
+  { field: "email", headerName: "Email", width: 250 },
+  { field: "address", headerName: "Address", width: 300 },
+  { field: "phone", headerName: "Phone", width: 150 },
 ];
 
-const UserTable = () => {
+const paginationModel = { page: 0, pageSize: 5 };
+
+export default function DataTable() {
+  const dispatch = useAppDispatch();
+  const { loading, users, error } = useAppSelector((state: any) => state.listUser);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const rows = Array.isArray(users)
+    ? users.map((user) => ({
+        id: user.account_id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        role_name: user.role_name,
+        email: user.email,
+        address: user.address,
+        phone: user.phone,
+      }))
+    : [];
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-4 md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">Top Products</h4>
-      </div>
-
-      <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-        <div className="col-span-3 flex items-center">
-          <p className="font-medium">Product Name</p>
-        </div>
-        <div className="col-span-2 hidden items-center sm:flex">
-          <p className="font-medium">Category</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Price</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Sold</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Profit</p>
-        </div>
-      </div>
-
-      {productData.map((product, key) => (
-        <div
-          className="grid grid-cols-6 border-t border-stroke py-5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 3xl:px-7"
-          key={key}
-        >
-          <div className="col-span-3 flex items-center">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="h-18 w-14 rounded-md">
-                <img src={product.image} alt="Product" />
-              </div>
-              <p className="text-sm text-black dark:text-white">{product.name}</p>
-            </div>
-          </div>
-          <div className="col-span-2 hidden items-center sm:flex">
-            <p className="text-sm text-black dark:text-white">{product.category}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">${product.price}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">{product.sold}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3">${product.profit}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <Paper sx={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
+      />
+    </Paper>
   );
-};
-
-export default UserTable;
+}

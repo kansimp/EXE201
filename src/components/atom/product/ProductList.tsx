@@ -1,18 +1,10 @@
 import styled from 'styled-components';
 import ProductItem from './ProductItem';
 import { breakpoints } from '@styles/themes/default';
-
-// Định nghĩa kiểu dữ liệu cho sản phẩm
-interface Product {
-    id: string;
-    title: string;
-    brand: string;
-    price: number;
-    imgSource: string;
-}
+import { Post } from '@redux/slices/postSlice';
 
 interface ProductListProps {
-    products: Product[];
+    products: Post[];
 }
 
 const ProductListWrapper = styled.div`
@@ -30,7 +22,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
     return (
         <ProductListWrapper className="grid">
             {products?.map((product) => {
-                return <ProductItem key={product.id} product={product} />;
+                return <ProductItem key={product.id} post={product} />;
             })}
         </ProductListWrapper>
     );

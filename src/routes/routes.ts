@@ -1,3 +1,4 @@
+
 import MainLayout from "@layouts/MainLayout";
 import Home from "@pages/Home/Home";
 import Register from "@components/pages/Register/Register";
@@ -16,11 +17,13 @@ import WishListScreen from "@components/pages/Wishlist/Wishlist";
 import AdminLayout from "@layouts/AdminLayouts";
 import Dashboard from "@components/pages/Admin/Dashboard";
 import UserTable from "@components/pages/Admin/UserTable";
+import Cart from '@components/pages/Cart/Cart';
+
 
 export type RouteType = {
-  path: string;
-  component: ComponentType<any>;
-  layout?: ComponentType<any> | null;
+    path: string;
+    component: ComponentType<any>;
+    layout?: ComponentType<any> | null;
 };
 
 const publicRoute: RouteType[] = [
@@ -89,6 +92,16 @@ const publicRoute: RouteType[] = [
     component: UserTable,
     layout: AdminLayout,
   },
+  {
+    path: '/cart',
+    component: Cart,
+    layout: MainLayout,
+},
+{
+    path: '/product/:id',
+    component: ProductDetail,
+    layout: MainLayout,
+},
 ];
 
 const privateRoute: RouteType[] = [];

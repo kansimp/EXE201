@@ -8,6 +8,7 @@ import { breakpoints, defaultTheme } from "styles/themes/default";
 import { FormGridWrapper, FormTitle } from "styles/form_grid";
 import { Container } from "styles/styles";
 import { FormElement, Input } from "styles/form";
+import { toast } from "react-toastify";
 
 const SignInScreenWrapper = styled.section`
   .form-separator {
@@ -66,10 +67,17 @@ const LoginForm = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let UserCredential = { ...formValue, rememberMe: false }; // Truyền cả rememberMe nếu cần
-    const login = await dispatch(loginUser(UserCredential)).unwrap();
-    // Check for successful login
-    if (login === "Successfully Sign in") {
-      navigate("/");
+    try {
+      const login = await dispatch(loginUser(UserCredential)).unwrap();
+
+      if (login === "Successfully Sign in") {
+        navigate("/");
+      } else {
+        toast.error("Vui lòng kiểm tra lại email hoặc mật khẩu !!");
+      }
+    } catch (error: any) {
+      if (error.message === "Request failed with status code 401")
+        toast.error("Vui lòng kiểm tra lại email hoặc mật khẩu !!");
     }
   };
 

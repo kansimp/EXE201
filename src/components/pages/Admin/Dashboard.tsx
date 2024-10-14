@@ -1,5 +1,5 @@
 import CardDataStats from "@components/atom/admin/CardDataStats";
-import React from "react";
+
 import ChartOne from "./Charts/ChartOne";
 import ChartTwo from "./Charts/ChartTwo";
 

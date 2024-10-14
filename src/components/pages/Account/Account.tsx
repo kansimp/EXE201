@@ -15,6 +15,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import HomeIcon from "@mui/icons-material/Home";
 import { getAllDistrict, getAllProvince } from "@redux/slices/addressSlice";
 import { uploadUserImage } from "@redux/slices/uploadAvatar";
+import { toast } from "react-toastify";
 
 const AccountScreenWrapper = styled.main`
   .address-list {
@@ -103,7 +104,7 @@ const AccountScreen = () => {
       dispatch(uploadUserImage({ userId: user.account_id, image: imageFile }))
         .unwrap()
         .then(() => {
-          alert("Image uploaded successfully!");
+          toast.success("Cập nhật avatar thành công .");
         });
     }
   };

@@ -11,6 +11,7 @@ import souvi from '@images/souvi.png';
 import heart from '@icons/heart.svg';
 import user from '@icons/user.svg';
 import cart from '@icons/cart.svg';
+import login from '@icons/login.svg';
 
 const NavigationAndSearchWrapper = styled.div`
     column-gap: 20px;
@@ -122,7 +123,7 @@ const IconLinksWrapper = styled.div`
 const Header = () => {
     const location = useLocation();
     const dispatch = useDispatch();
-
+    const token = localStorage.getItem('access_token');
     return (
         <HeaderMainWrapper className="header flex items-center">
             <Container className="container">
@@ -174,14 +175,18 @@ const Header = () => {
                         >
                             <img src={heart} alt="" />
                         </Link>
-                        <Link
-                            to="/account"
-                            className={`icon-link ${
-                                location.pathname === '/account' || location.pathname === '/account/add' ? 'active' : ''
-                            } inline-flex items-center justify-center`}
-                        >
-                            <img src={user} alt="" />
-                        </Link>
+                        {token && (
+                            <Link
+                                to="/account"
+                                className={`icon-link ${
+                                    location.pathname === '/account' || location.pathname === '/account/add'
+                                        ? 'active'
+                                        : ''
+                                } inline-flex items-center justify-center`}
+                            >
+                                <img src={user} alt="" />
+                            </Link>
+                        )}
                         <Link
                             to="/cart"
                             className={`icon-link ${
@@ -190,6 +195,16 @@ const Header = () => {
                         >
                             <img src={cart} alt="" />
                         </Link>
+                        {!token && (
+                            <Link
+                                to="/login"
+                                className={`icon-link ${
+                                    location.pathname === '/login' ? 'active' : ''
+                                } inline-flex items-center justify-center`}
+                            >
+                                <img src={login} alt="" />
+                            </Link>
+                        )}
                     </IconLinksWrapper>
                 </div>
             </Container>

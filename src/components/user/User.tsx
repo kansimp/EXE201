@@ -1,10 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { breakpoints, defaultTheme } from "../../styles/themes/default";
 import Title from "@common/Title";
 import { useAppDispatch, useAppSelector } from "@redux/hook";
 import { useEffect } from "react";
 import { userProfile } from "@redux/slices/profileSlice";
+import { logoutUser } from "@redux/slices/userSlice";
 
 const NavMenuWrapper = styled.nav`
   margin-top: 32px;
@@ -68,6 +69,13 @@ const NavMenuWrapper = styled.nav`
 
 const UserMenu = () => {
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/");
+  };
+
   return (
     <div>
       <Title titleText={"SOUVI"} />
@@ -115,12 +123,12 @@ const UserMenu = () => {
             </Link>
           </li>
           <li className="nav-menu-item">
-            <Link to="/" className={`nav-menu-link flex items-center`}>
+            <button onClick={handleLogout} className="nav-menu-link flex items-center">
               <span className="nav-link-icon flex items-center justify-center">
                 <img src="./assets/icons/ac_sign_out.svg" alt="" />
               </span>
               <span className="text-base font-semibold nav-link-text no-wrap">Đăng xuất</span>
-            </Link>
+            </button>
           </li>
         </ul>
       </NavMenuWrapper>
