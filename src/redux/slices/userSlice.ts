@@ -24,7 +24,16 @@ const initialState: LoginType = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      // Đặt lại state về giá trị ban đầu khi người dùng đăng xuất
+      state.loading = false;
+      state.message = null;
+      state.error = null;
+      // Xóa token khỏi Local Storage
+      localStorage.removeItem("access_token");
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -49,5 +58,5 @@ const userSlice = createSlice({
       });
   },
 });
-
+export const { logoutUser } = userSlice.actions; // Xuất action logoutUser
 export default userSlice.reducer;
