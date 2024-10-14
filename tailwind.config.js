@@ -161,6 +161,9 @@ module.exports = {
       strokedark: "#2E3A47",
       stroke: "#E2E8F0",
       graylight: "#F1F5F9",
+      black: {
+        50: "#3c4242",
+      },
       meta: {
         1: "#DC3545",
         2: "#EFF2F7",
