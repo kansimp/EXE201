@@ -7,6 +7,13 @@ import { Post } from '@redux/slices/postSlice';
 interface ProductItemProps {
     post: Post;
 }
+const ProductTitle = styled.p`
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+`;
 
 const ProductCardWrapper = styled(Link)`
     ${commonCardStyles}
@@ -38,13 +45,7 @@ const ProductCardWrapper = styled(Link)`
         }
     }
 `;
-const ProductTitle = styled.p`
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    text-overflow: ellipsis;
-`;
+
 const ProductItem: React.FC<ProductItemProps> = ({ post }) => {
     const prices = post.products.map((product) => product.price);
 
