@@ -7,6 +7,9 @@ import CartTable from '@atom/cart/CartTable';
 import { breakpoints } from '@styles/themes/default';
 import CartDiscount from '@atom/cart/CartDiscount';
 import CartSummary from '@atom/cart/CartSummary';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { CartItem } from '@redux/slices/cartSlice';
+import CartEmptyScreen from '@components/atom/cart/EmptyCart';
 
 const CartPageWrapper = styled.main`
     padding: 48px 0;
@@ -50,31 +53,41 @@ const CartContent = styled.div`
 
 const CartScreen = () => {
     const breadcrumbItems = [
-        { label: 'Home', link: '/cart' },
-        { label: 'Add To Cart', link: '' },
+        { label: 'Trang Chủ', link: '/' },
+        { label: 'Giỏ Hàng', link: '' },
     ];
+    const dispatch = useAppDispatch();
+    // const listCart: CartItem[] = JSON.parse(localStorage.getItem('cartItems') as string);
+    const listCart: CartItem[] = useAppSelector((state) => state.cart.items);
+    const totalPrice = listCart.reduce((total: number, item: CartItem) => {
+        return total + item.quantity * item.item.price;
+    }, 0);
+    if (listCart.length <= 0) {
+        return <CartEmptyScreen />;
+    }
     return (
         <CartPageWrapper>
             <Container>
                 <Breadcrumb items={breadcrumbItems} />
                 <div className="cart-head">
                     <p className="text-base text-gray-150">
-                        Please fill in the fields below and click place order to complete your purchase!
+                        Vui lòng điền vào các trường bên dưới và nhấp vào đặt hàng để hoàn tất giao dịch mua hàng của
+                        bạn!
                     </p>
                     <p className="text-gray-150 text-base">
-                        Already registered?
-                        <Link to="/sign_in" className="text-green-150 font-medium">
-                            &nbsp;Please login here.
+                        Đã đăng ký chưa?
+                        <Link to="/login" className="text-green-150 font-medium">
+                            &nbsp;Vui lòng đăng nhập tại đây.
                         </Link>
                     </p>
                 </div>
                 <CartContent className="grid items-start">
                     <div className="cart-content-left">
-                        <CartTable cartItems={cartItems} />
+                        <CartTable cartItems={listCart} />
                     </div>
                     <div className="grid cart-content-right">
                         <CartDiscount />
-                        <CartSummary />
+                        <CartSummary totalPrice={totalPrice} />
                     </div>
                 </CartContent>
             </Container>

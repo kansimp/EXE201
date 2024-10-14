@@ -1,24 +1,18 @@
 // src/store/cartSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from './postSlice';
 
-// Định nghĩa kiểu CartItem
-interface CartItem {
-    id: string;
+export type CartItem = {
+    item: Product;
     quantity: number;
-}
-interface CartPayload {
-    id: string;
-}
+};
 
-// Định nghĩa kiểu cho state
 interface CartState {
     items: CartItem[];
 }
 
-// Lấy dữ liệu từ localStorage nếu có
 const storedCartItems: CartItem[] = JSON.parse(localStorage.getItem('cartItems') || '[]');
 
-// Khởi tạo state ban đầu
 const initialState: CartState = {
     items: storedCartItems,
 };
@@ -27,32 +21,40 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem: (state, action: PayloadAction<CartPayload>) => {
+        addItem: (state, action: PayloadAction<Product>) => {
             const newItem = action.payload;
 
             // Tìm xem item với id này đã tồn tại trong giỏ hàng chưa
-            const existingItem = state.items.find((item) => item.id === newItem.id);
+            const existingItem = state.items.find((item) => item.item.product_id === newItem.product_id);
 
             if (existingItem) {
                 // Nếu đã tồn tại, cộng số lượng thêm
                 existingItem.quantity += 1;
             } else {
                 // Nếu chưa tồn tại, thêm item mới vào giỏ hàng
-                state.items.push({ id: newItem.id, quantity: 1 });
+                state.items.push({ item: newItem, quantity: 1 });
             }
 
             // Lưu lại vào localStorage
             localStorage.setItem('cartItems', JSON.stringify(state.items));
         },
-        removeItem: (state, action: PayloadAction<CartPayload>) => {
+        removeItem: (state, action: PayloadAction<Product>) => {
             const deleteItem = action.payload;
-            const existingItem = state.items.find((item) => item.id === deleteItem.id);
+            const existingItem = state.items.find((item) => item.item.product_id === deleteItem.product_id);
             if (existingItem) {
                 // Nếu đã tồn tại, cộng số lượng thêm
                 existingItem.quantity -= 1;
                 if (existingItem.quantity <= 0) {
-                    state.items = state.items.filter((item) => item.id !== existingItem.id);
+                    state.items = state.items.filter((item) => item.item.product_id !== existingItem.item.product_id);
                 }
+            }
+            localStorage.setItem('cartItems', JSON.stringify(state.items)); // Cập nhật lại localStorage
+        },
+        deleteItem: (state, action: PayloadAction<Product>) => {
+            const deleteItem = action.payload;
+            const existingItem = state.items.find((item) => item.item.product_id === deleteItem.product_id);
+            if (existingItem) {
+                state.items = state.items.filter((item) => item.item.product_id !== existingItem.item.product_id);
             }
             localStorage.setItem('cartItems', JSON.stringify(state.items)); // Cập nhật lại localStorage
         },
@@ -63,5 +65,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, deleteItem } = cartSlice.actions;
 export default cartSlice.reducer;

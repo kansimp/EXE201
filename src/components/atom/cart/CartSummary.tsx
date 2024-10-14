@@ -30,26 +30,28 @@ const CartSummaryWrapper = styled.div`
         }
     }
 `;
-
-const CartSummary = () => {
+type CartSummaryProps = {
+    totalPrice: number;
+};
+const CartSummary = ({ totalPrice }: CartSummaryProps) => {
     return (
         <CartSummaryWrapper>
             <ul className="summary-list">
                 <li className="summary-item flex justify-between">
-                    <span className="font-medium text-outerspace">Sub Total</span>
-                    <span className="font-medium text-outerspace">$513.00</span>
+                    <span className="font-medium text-outerspace">Tổng Phụ</span>
+                    <span className="font-medium text-outerspace">₫{totalPrice}</span>
                 </li>
                 <li className="summary-item flex justify-between">
-                    <span className="font-medium text-outerspace">Shipping</span>
-                    <span className="font-medium text-outerspace">$5.00</span>
+                    <span className="font-medium text-outerspace">Phí Vận Chuyển</span>
+                    <span className="font-medium text-outerspace">0</span>
                 </li>
                 <li className="summary-item flex justify-between">
-                    <span className="font-medium text-outerspace">Grand Total</span>
-                    <span className="summary-item-value font-bold text-outerspace">$518.00</span>
+                    <span className="font-medium text-outerspace">Tổng</span>
+                    <span className="summary-item-value font-bold text-outerspace">₫{totalPrice}</span>
                 </li>
             </ul>
             <BaseButtonGreen type="submit" className="checkout-btn">
-                Proceed To Checkout
+                Tiến hành thanh toán
             </BaseButtonGreen>
         </CartSummaryWrapper>
     );
