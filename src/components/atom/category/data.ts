@@ -14,27 +14,27 @@ export const newArrivalData: NewArrival[] = [
     {
         id: 'new-arrival-1',
         imgSource: nen,
-        title: 'Nến thơm',
+        title: 'Nến Thơm',
     },
     {
         id: 'new-arrival-2',
         imgSource: gauBong,
-        title: 'Gấu bông',
+        title: 'Gấu Bông',
     },
     {
         id: 'new-arrival-3',
         imgSource: mocKhoa,
-        title: 'Móc khóa',
+        title: 'Móc Khóa',
     },
     {
         id: 'new-arrival-4',
         imgSource: kepToc,
-        title: 'Kẹp tóc',
+        title: 'Kẹp Tóc',
     },
     {
         id: 'new-arrival-5',
         imgSource: tuiSach,
-        title: 'Túi sách',
+        title: 'Túi Sách',
     },
     {
         id: 'new-arrival-6',
