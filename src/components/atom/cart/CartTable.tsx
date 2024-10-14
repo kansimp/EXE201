@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import CartItem from './CartItem';
+import CartItemm from './CartItems';
 import PropTypes from 'prop-types';
 import { breakpoints } from '@styles/themes/default';
-import { CartItems } from '@components/pages/Cart/data';
+import { CartItem } from '@redux/slices/cartSlice';
 
 const ScrollbarXWrapper = styled.div`
     overflow-x: scroll;
@@ -58,10 +58,10 @@ const CartTableWrapper = styled.table`
     }
 `;
 type CartTableProps = {
-    cartItems: CartItems[];
+    cartItems: CartItem[];
 };
 const CartTable = ({ cartItems }: CartTableProps) => {
-    const CART_TABLE_HEADS = ['Product details', 'Price', 'Quantity', 'Shipping', 'Subtotal', 'Action'];
+    const CART_TABLE_HEADS = ['Sản Phẩm', 'Giá', 'Số Lượng', 'Phí Vận Chuyển', 'Tổng Phụ', 'Xóa'];
 
     return (
         <ScrollbarXWrapper>
@@ -82,7 +82,7 @@ const CartTable = ({ cartItems }: CartTableProps) => {
                 </thead>
                 <tbody>
                     {cartItems.map((cartItem) => {
-                        return <CartItem key={cartItem.id} cartItem={cartItem} />;
+                        return <CartItemm key={cartItem.item.product_id} cartItem={cartItem} />;
                     })}
                 </tbody>
             </CartTableWrapper>
