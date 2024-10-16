@@ -97,12 +97,12 @@ function Home() {
             <Featured />
             <Category />
             {listPostByDateDesc.length > 0 ? (
-                <Catalog catalogTitle={'Các Sản Phẩm Mới'} products={listPostByDateDesc} />
+                <Catalog catalogTitle={'Các Sản Phẩm Mới'} products={listPostByDateDesc.slice(-8)} />
             ) : (
                 <>Loading</>
             )}
             {listPostByDateDesc.length > 0 ? (
-                <Catalog catalogTitle={'Các Sản Phẩm Bán Chạy'} products={listPostByDateDesc} />
+                <Catalog catalogTitle={'Các Sản Phẩm Bán Chạy'} products={listPostByDateDesc.slice(0, 8)} />
             ) : (
                 <>Loading</>
             )}

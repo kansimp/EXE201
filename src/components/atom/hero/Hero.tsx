@@ -150,11 +150,13 @@ const HeroSlideContent = styled.div`
 `;
 
 const Hero = () => {
-    // Cấu hình của slider
     const settings = {
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000, // Tốc độ tự động chuyển ảnh (2 giây)
+        pauseOnHover: false,
         responsive: [
             {
                 breakpoint: 1024,

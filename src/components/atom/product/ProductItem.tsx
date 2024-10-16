@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { commonCardStyles } from '@styles/card';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
 import { Post } from '@redux/slices/postSlice';
+import { currencyFormat } from '@ultils/helper';
 
 interface ProductItemProps {
     post: Post;
@@ -64,7 +65,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ post }) => {
                 <div className="flex items-center justify-between text-sm font-medium">
                     <span className="text-gray-400">{post.products[0].shop_name}</span>
                     <span className="text-outerspace font-bold text-red-400">
-                        ₫{lowestPrice} - ₫{highestPrice}
+                        {currencyFormat(lowestPrice)}-{currencyFormat(highestPrice)}
                     </span>
                 </div>
             </div>

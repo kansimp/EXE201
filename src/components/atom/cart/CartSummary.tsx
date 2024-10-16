@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { BaseButtonGreen } from '@styles/button';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '@redux/hook';
+import { CartItem } from '@redux/slices/cartSlice';
+import { currencyFormat } from '@ultils/helper';
 
 const CartSummaryWrapper = styled.div`
     background-color: ${defaultTheme.color_flash_white};
@@ -33,13 +37,20 @@ const CartSummaryWrapper = styled.div`
 type CartSummaryProps = {
     totalPrice: number;
 };
+// interface CartCheckOutType extends CartItem {
+//     subTotal: number;
+// }
 const CartSummary = ({ totalPrice }: CartSummaryProps) => {
+    // const listCart: CartItem[] = useAppSelector((state) => state.cart.items);
+    // const listCartCheckOut: CartCheckOutType[] = listCart.map((cart): CartCheckOutType => {
+    //     return { ...cart, subTotal: cart.quantity * cart.item.price };
+    // });
     return (
         <CartSummaryWrapper>
             <ul className="summary-list">
                 <li className="summary-item flex justify-between">
                     <span className="font-medium text-outerspace">Tổng Phụ</span>
-                    <span className="font-medium text-outerspace">₫{totalPrice}</span>
+                    <span className="font-medium text-outerspace">{currencyFormat(totalPrice)}</span>
                 </li>
                 <li className="summary-item flex justify-between">
                     <span className="font-medium text-outerspace">Phí Vận Chuyển</span>
@@ -47,12 +58,14 @@ const CartSummary = ({ totalPrice }: CartSummaryProps) => {
                 </li>
                 <li className="summary-item flex justify-between">
                     <span className="font-medium text-outerspace">Tổng</span>
-                    <span className="summary-item-value font-bold text-outerspace">₫{totalPrice}</span>
+                    <span className="summary-item-value font-bold text-outerspace">{currencyFormat(totalPrice)}</span>
                 </li>
             </ul>
-            <BaseButtonGreen type="submit" className="checkout-btn">
-                Tiến hành thanh toán
-            </BaseButtonGreen>
+            <Link to={'/checkout'}>
+                <BaseButtonGreen type="submit" className="checkout-btn">
+                    Tiến hành thanh toán
+                </BaseButtonGreen>
+            </Link>
         </CartSummaryWrapper>
     );
 };

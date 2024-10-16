@@ -28,7 +28,8 @@
             "@setup/*": ["setup/*"],
             "@redux/*": ["redux/*"],
             "@styles/*": ["styles/*"],
-            "@common/*": ["common/*"]
+            "@common/*": ["common/*"],
+            "@ultils/*": ["ultils/*"]
         }
     },
     "include": ["src"]

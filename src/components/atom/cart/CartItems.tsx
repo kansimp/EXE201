@@ -5,6 +5,7 @@ import { breakpoints, defaultTheme } from '@styles/themes/default';
 import { CartItem } from '@redux/slices/cartSlice';
 import { useAppDispatch, useAppSelector } from '@redux/hook';
 import { addItem, removeItem, clearCart, deleteItem } from '@redux/slices/cartSlice';
+import { currencyFormat } from '@ultils/helper';
 
 const CartTableRowWrapper = styled.tr`
     .cart-tbl {
@@ -81,7 +82,7 @@ const CartItemCB = ({ cartItem }: CartItemProps) => {
                 </div>
             </td>
             <td>
-                <span className="text-lg font-bold text-outerspace">₫{cartItem.item.price}</span>
+                <span className="text-lg font-bold text-outerspace">{currencyFormat(cartItem.item.price)}</span>
             </td>
             <td>
                 <div className="cart-tbl-qty flex items-center">
@@ -97,10 +98,12 @@ const CartItemCB = ({ cartItem }: CartItemProps) => {
                 </div>
             </td>
             <td>
-                <span className="cart-tbl-shipping uppercase text-gray-150 font-bold">FREE</span>
+                <span className="cart-tbl-shipping uppercase text-gray-150 font-bold">₫0</span>
             </td>
             <td>
-                <span className="text-lg font-bold text-outerspace">₫{cartItem.item.price * cartItem.quantity}</span>
+                <span className="text-lg font-bold text-outerspace">
+                    {currencyFormat(cartItem.item.price * cartItem.quantity)}
+                </span>
             </td>
             <td>
                 <div
