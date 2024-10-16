@@ -9,6 +9,9 @@ import { FormGridWrapper, FormTitle } from "styles/form_grid";
 import { Container } from "styles/styles";
 import { FormElement, Input } from "styles/form";
 import { toast } from "react-toastify";
+import { userProfile } from "@redux/slices/profileSlice";
+import { decodeToken } from "@components/utils/tokenUtils";
+import { setAuthData } from "@redux/slices/AuthTokenSlice";
 
 const SignInScreenWrapper = styled.section`
   .form-separator {
@@ -70,8 +73,23 @@ const LoginForm = () => {
     try {
       const login = await dispatch(loginUser(UserCredential)).unwrap();
 
-      if (login === "Successfully Sign in") {
-        navigate("/");
+      if (login.message === "Successfully Sign in") {
+        const token = login.data.access_token;
+        console.log("Token:", token);
+
+        const decodedToken = decodeToken(token); // Giải mã token
+        if (decodedToken) {
+          const role = decodedToken.role;
+          dispatch(setAuthData({ token, role }));
+
+          if (role === "ADMIN") {
+            navigate("/admin");
+          } else if (role === "BUYER") {
+            dispatch(userProfile());
+            navigate("/");
+          }
+        }
+        // navigate("/");
       } else {
         toast.error("Vui lòng kiểm tra lại email hoặc mật khẩu !!");
       }
@@ -154,6 +172,12 @@ const LoginForm = () => {
               <p className="flex flex-wrap account-rel-text">
                 Bạn chưa có tài khoản ?
                 <Link to="/register" className="font-medium">
+                  Đăng ký ngay tại đây !!
+                </Link>
+              </p>
+              <p className="flex flex-wrap account-rel-text">
+                Bạn muốn đăng ký tài khoản shop ?
+                <Link to="/register-shop" className="font-medium">
                   Đăng ký ngay tại đây !!
                 </Link>
               </p>

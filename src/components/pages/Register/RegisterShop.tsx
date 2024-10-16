@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAllProvince, getAllDistrict } from "../../../redux/slices/addressSlice";
-import { createBuyer } from "../../../redux/slices/registerSlice";
+import { createBuyer, createSeller } from "../../../redux/slices/registerSlice";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FormGridWrapper, FormTitle } from "styles/form_grid";
@@ -35,6 +35,8 @@ const initFormValue = {
   province: "",
   district: "",
   street: "",
+  shopName: "",
+  shop_address: "",
 };
 
 // Check empty
@@ -57,17 +59,19 @@ const isValidPassword = (password: string): boolean => {
   return passwordRegex.test(password);
 };
 
-export type RegisterType = {
+export type RegisterShopType = {
   email: string;
   address: string;
   phone: string;
   password: string;
-  role: "BUYER";
+  role: "SELLER";
   first_name: String;
   last_name: string;
+  shopName: string;
+  shop_address: string;
 };
 
-const Register = () => {
+const RegisterShop = () => {
   const dispatch = useAppDispatch();
   const listProvince = useAppSelector((state) => state.address.listProvince);
   const listDistrict = useAppSelector((state) => state.address.listDistrict);
@@ -94,6 +98,8 @@ const Register = () => {
     street: "",
     province: "",
     district: "",
+    shopName: "",
+    shop_address: "",
   });
 
   // Xử lý validate
@@ -107,6 +113,8 @@ const Register = () => {
       street: "",
       province: "",
       district: "",
+      shopName: "",
+      shop_address: "",
     };
     let check = true;
     if (isEmptyValue(formValue.email)) {
@@ -141,6 +149,10 @@ const Register = () => {
       errors.street = "Tên đường không được bỏ trống !";
       check = false;
     }
+    if (isEmptyValue(formValue.shopName)) {
+      errors.street = "Tên  không được bỏ trống !";
+      check = false;
+    }
     if (!formValue.province) {
       errors.province = "Vui lòng chọn Tỉnh !";
       check = false;
@@ -156,23 +168,22 @@ const Register = () => {
   const handleRegister = async () => {
     const check = validateForm();
     if (check) {
-      const data: RegisterType = {
+      const data: RegisterShopType = {
         email: formValue.email,
         address: formValue.street + " " + formValue.district + " " + formValue.province,
         phone: formValue.phone,
         password: formValue.password,
-        role: "BUYER",
+        role: "SELLER",
         first_name: formValue.first_name,
         last_name: formValue.last_name,
+        shopName: formValue.shopName,
+        shop_address: formValue.street + " " + formValue.district + " " + formValue.province,
       };
       try {
-        const res: string = await dispatch(createBuyer(data)).unwrap();
+        const res: string = await dispatch(createSeller(data)).unwrap();
         console.log("res", res);
         if (res === "Successfully Register") {
           await toast.success("Vui lòng kiểm tra email của bạn để xác minh tài khoản");
-          setTimeout(() => {
-            navigate("/verify");
-          }, 3000);
         }
       } catch (error) {
         console.log(error);
@@ -262,6 +273,18 @@ const Register = () => {
                     />
                     {formError.last_name && <div className="text-red-500 text-sm">{formError.last_name}</div>}
 
+                    <input
+                      type="text"
+                      name="shopName"
+                      id="shopName"
+                      onChange={(e) => {
+                        setFormValue({ ...formValue, shopName: e.target.value });
+                      }}
+                      placeholder="Tên Shop"
+                      className="w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                      required
+                    />
+                    {formError.shopName && <div className="text-red-500 text-sm">{formError.shopName}</div>}
                     <label htmlFor="Tinh" className="block mb-2 text-base font-medium text-gray-900 dark:text-white">
                       Tỉnh
                     </label>
@@ -346,4 +369,4 @@ const Register = () => {
     </SignUpScreenWrapper>
   );
 };
-export default Register;
+export default RegisterShop;

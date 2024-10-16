@@ -1,4 +1,3 @@
-
 import MainLayout from "@layouts/MainLayout";
 import Home from "@pages/Home/Home";
 import Register from "@components/pages/Register/Register";
@@ -17,13 +16,14 @@ import WishListScreen from "@components/pages/Wishlist/Wishlist";
 import AdminLayout from "@layouts/AdminLayouts";
 import Dashboard from "@components/pages/Admin/Dashboard";
 import UserTable from "@components/pages/Admin/UserTable";
-import Cart from '@components/pages/Cart/Cart';
-
+import Cart from "@components/pages/Cart/Cart";
+import NotFoundScreen from "@components/pages/error/NotFoundScreen";
+import RegisterShop from "@components/pages/Register/RegisterShop";
 
 export type RouteType = {
-    path: string;
-    component: ComponentType<any>;
-    layout?: ComponentType<any> | null;
+  path: string;
+  component: ComponentType<any>;
+  layout?: ComponentType<any> | null;
 };
 
 const publicRoute: RouteType[] = [
@@ -35,6 +35,11 @@ const publicRoute: RouteType[] = [
   {
     path: "/register",
     component: Register,
+    layout: AuthLayout,
+  },
+  {
+    path: "/register-shop",
+    component: RegisterShop,
     layout: AuthLayout,
   },
   {
@@ -88,20 +93,25 @@ const publicRoute: RouteType[] = [
     layout: AdminLayout,
   },
   {
-    path: "/admin/tables",
+    path: "/tables",
     component: UserTable,
     layout: AdminLayout,
   },
   {
-    path: '/cart',
+    path: "/cart",
     component: Cart,
     layout: MainLayout,
-},
-{
-    path: '/product/:id',
+  },
+  {
+    path: "/product/:id",
     component: ProductDetail,
     layout: MainLayout,
-},
+  },
+  {
+    path: "*",
+    component: NotFoundScreen,
+    layout: null,
+  },
 ];
 
 const privateRoute: RouteType[] = [];

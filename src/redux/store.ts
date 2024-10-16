@@ -11,6 +11,8 @@ import cartReducer from "./slices/cartSlice";
 import postReducer from "./slices/postSlice";
 import postDetailReducer from "./slices/postdetailSlice";
 import listUserReducer from "./slices/listUserSlice";
+import wishListReducer from "./slices/wishlistSlice";
+import authTokenReducer from "./slices/AuthTokenSlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -25,6 +27,8 @@ export const store = configureStore({
     post: postReducer,
     postDetail: postDetailReducer,
     listUser: listUserReducer,
+    wishlist: wishListReducer,
+    authToken: authTokenReducer,
   },
 });
 

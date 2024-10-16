@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import myAxios from "@setup/axiosConfig";
 
-interface UserProfile {
+export type UserProfile = {
   account_id: string | null;
   first_name: string | null;
   last_name: string | null;
@@ -13,7 +13,7 @@ interface UserProfile {
   avatar: string | null | undefined;
   locked: boolean | null;
   enable: boolean | null;
-}
+};
 
 type ProfileType = {
   loading: boolean | null;
