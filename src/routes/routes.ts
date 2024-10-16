@@ -19,6 +19,7 @@ import UserTable from "@components/pages/Admin/UserTable";
 import Cart from "@components/pages/Cart/Cart";
 import NotFoundScreen from "@components/pages/error/NotFoundScreen";
 import RegisterShop from "@components/pages/Register/RegisterShop";
+import Checkout from "@components/pages/CheckOut/Checkout";
 
 export type RouteType = {
   path: string;
@@ -111,6 +112,17 @@ const publicRoute: RouteType[] = [
     path: "*",
     component: NotFoundScreen,
     layout: null,
+  },
+  {
+    path: "/checkout",
+    component: Checkout,
+    layout: MainLayout,
+  },
+
+  {
+    path: "/search",
+    component: Product,
+    layout: MainLayout,
   },
 ];
 

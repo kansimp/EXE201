@@ -13,6 +13,8 @@ import postDetailReducer from "./slices/postdetailSlice";
 import listUserReducer from "./slices/listUserSlice";
 import wishListReducer from "./slices/wishlistSlice";
 import authTokenReducer from "./slices/AuthTokenSlice";
+import searchReducer from "./slices/searchSlice";
+import categoryReducer from "./slices/categorySlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -29,6 +31,8 @@ export const store = configureStore({
     listUser: listUserReducer,
     wishlist: wishListReducer,
     authToken: authTokenReducer,
+    search: searchReducer,
+    category: categoryReducer,
   },
 });
 

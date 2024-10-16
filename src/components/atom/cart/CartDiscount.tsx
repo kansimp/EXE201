@@ -45,12 +45,12 @@ const CartDiscount = () => {
         <CartDiscountWrapper>
             <h3 className="text-xxl text-outerspace">Mã giảm giá</h3>
             <p className="text-base text-gray-150">Nhập mã phiếu giảm giá của bạn nếu bạn có.</p>
-            <form action="">
+            <form>
                 <div className="coupon-group flex">
                     <Input type="text" className="coupon-input w-full" placeholder="Tìm kiếm" />
-                    <BaseButtonOuterspace type="submit" className="coupon-btn no-wrap h-full">
-                        <p className="text-xs">Áp dụng mã giảm giá</p>
-                    </BaseButtonOuterspace>
+                    <div className="coupon-btn no-wrap h-full bg-black-50 text-white cursor-pointer">
+                        <p className="text-title-2xsm">Áp dụng mã giảm giá</p>
+                    </div>
                 </div>
             </form>
             <BaseLinkOutlinePlatinum

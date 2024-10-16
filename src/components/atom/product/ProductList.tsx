@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import ProductItem from './ProductItem';
 import { breakpoints } from '@styles/themes/default';
 import { Post } from '@redux/slices/postSlice';
+import PaginationControlled from '../Pagination/Pagination';
 
 interface ProductListProps {
     products: Post[];
@@ -20,11 +21,13 @@ const ProductListWrapper = styled.div`
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
     return (
-        <ProductListWrapper className="grid">
-            {products?.map((product) => {
-                return <ProductItem key={product.id} post={product} />;
-            })}
-        </ProductListWrapper>
+        <div>
+            <ProductListWrapper className="grid">
+                {products?.map((product) => {
+                    return <ProductItem key={product.id} post={product} />;
+                })}
+            </ProductListWrapper>
+        </div>
     );
 };
 

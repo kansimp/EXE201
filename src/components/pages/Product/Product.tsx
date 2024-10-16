@@ -9,7 +9,11 @@ import { breakpoints, defaultTheme } from '@styles/themes/default';
 import ProductFilter from '@atom/product/ProductFilter';
 import { useAppDispatch, useAppSelector } from '@redux/hook';
 import { getAllPostByDateDesc } from '@redux/slices/postSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ProductListPage from '@components/atom/product/ProductListPage';
+import PaginationControlled from '@components/atom/Pagination/Pagination';
+import { useLocation } from 'react-router-dom';
+import PaginationSearch from '@components/atom/Pagination/PaginationSearch';
 
 // Define breadcrumb type
 type BreadcrumbItem = {
@@ -98,13 +102,22 @@ const DescriptionContent = styled.div`
 const ProductListScreen: React.FC = () => {
     const breadcrumbItems: BreadcrumbItem[] = [
         { label: 'Trang Chủ', link: '/' },
-        { label: 'Sản Phẩm', link: '' },
+        { label: 'Sản Phẩm', link: '/product' },
     ];
     const dispatch = useAppDispatch();
-    const listPostByDateDesc = useAppSelector((state) => state.post.listPost);
-    useEffect(() => {
-        dispatch(getAllPostByDateDesc());
-    }, []);
+    const listPostByPage = useAppSelector((state) => state.post.listPostByPage);
+    const isLoading = useAppSelector((state) => state.post.isLoading);
+    const location = useLocation();
+    const path = location.pathname;
+    // const k = location.search;
+    // const queryString = k.split('?')[1];
+    // const params = new URLSearchParams(queryString);
+    // let keyword = params.get('keyword');
+    // const [flag, setFlag] = useState(0);
+    // useEffect(() => {
+    //     setFlag(flag + 1);
+    // }, [keyword]);
+    const searchValue = useAppSelector((state) => state.search.searchValue);
     return (
         <main className="page-py-spacing">
             <Container>
@@ -134,8 +147,18 @@ const ProductListScreen: React.FC = () => {
                                 </li>
                             </ul>
                         </div>
-                        <ProductList products={listPostByDateDesc.slice(0, 12)} />
+
+                        {isLoading === true ? <>Loading...</> : <ProductListPage products={listPostByPage} />}
                         {/* số lượng product hiện ra */}
+                        {searchValue === '' ? (
+                            <div className="mt-20 flex justify-center">
+                                <PaginationControlled></PaginationControlled>
+                            </div>
+                        ) : (
+                            <div className="mt-20 flex justify-center">
+                                <PaginationSearch search={searchValue}></PaginationSearch>
+                            </div>
+                        )}
                     </ProductsContentRight>
                 </ProductsContent>
             </Container>
