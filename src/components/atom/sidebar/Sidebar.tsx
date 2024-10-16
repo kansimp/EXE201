@@ -10,6 +10,8 @@ import souvi from '@images/souvi.png';
 import { sideMenuData } from './data';
 import { selectIsSidebarOpen, toggleSidebar } from '@redux/slices/sidebarSlice';
 import { RootState } from '@redux/store'; // Đảm bảo đã import đúng kiểu RootState
+import { changePassword } from '@redux/slices/changePassWord';
+import { changeSearchValue } from '@redux/slices/searchSlice';
 
 // Styled Components
 const SideNavigationWrapper = styled.div`
@@ -110,7 +112,12 @@ const Sidebar: React.FC = () => {
                 </form>
                 <ul className="sidenav-menu-list grid">
                     {sideMenuData?.map((menu) => (
-                        <li key={menu.id}>
+                        <li
+                            key={menu.id}
+                            onClick={() => {
+                                dispatch(changeSearchValue(''));
+                            }}
+                        >
                             <Link
                                 to={menu.menuLink}
                                 className={`flex items-center text-gray ${

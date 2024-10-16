@@ -5,7 +5,6 @@ import { product_one } from './data';
 import ProductPreview from '@atom/product/ProductPreview';
 import { Link, useParams } from 'react-router-dom';
 import { BaseLinkGreen } from '@styles/button';
-import { currencyFormat } from '../../utils/helper';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
 import ProductDescriptionTab from '@atom/product/ProductDescriptionTab';
 import ProductSimilar from '@atom/product/ProductSimilar';
@@ -14,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hook';
 import { addItem } from '@redux/slices/cartSlice';
 import { useEffect } from 'react';
 import { getPostDetail } from '@redux/slices/postdetailSlice';
+import { currencyFormat } from '@ultils/helper';
 
 const DetailsScreenWrapper = styled.main`
     margin: 40px 0;
@@ -276,7 +276,7 @@ const ProductDetailsScreen: React.FC = () => {
                                     <span className="prod-add-btn-text">Thêm vào giỏ hàng</span>
                                 </BaseLinkGreen>
                                 <span className="prod-price text-xl font-bold text-outerspace text-red-500">
-                                    ₫{productDetail?.price}
+                                    {currencyFormat(productDetail?.price)}
                                 </span>
                             </div>
                             <ProductServices />

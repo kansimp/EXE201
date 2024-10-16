@@ -1,11 +1,20 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { FilterTitle, FilterWrap, PriceFilter, ProductCategoryFilter } from '@styles/filter';
 import { ProductFilterList } from './data';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { getAllCategory } from '@redux/slices/categorySlice';
+import { changeSearchValue } from '@redux/slices/searchSlice';
+import { useNavigate } from 'react-router-dom';
 
 const ProductFilter = () => {
     const [isProductFilterOpen, setProductFilterOpen] = useState<boolean>(true);
     const [isPriceFilterOpen, setPriceFilterOpen] = useState<boolean>(true);
-
+    const dispatch = useAppDispatch();
+    const listCategory = useAppSelector((state) => state.category.categories);
+    const navigate = useNavigate();
+    useEffect(() => {
+        dispatch(getAllCategory());
+    }, []);
     const toggleFilter = (filter: string): void => {
         switch (filter) {
             case 'product':
@@ -51,7 +60,7 @@ const ProductFilter = () => {
                     className="filter-title flex items-center justify-between"
                     onClick={() => toggleFilter('product')}
                 >
-                    <p className="filter-title-text text-gray-150 text-base font-semibold text-lg">Filter</p>
+                    <p className="filter-title-text text-gray-150 text-base font-semibold text-lg">Các Loại Sản Phẩm</p>
                     <span
                         className={`text-gray-150 text-xxl filter-title-icon ${!isProductFilterOpen ? 'rotate' : ''}`}
                     >
@@ -59,15 +68,22 @@ const ProductFilter = () => {
                     </span>
                 </FilterTitle>
                 <FilterWrap className={`${!isProductFilterOpen ? 'hide' : 'show'}`}>
-                    {ProductFilterList?.map((productFilter) => {
+                    {listCategory?.map((category) => {
                         return (
-                            <div className="product-filter-item" key={productFilter.id}>
+                            <div
+                                className="product-filter-item"
+                                key={category.category_id}
+                                onClick={() => {
+                                    dispatch(changeSearchValue(category.name));
+                                    navigate(`/search?keyword=${category.name}`);
+                                }}
+                            >
                                 <button
                                     type="button"
-                                    className="filter-item-head w-full flex items-center justify-between"
+                                    className="filter-item-head w-full   flex items-center justify-between"
                                 >
                                     <span className="filter-head-title text-base text-gray-150 font-semibold">
-                                        {productFilter.title}
+                                        {category.name}
                                     </span>
                                     <span className="filter-head-icon text-gray-150">
                                         <i className="bi bi-chevron-right"></i>
@@ -84,7 +100,7 @@ const ProductFilter = () => {
                     className="filter-title flex items-center justify-between"
                     onClick={() => toggleFilter('price')}
                 >
-                    <p className="filter-title-text text-gray-150 text-base font-semibold text-lg">Price</p>
+                    <p className="filter-title-text text-gray-150 text-base font-semibold text-lg">Giá</p>
                     <span className={`text-gray-150 text-xl filter-title-icon ${!isPriceFilterOpen ? 'rotate' : ''}`}>
                         <i className="bi bi-chevron-up"></i>
                     </span>

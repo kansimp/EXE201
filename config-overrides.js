@@ -14,6 +14,7 @@ module.exports = function override(config) {
         '@redux': 'src/redux',
         '@styles': 'src/styles',
         '@common': 'src/common',
+        '@ultils': 'src/ultils',
     })(config);
 
     return config;
