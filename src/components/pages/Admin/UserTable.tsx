@@ -30,7 +30,7 @@ export default function DataTable() {
         id: user.account_id,
         first_name: user.first_name,
         last_name: user.last_name,
-        role_name: user.role_name,
+        role_Name: user.role_Name,
         email: user.email,
         address: user.address,
         phone: user.phone,
@@ -44,7 +44,19 @@ export default function DataTable() {
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
         checkboxSelection
-        sx={{ border: 0 }}
+        sx={{
+          border: 0,
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#1976d2",
+            color: "black",
+          },
+          "& .MuiDataGrid-row": {
+            backgroundColor: "#fff", // Customize the row background color
+            "&:hover": {
+              backgroundColor: "#e0e0e0", // Row background color on hover
+            },
+          },
+        }}
       />
     </Paper>
   );

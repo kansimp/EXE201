@@ -2,12 +2,17 @@ import Breadcrumb from "@common/Breadcrumb";
 import Title from "@common/Title";
 import UserMenu from "@components/user/User";
 import { currencyFormat } from "@components/utils/helper";
-import { BaseLinkBlack } from "@styles/button";
+import { useAppDispatch, useAppSelector } from "@redux/hook";
+import { addItem, CartItem } from "@redux/slices/cartSlice";
+import { removeItemWishList, WishListItem } from "@redux/slices/wishlistSlice";
+import { BaseLinkBlack, BaseLinkGreen } from "@styles/button";
 import { Container } from "@styles/styles";
 import { breakpoints, defaultTheme } from "@styles/themes/default";
 import { UserContent, UserDashboardWrapper } from "@styles/user";
 import { wishlistData } from "data/FooterData";
 import styled from "styled-components";
+import WishListEmptyScreen from "./WishListEmptyScreen";
+import { Link } from "react-router-dom";
 
 const WishListScreenWrapper = styled.main`
   .wishlist {
@@ -153,6 +158,12 @@ const breadcrumbItems = [
 ];
 
 const WishListScreen = () => {
+  const listWishList: WishListItem[] = useAppSelector((state) => state.wishlist.items);
+  const dispatch = useAppDispatch();
+
+  if (listWishList.length <= 0) {
+    return <WishListEmptyScreen />;
+  }
   return (
     <WishListScreenWrapper className="page-py- mb-12">
       <Container>
@@ -162,38 +173,49 @@ const WishListScreen = () => {
           <UserContent>
             <Title titleText={"Wishlist"} />
             <div className="wishlist grid">
-              {wishlistData?.map((wishlist) => {
+              {listWishList?.map((wishlist) => {
+                const prices = wishlist.item.products.map((product) => product.price);
+
+                const highestPrice = Math.max(...prices);
+                const lowestPrice = Math.min(...prices);
                 return (
-                  <WishItemWrapper className="wish-item flex" key={wishlist.id}>
+                  <WishItemWrapper className="wish-item flex" key={wishlist.item.id}>
                     <div className="wish-item-img flex items-stretch">
-                      <button type="button" className="wish-remove-btn">
+                      <button
+                        type="button"
+                        className="wish-remove-btn"
+                        onClick={() => {
+                          dispatch(removeItemWishList(wishlist.item));
+                        }}
+                      >
                         <i className="bi bi-x-lg"></i>
                       </button>
-                      <div className="wish-item-img-wrapper">
-                        <img src={wishlist.imgSource} className="object-fit-cover" alt="" />
-                      </div>
+                      <Link to={`/product/${wishlist.item.id}`}>
+                        <div className="wish-item-img-wrapper">
+                          <img src={wishlist.item.products[0].image} className="object-fit-cover" alt="" />
+                        </div>
+                      </Link>
                     </div>
                     <div className="wish-item-info flex justify-between">
                       <div className="wish-item-info-l flex flex-col">
-                        <p className="wish-item-title text-xl font-bold text-outerspace">{wishlist.name}</p>
+                        <p className="wish-item-title text-xl font-bold text-outerspace">{wishlist.item.title}</p>
                         <ul className="flex flex-col">
                           <li>
-                            <span className="text-lg font-bold">Color:</span>
-                            <span className="text-lg text-gray font-medium capitalize">{wishlist.color}</span>
+                            <span className="text-lg font-bold">Status:</span>
+                            <span className="text-lg text-gray font-medium capitalize">{wishlist.item.status}</span>
                           </li>
                           <li>
-                            <span className="text-lg font-bold">Quantity:</span>
-                            <span className="text-lg text-gray font-medium capitalize">{wishlist.quantity}</span>
+                            <span className="text-lg font-bold">Shop:</span>
+                            <span className="text-lg text-gray font-medium capitalize">
+                              {wishlist.item.products[0].shop_name}
+                            </span>
                           </li>
                         </ul>
                       </div>
                       <div className="wish-item-info-r flex items-center">
                         <span className="wish-item-price text-xl text-gray font-bold">
-                          {currencyFormat(wishlist.price)}
+                          ₫{lowestPrice} - ₫{highestPrice}
                         </span>
-                        <BaseLinkBlack to="/cart" className="wish-cart-btn">
-                          Add to cart
-                        </BaseLinkBlack>
                       </div>
                     </div>
                   </WishItemWrapper>

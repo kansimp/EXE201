@@ -7,7 +7,7 @@ type UserType = {
 };
 export const loginUser = createAsyncThunk("user/loginUser", async (UserCredential: UserType) => {
   const request = await axios.post(`https://souvi-be-v1.onrender.com/auth/signin`, UserCredential);
-  const response = await request.data.message;
+  const response = await request.data;
   localStorage.setItem("access_token", request.data.data.access_token);
   return response;
 });

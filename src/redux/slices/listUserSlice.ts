@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myAxios from "@setup/axiosConfig";
 
-type UserType = {
+export type UserType = {
   email: string;
   address: string;
   gender: string | null;
