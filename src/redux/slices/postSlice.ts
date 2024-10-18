@@ -5,7 +5,8 @@ export const getAllPostByDateDesc = createAsyncThunk('post/getAllPostByDateDesc'
     const response = await axios.get(
         'https://souvi-be-v1.onrender.com/post/all?pageNo=0&pageSize=100&sortBy=SORT_BY_DATE_DESC',
     );
-    return response.data.data.content;
+    const listPost: Post[] = response.data.data.content;
+    return listPost;
 });
 export const getAllPostByPage = createAsyncThunk('post/getAllPostByPage', async (page: number) => {
     const response = await axios.get(
