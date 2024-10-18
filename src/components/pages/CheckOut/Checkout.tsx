@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Container } from '@styles/styles';
 import Title from '@common/Title';
 import Billing from '@atom/cart/Billing';
-// import ShippingPayment from "../../components/checkout/ShippingPayment";
 import { breakpoints, defaultTheme } from '@styles/themes/default';
+import ShippingPayment from '@atom/ShippingPayment/ShippingPayment';
 
 const CheckoutScreenWrapper = styled.main`
     padding: 48px 0;
@@ -23,10 +23,8 @@ const CheckoutScreen = () => {
     return (
         <CheckoutScreenWrapper>
             <Container>
-                <Title titleText={'Check Out'} />
+                <Title titleText={'Thông Tin Thanh Toán'} />
                 <Billing />
-                <div className="horiz-line-separator w-full"></div>
-                {/* <ShippingPayment /> */}
             </Container>
         </CheckoutScreenWrapper>
     );
