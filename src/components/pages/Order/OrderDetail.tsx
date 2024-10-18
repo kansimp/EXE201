@@ -6,6 +6,7 @@ import { getAllOrders, Order } from "@redux/slices/orderSlice";
 import { Container } from "@styles/styles";
 import { breakpoints, defaultTheme } from "@styles/themes/default";
 import { UserContent, UserDashboardWrapper } from "@styles/user";
+import { currencyFormat } from "@ultils/helper";
 import { get } from "http";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -292,7 +293,7 @@ const OrderDetailScreen = () => {
                   <p className="text-title-sm  text-gray-150 font-bold ">Địa chỉ : {order.address}</p>
                 </div>
                 <div className="order-d-top-r text-title-md text-gray-150 font-semibold">
-                  Tổng tiền: <span className="text-outerspace text-black-50">{order.total_price}đ</span>
+                  Tổng tiền: <span className="text-outerspace text-black-50">{currencyFormat(order.total_price)}</span>
                 </div>
               </div>
               <OrderDetailListWrapper className="order-d-list mb-12">
@@ -306,7 +307,8 @@ const OrderDetailScreen = () => {
                       <div className="order-d-item-info">
                         <p className="text-title-sm font-bold">{product.product_name}</p>
                         <p className="text-title-xsm font-bold">
-                          Giá sản phẩm : <span className="font-bold text-gray-150">{product.unit_price}đ</span>
+                          Giá sản phẩm :{" "}
+                          <span className="font-bold text-gray-150">{currencyFormat(product.unit_price)}</span>
                         </p>
                         <p className="text-title-xsm font-bold">
                           Shop : <span className="font-bold text-gray-150">{order.shop_name}</span>
@@ -317,7 +319,7 @@ const OrderDetailScreen = () => {
                           Số lượng : <span className="text-gray-150">{product.quantity}</span>
                         </p>
                         <p className="font-bold text-title-xsm">
-                          Đơn giá : <span className="text-gray-150">{product.line_total}đ</span>
+                          Đơn giá : <span className="text-gray-150">{currencyFormat(product.line_total)}</span>
                         </p>
                       </div>
                     </div>
