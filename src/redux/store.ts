@@ -34,7 +34,7 @@ export const store = configureStore({
         authToken: authTokenReducer,
         search: searchReducer,
         category: categoryReducer,
-        payment: categoryReducer,
+        payment: paymentReducer,
     },
 });
 
