@@ -22,6 +22,8 @@ import RegisterShop from "@components/pages/Register/RegisterShop";
 import Checkout from "@components/pages/CheckOut/Checkout";
 import OrderListScreen from "@components/pages/Order/OrderListScreen";
 import OrderDetailScreen from "@components/pages/Order/OrderDetail";
+import ConfirmScreen from "@components/pages/CheckOut/PaymentSuccess";
+import ErrorScreen from "@components/pages/CheckOut/PaymentError";
 
 export type RouteType = {
   path: string;
@@ -120,7 +122,16 @@ const publicRoute: RouteType[] = [
     component: Checkout,
     layout: MainLayout,
   },
-
+  {
+    path: "/paymentSuccess",
+    component: ConfirmScreen,
+    layout: MainLayout,
+  },
+  {
+    path: "/paymentError",
+    component: ErrorScreen,
+    layout: MainLayout,
+  },
   {
     path: "/search",
     component: Product,

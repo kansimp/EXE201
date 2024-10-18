@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
 // Set config defaults when creating the instance
 const instance: AxiosInstance = axios.create({
@@ -59,30 +60,25 @@ instance.interceptors.request.use(
 );
 
 // Add a response interceptor
+let isToastShown = false;
+
 instance.interceptors.response.use(
     (response: AxiosResponse) => {
-        // Any status code that lies within the range of 2xx causes this function to trigger
-        // Do something with response data
+        // Reset lại flag khi request thành công
+        isToastShown = false;
         return response.data;
     },
     async (error) => {
         const originalRequest = error.config;
 
-        // Nếu lỗi là 401 và chưa thử refresh token
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true; // Đánh dấu request này là đã thử refresh token
+        // Nếu lỗi là 401 và chưa hiển thị toast
+        if (error.response.status === 401 && !isToastShown) {
+            isToastShown = true; // Đánh dấu rằng toast đã được hiển thị
 
-            // Gọi hàm refresh token
-            const newToken = await refreshToken();
-
-            if (newToken) {
-                // Cập nhật token mới vào header và retry request gốc
-                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                return axios(originalRequest); // Gửi lại request ban đầu với token mới
-            } else {
-                // Refresh token thất bại, có thể redirect đến trang đăng nhập hoặc xử lý khác
-                return Promise.reject(error);
-            }
+            await toast.error('Phiên bản đã hết hạn xin hãy đăng nhập lại');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            window.location.href = '/#/login';
         }
 
         // Any status codes that fall outside the range of 2xx cause this function to trigger
