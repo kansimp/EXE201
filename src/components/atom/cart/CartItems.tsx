@@ -6,6 +6,7 @@ import { CartItem } from '@redux/slices/cartSlice';
 import { useAppDispatch, useAppSelector } from '@redux/hook';
 import { addItem, removeItem, clearCart, deleteItem } from '@redux/slices/cartSlice';
 import { currencyFormat } from '@ultils/helper';
+import { toast } from 'react-toastify';
 
 const CartTableRowWrapper = styled.tr`
     .cart-tbl {
@@ -92,7 +93,16 @@ const CartItemCB = ({ cartItem }: CartItemProps) => {
                     <span className="qty-value inline-flex items-center justify-center font-medium text-outerspace">
                         {cartItem.quantity}
                     </span>
-                    <button className="qty-inc-btn" onClick={() => dispatch(addItem(cartItem.item))}>
+                    <button
+                        className="qty-inc-btn"
+                        onClick={() => {
+                            if (cartItem.quantity === cartItem.item.stock) {
+                                toast.error('Sản Phẩm Không Đủ Số Lượng Để Cung Cấp');
+                            } else {
+                                dispatch(addItem(cartItem.item));
+                            }
+                        }}
+                    >
                         <i className="bi bi-plus-lg"></i>
                     </button>
                 </div>
