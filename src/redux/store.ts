@@ -15,6 +15,7 @@ import wishListReducer from "./slices/wishlistSlice";
 import authTokenReducer from "./slices/AuthTokenSlice";
 import searchReducer from "./slices/searchSlice";
 import categoryReducer from "./slices/categorySlice";
+import OrderReducer from "./slices/orderSlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -33,6 +34,7 @@ export const store = configureStore({
     authToken: authTokenReducer,
     search: searchReducer,
     category: categoryReducer,
+    order: OrderReducer,
   },
 });
 

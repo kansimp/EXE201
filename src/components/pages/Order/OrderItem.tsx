@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { breakpoints, defaultTheme } from "@styles/themes/default";
 import { currencyFormat } from "@ultils/helper";
 import { BaseLinkGreen } from "@styles/button";
+import { type } from "@testing-library/user-event/dist/type";
+import { Order } from "@redux/slices/orderSlice";
+import { useNavigate } from "react-router-dom";
 
+interface OrderItemProps {
+  order: Order;
+}
 const OrderItemWrapper = styled.div`
   margin: 30px 0;
   border-bottom: 1px solid ${defaultTheme.color_anti_flash_white};
@@ -90,61 +96,47 @@ const OrderItemWrapper = styled.div`
   }
 `;
 
-const OrderItem = ({ order }) => {
+const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
+  console.log("eee", order);
+  const navigate = useNavigate();
   return (
     <OrderItemWrapper>
       <div className="order-item-details">
-        <h3 className="text-gray-800 order-item-title font-semibold">Order No: {order.order_no}</h3>
+        <div className="flex justify-between items-center pb-5">
+          <h3 className="text-gray-800 order-item-title font-bold">Mã đặt hàng: {order.orderCode}</h3>
+          <BaseLinkGreen onClick={() => navigate(`/order-detail/${order.orderCode}`)}>Xem chi tiết</BaseLinkGreen>
+        </div>
         <div className="order-info-group flex flex-wrap">
           <div className="order-info-item">
-            <span className="text-gray-150 font-semibold">Order Date:</span>
-            <span className="text-silver font-semibold">{order.order_date}</span>
+            <span className="text-black-50 font-bold">Ngày đặt hàng:</span>
+            <span className="text-gray-150 font-bold">{order.create_date}</span>
           </div>
           <div className="order-info-item">
-            <span className="text-gray-150 font-semibold">Order Status:</span>
-            <span className="text-silver font-semibold">{order.status}</span>
+            <span className="text-black-50 font-bold">Trạng thái:</span>
+            <span className="text-gray-150 font-bold">
+              {order.status === "PENDING"
+                ? "Chờ thanh toán"
+                : order.status === "PROCESSING"
+                ? "Đang xử lý"
+                : order.status === "CANCELLED"
+                ? "Đã hủy"
+                : order.status === "PAID"
+                ? "Đã thanh toán"
+                : order.status}
+            </span>
           </div>
           <div className="order-info-item">
-            <span className="text-gray-150 font-semibold">Estimated Delivery Date:</span>
-            <span className="text-silver font-semibold">{order.delivery_date}</span>
+            <span className="text-black-50 font-bold">Địa chỉ:</span>
+            <span className="text-gray-150 font-bold">{order.address}</span>
           </div>
           <div className="order-info-item">
-            <span className="text-gray-150 font-semibold">Method:</span>
-            <span className="text-silver font-semibold">{order.payment_method}</span>
+            <span className="text-black-50 font-bold">Phương thức thanh toán:</span>
+            <span className="text-gray-150 font-bold">{order.payment_method}</span>
           </div>
         </div>
-      </div>
-      <div className="order-overview flex justify-between">
-        <div className="order-overview-content grid">
-          <div className="order-overview-img">
-            <img src={order.items[0].imgSource} alt="" className="object-fit-cover" />
-          </div>
-          <div className="order-overview-info">
-            <h4 className="text-xl">{order.items[0].name}</h4>
-            <ul>
-              <li className="font-semibold text-base">
-                <span>Colour:</span>
-                <span className="text-silver">{order.items[0].color}</span>
-              </li>
-              <li className="font-semibold text-base">
-                <span>Qty:</span>
-                <span className="text-silver">{order.items[0].quantity}</span>
-              </li>
-              <li className="font-semibold text-base">
-                <span>Total:</span>
-                <span className="text-silver">{currencyFormat(order.items[0].price)}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <BaseLinkGreen to="/order_detail">View Detail</BaseLinkGreen>
       </div>
     </OrderItemWrapper>
   );
 };
 
 export default OrderItem;
-
-OrderItem.propTypes = {
-  order: PropTypes.object,
-};

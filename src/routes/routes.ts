@@ -21,6 +21,7 @@ import NotFoundScreen from "@components/pages/error/NotFoundScreen";
 import RegisterShop from "@components/pages/Register/RegisterShop";
 import Checkout from "@components/pages/CheckOut/Checkout";
 import OrderListScreen from "@components/pages/Order/OrderListScreen";
+import OrderDetailScreen from "@components/pages/Order/OrderDetail";
 
 export type RouteType = {
   path: string;
@@ -128,6 +129,11 @@ const publicRoute: RouteType[] = [
   {
     path: "/order",
     component: OrderListScreen,
+    layout: MainLayout,
+  },
+  {
+    path: "/order-detail/:orderCode",
+    component: OrderDetailScreen,
     layout: MainLayout,
   },
 ];

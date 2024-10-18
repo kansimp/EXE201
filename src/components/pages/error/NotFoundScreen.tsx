@@ -2,6 +2,7 @@ import { BaseLinkGreen } from "@styles/button";
 import { Container } from "@styles/styles";
 import styled from "styled-components";
 import page_not_found from "@images/page_not_found.svg";
+import { useNavigate } from "react-router-dom";
 
 const NotFoundScreenWrapper = styled.main`
   margin: 24px 0;
@@ -19,6 +20,7 @@ const NotFoundScreenWrapper = styled.main`
 `;
 
 const NotFoundScreen = () => {
+  const navigate = useNavigate();
   return (
     <NotFoundScreenWrapper className="page-py-spacing">
       <Container>
@@ -31,7 +33,7 @@ const NotFoundScreen = () => {
             <p className="text-gray text-center">
               The page you are looking for might have been removed or temporarily unavailable.
             </p>
-            <BaseLinkGreen to="/">Back to HomePage</BaseLinkGreen>
+            <BaseLinkGreen onClick={() => navigate("/")}>Back to HomePage</BaseLinkGreen>
           </div>
         </div>
       </Container>
