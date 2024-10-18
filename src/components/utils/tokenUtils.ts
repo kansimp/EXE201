@@ -10,9 +10,18 @@ interface TokenPayload {
 export const decodeToken = (token: string): TokenPayload | null => {
   try {
     // Gọi hàm jwtDecode với kiểu trả về là TokenPayload
-    return jwtDecode<TokenPayload>(token);
+    const decoded = jwtDecode<TokenPayload>(token);
+
+    // Kiểm tra nếu token đã hết hạn
+    const currentTime = Math.floor(Date.now() / 1000); // Thời gian hiện tại tính bằng giây
+    if (decoded.exp < currentTime) {
+      console.warn("Token đã hết hạn");
+      return null;
+    }
+
+    return decoded;
   } catch (error) {
-    console.error("Invalid token:", error);
+    console.error("Token không hợp lệ:", error);
     return null;
   }
 };

@@ -9,8 +9,10 @@ export const loginUser = createAsyncThunk("user/loginUser", async (UserCredentia
   const request = await axios.post(`https://souvi-be-v1.onrender.com/auth/signin`, UserCredential);
   const response = await request.data;
   localStorage.setItem("access_token", request.data.data.access_token);
+  localStorage.setItem("refresh_token", request.data.data.refresh_token);
   return response;
 });
+
 type LoginType = {
   loading: boolean | null;
   message: string | null;
@@ -32,6 +34,7 @@ const userSlice = createSlice({
       state.error = null;
       // Xóa token khỏi Local Storage
       localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
     },
   },
   extraReducers: (builder) => {
