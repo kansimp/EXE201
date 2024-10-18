@@ -80,7 +80,7 @@ const LoginForm = () => {
         const decodedToken = decodeToken(token); // Giải mã token
         if (decodedToken) {
           const role = decodedToken.role;
-          dispatch(setAuthData({ token, role }));
+          dispatch(setAuthData({ token }));
 
           if (role === "ADMIN") {
             navigate("/admin");
