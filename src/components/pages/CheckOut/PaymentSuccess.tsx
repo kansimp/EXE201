@@ -34,7 +34,14 @@ const ConfirmScreen = () => {
                     </div>
                     <div className="confirm-msg w-full flex flex-col justify-center items-center">
                         <p className="text-4xl font-semibold text-outerspace">Bạn Đã Đặt Hàng Thành Công</p>
-                        <BaseLinkGreen onClick={() => navigate('/')}>Tiếp Tục Mua Hàng</BaseLinkGreen>
+                        <BaseLinkGreen
+                            onClick={async () => {
+                                await localStorage.removeItem('cartItems');
+                                window.location.href = '/';
+                            }}
+                        >
+                            Tiếp Tục Mua Hàng
+                        </BaseLinkGreen>
                     </div>
                 </div>
             </Container>

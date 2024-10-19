@@ -7,6 +7,11 @@ import CustomPrevArrow from '@common/CustomPrevArrow';
 import { newArrivalData } from './data';
 import { commonCardStyles } from '@styles/card';
 import { breakpoints } from '@styles/themes/default';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@redux/hook';
+import { getAllCategory } from '@redux/slices/categorySlice';
+import { changeSearchValue } from '@redux/slices/searchSlice';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCardBoxWrapper = styled.div`
     ${commonCardStyles}
@@ -56,25 +61,36 @@ const Category: React.FC = () => {
         centerMode: true,
         variableWidth: true,
     };
-
+    const dispatch = useAppDispatch();
+    const listCategory = useAppSelector((state) => state.category.categories);
+    useEffect(() => {
+        dispatch(getAllCategory());
+    }, []);
+    const navigate = useNavigate();
     return (
         <Section>
             <Container>
-                <Title titleText={'Các loại mặc hàng'} />
+                <Title titleText={'Các Loại Mặt Hàng'} />
                 <ArrivalSliderWrapper>
                     <Slider nextArrow={<CustomNextArrow />} prevArrow={<CustomPrevArrow />} {...settings}>
-                        {newArrivalData?.map((newArrival) => {
+                        {listCategory?.map((newArrival) => {
                             return (
-                                <ProductCardBoxWrapper key={newArrival.id}>
+                                <ProductCardBoxWrapper
+                                    key={newArrival.category_id}
+                                    onClick={() => {
+                                        dispatch(changeSearchValue(newArrival.name));
+                                        navigate(`/search?keyword=${newArrival.name}`);
+                                    }}
+                                >
                                     <div className="product-img">
                                         <img
                                             className="object-fit-cover"
-                                            src={newArrival.imgSource}
-                                            alt={newArrival.title} // Thêm thuộc tính alt cho hình ảnh
+                                            src={newArrival.image}
+                                            alt={newArrival.name} // Thêm thuộc tính alt cho hình ảnh
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <p className="font-semibold text-xl">{newArrival.title}</p>
+                                        <p className="font-semibold text-xl">{newArrival.name}</p>
                                     </div>
                                 </ProductCardBoxWrapper>
                             );
