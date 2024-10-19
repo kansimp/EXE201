@@ -20,6 +20,8 @@ import Cart from '@components/pages/Cart/Cart';
 import NotFoundScreen from '@components/pages/error/NotFoundScreen';
 import RegisterShop from '@components/pages/Register/RegisterShop';
 import Checkout from '@components/pages/CheckOut/Checkout';
+import OrderListScreen from '@components/pages/Order/OrderListScreen';
+import OrderDetailScreen from '@components/pages/Order/OrderDetail';
 import ConfirmScreen from '@components/pages/CheckOut/PaymentSuccess';
 import ErrorScreen from '@components/pages/CheckOut/PaymentError';
 
@@ -130,10 +132,19 @@ const publicRoute: RouteType[] = [
         component: ErrorScreen,
         layout: MainLayout,
     },
-
     {
         path: '/search',
         component: Product,
+        layout: MainLayout,
+    },
+    {
+        path: '/order',
+        component: OrderListScreen,
+        layout: MainLayout,
+    },
+    {
+        path: '/order-detail/:orderCode',
+        component: OrderDetailScreen,
         layout: MainLayout,
     },
 ];

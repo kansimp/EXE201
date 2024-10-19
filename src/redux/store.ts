@@ -15,6 +15,7 @@ import wishListReducer from './slices/wishlistSlice';
 import authTokenReducer from './slices/AuthTokenSlice';
 import searchReducer from './slices/searchSlice';
 import categoryReducer from './slices/categorySlice';
+import OrderReducer from './slices/orderSlice';
 import paymentReducer from './slices/paymentSlice';
 export const store = configureStore({
     reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
         search: searchReducer,
         category: categoryReducer,
         payment: paymentReducer,
+        order: OrderReducer,
     },
 });
 

@@ -4,6 +4,7 @@ import myAxios from '@setup/axiosConfig';
 type categoryType = {
     name: string;
     category_id: number;
+    image: string;
 };
 
 export const getAllCategory = createAsyncThunk('user/getAllCategory', async () => {

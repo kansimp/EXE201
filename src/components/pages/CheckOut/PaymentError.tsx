@@ -34,7 +34,7 @@ const ErrorScreen = () => {
                     </div>
                     <div className="confirm-msg w-full flex flex-col justify-center items-center">
                         <p className="text-4xl font-semibold text-outerspace">Thanh Toán Thất Bại</p>
-                        <BaseLinkRed className="bg-red-500" onClick={() => navigate('/checkout')}>
+                        <BaseLinkRed className="bg-red-500" onClick={() => (window.location.href = '/#/checkout')}>
                             Thanh Toán Lại
                         </BaseLinkRed>
                     </div>
