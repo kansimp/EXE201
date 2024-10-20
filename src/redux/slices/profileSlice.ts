@@ -37,6 +37,31 @@ export const userProfile = createAsyncThunk<UserProfile, void>("profile/UserProf
   }
 });
 
+// Assuming UserProfile is defined appropriately somewhere
+export const updateUserProfile = createAsyncThunk<UserProfile, Partial<UserProfile> & { accountId: string }>(
+  "profile/updateUserProfile",
+  async (profileData, { rejectWithValue }) => {
+    try {
+      const { accountId, ...updateData } = profileData;
+
+      // Ensure that 'dob' is of the correct type
+      if (updateData.dob && typeof updateData.dob === "string") {
+        // Convert string dob to array if necessary
+        updateData.dob = JSON.parse(updateData.dob); // or other logic to convert
+      }
+
+      const response = await myAxios.put(
+        `https://souvi-be-v1.onrender.com/account/profile?id=${accountId}`,
+        updateData
+      );
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
+
 const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -62,6 +87,18 @@ const profileSlice = createSlice({
         } else {
           state.error = action.error.message as string; //ep kieu string
         }
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to update user profile";
       });
   },
 });

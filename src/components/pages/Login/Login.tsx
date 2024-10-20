@@ -87,6 +87,10 @@ const LoginForm = () => {
           } else if (role === "BUYER") {
             dispatch(userProfile());
             navigate("/");
+          } else if (role === "MANAGER") {
+            navigate("/manager");
+          } else if (role === "SELLER") {
+            navigate("/seller");
           }
         }
         // navigate("/");
