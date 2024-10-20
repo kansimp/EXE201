@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { BaseButtonGreen } from '@styles/button';
 import { breakpoints, defaultTheme } from '@styles/themes/default';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '@redux/hook';
 import { CartItem } from '@redux/slices/cartSlice';
 import { currencyFormat } from '@ultils/helper';
+import { toast } from 'react-toastify';
 
 const CartSummaryWrapper = styled.div`
     background-color: ${defaultTheme.color_flash_white};
@@ -45,6 +46,7 @@ const CartSummary = ({ totalPrice }: CartSummaryProps) => {
     // const listCartCheckOut: CartCheckOutType[] = listCart.map((cart): CartCheckOutType => {
     //     return { ...cart, subTotal: cart.quantity * cart.item.price };
     // });
+    const navigate = useNavigate();
     return (
         <CartSummaryWrapper>
             <ul className="summary-list">
@@ -61,11 +63,22 @@ const CartSummary = ({ totalPrice }: CartSummaryProps) => {
                     <span className="summary-item-value font-bold text-outerspace">{currencyFormat(totalPrice)}</span>
                 </li>
             </ul>
-            <Link to={'/checkout'}>
-                <BaseButtonGreen type="submit" className="checkout-btn">
-                    Tiến hành thanh toán
-                </BaseButtonGreen>
-            </Link>
+
+            <BaseButtonGreen
+                type="submit"
+                className="checkout-btn"
+                onClick={() => {
+                    const token = localStorage.getItem('access_token');
+                    if (token) {
+                        navigate('/checkout');
+                    } else {
+                        toast.warning('Xin mời đăng nhập trước để thanh toán');
+                        navigate('/login');
+                    }
+                }}
+            >
+                Tiến hành thanh toán
+            </BaseButtonGreen>
         </CartSummaryWrapper>
     );
 };
