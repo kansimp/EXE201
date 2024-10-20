@@ -2,7 +2,7 @@ import Breadcrumb from "@common/Breadcrum";
 import Title from "@common/Title";
 import UserMenu from "@components/user/User";
 import { useAppDispatch, useAppSelector } from "@redux/hook";
-import { userProfile } from "@redux/slices/profileSlice";
+import { userProfile, updateUserProfile } from "@redux/slices/profileSlice"; // Importing the updateUserProfile action
 import { BaseLinkGreen } from "@styles/button";
 import { FormElement, Input } from "@styles/form";
 import { Container } from "@styles/styles";
@@ -12,10 +12,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import HomeIcon from "@mui/icons-material/Home";
 import { getAllDistrict, getAllProvince } from "@redux/slices/addressSlice";
 import { uploadUserImage } from "@redux/slices/uploadAvatar";
 import { toast } from "react-toastify";
+import UserProfile from "../UserProfile/UserProfile";
 
 const AccountScreenWrapper = styled.main`
   .address-list {
@@ -75,18 +75,34 @@ const AccountScreen = () => {
     full_name: `${user?.first_name || ""} ${user?.last_name || ""}`,
     email: user?.email || "",
     phone: user?.phone || "",
-    dob: user?.dob || "",
     gender: user?.gender || "",
+    dob: user?.dob || "",
     address: user?.address || "",
   });
+  console.log("dob", user?.dob);
+
   const [idProvice, setIdProvince] = useState({ id: "0", name: "chon tinh" });
   const [district, setDistrict] = useState("0");
   const [imageFile, setImageFile] = useState<File | null>(null);
+
   useEffect(() => {
     dispatch(getAllProvince());
     dispatch(getAllDistrict(idProvice.id));
     dispatch(userProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setEditedUser({
+        full_name: `${user.first_name || ""} ${user.last_name || ""}`,
+        email: user.email || "",
+        phone: user.phone || "",
+        dob: user.dob || "",
+        gender: user.gender || "",
+        address: user.address || "",
+      });
+    }
+  }, [user]);
 
   const handleEditToggle = () => {
     setEditMode(!editMode);
@@ -104,10 +120,11 @@ const AccountScreen = () => {
       dispatch(uploadUserImage({ userId: user.account_id, image: imageFile }))
         .unwrap()
         .then(() => {
-          toast.success("Cập nhật avatar thành công .");
+          toast.success("Cập nhật avatar thành công.");
         });
     }
   };
+
   const handleInputChange = (field: string, value: string) => {
     if (field === "full_name") {
       const [firstName, ...lastName] = value.split(" ");
@@ -117,15 +134,56 @@ const AccountScreen = () => {
         last_name: lastName.join(" "),
         full_name: value,
       }));
-    } else {
-      setEditedUser((prev) => ({ ...prev, [field]: value }));
     }
   };
 
-  // const handleSaveChanges = () => {
-  //   dispatch(updateUserProfile(editedUser));
-  //   setEditMode(false);
-  // };
+  const handleSaveChanges = () => {
+    if (user?.account_id) {
+      let dobArray: [number, number, number] | undefined = undefined;
+
+      if (typeof editedUser.dob === "string" && editedUser.dob.trim() !== "") {
+        // Check if dob is a non-empty string
+        const dobParts = editedUser.dob.split("-"); // Split the string by '-'
+        if (dobParts.length === 3) {
+          const [year, month, day] = dobParts.map((part) => parseInt(part, 10));
+
+          // Validate the parsed values
+          if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+            dobArray = [year, month, day];
+          }
+        }
+      }
+
+      // Example usage:
+      console.log(dobArray);
+
+      // Split full_name into first_name and last_name
+      const [firstName, ...lastName] = editedUser.full_name.split(" ");
+
+      dispatch(
+        updateUserProfile({
+          accountId: user.account_id,
+          first_name: firstName,
+          last_name: lastName.join(" "), // Join remaining parts as the last name
+          email: editedUser.email,
+          phone: editedUser.phone,
+          dob: user.dob,
+          gender: editedUser.gender,
+          address: editedUser.address,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          toast.success("Cập nhật thông tin thành công");
+          setEditMode(false);
+        })
+        .catch((error) => {
+          toast.error("Cập nhật thông tin thất bại");
+          console.error(error);
+        });
+      dispatch(userProfile());
+    }
+  };
 
   return (
     <AccountScreenWrapper className="page-py-spacing mb-8 mt-8">
@@ -172,7 +230,6 @@ const AccountScreen = () => {
                     </button>
                   </div>
                 </FormElement>
-                {/* Các phần tử form khác được cấu trúc tương tự */}
                 <FormElement className="form-elem">
                   <label htmlFor="email" className="form-label font-semibold text-base">
                     Email
@@ -184,20 +241,17 @@ const AccountScreen = () => {
                       className="form-elem-control text-outerspace font-semibold"
                       value={editedUser.email}
                       readOnly={!editMode}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
                     />
-                    <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
-                      <ModeEditIcon />
-                    </button>
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
+                  <label htmlFor="phone" className="form-label font-semibold text-base">
                     Số điện thoại
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
+                      id="phone"
                       className="form-elem-control text-outerspace font-semibold"
                       value={editedUser.phone}
                       readOnly={!editMode}
@@ -209,35 +263,33 @@ const AccountScreen = () => {
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
+                  <label htmlFor="dob" className="form-label font-semibold text-base">
                     Ngày sinh
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
+                      id="dob"
                       className="form-elem-control text-outerspace font-semibold"
                       value={
-                        user?.dob
-                          ? `${user.dob[0]}-${String(user.dob[1]).padStart(2, "0")}-${String(user.dob[2]).padStart(
-                              2,
-                              "0"
-                            )}`
+                        Array.isArray(editedUser.dob) && editedUser.dob.length === 3
+                          ? `${editedUser.dob[0]}-${String(editedUser.dob[1]).padStart(2, "0")}-${String(
+                              editedUser.dob[2]
+                            ).padStart(2, "0")}`
                           : ""
                       }
-                      readOnly
+                      readOnly={!editMode}
                     />
-                    <button type="button" className="form-control-change-btn">
-                      <ModeEditIcon />
-                    </button>
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Giới Tính
+                  <label htmlFor="gender" className="form-label font-semibold text-base">
+                    Giới tính
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
+                      id="gender"
                       className="form-elem-control text-outerspace font-semibold"
                       value={editedUser.gender}
                       readOnly={!editMode}
@@ -249,74 +301,30 @@ const AccountScreen = () => {
                   </div>
                 </FormElement>
                 <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Tên Đường , Số nhà
+                  <label htmlFor="address" className="form-label font-semibold text-base">
+                    Địa chỉ
                   </label>
                   <div className="form-input-wrapper flex items-center">
                     <Input
                       type="text"
+                      id="address"
                       className="form-elem-control text-outerspace font-semibold"
                       value={editedUser.address}
                       readOnly={!editMode}
-                      onChange={(e) => handleInputChange("gender", e.target.value)}
+                      onChange={(e) => handleInputChange("address", e.target.value)}
                     />
                     <button type="button" className="form-control-change-btn" onClick={handleEditToggle}>
                       <ModeEditIcon />
                     </button>
                   </div>
                 </FormElement>
-                <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Tỉnh
-                  </label>
-                  <select
-                    id="Tinh"
-                    value={JSON.stringify(idProvice)}
-                    onChange={(e) => {
-                      setIdProvince(JSON.parse(e.target.value));
-                    }}
-                    className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="">Chọn Tỉnh ...</option>
-                    {listProvince.map((province, index) => {
-                      return (
-                        <option key={index} value={JSON.stringify({ id: province.id, name: province.name })}>
-                          {province.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </FormElement>
-                <FormElement className="form-elem">
-                  <label htmlFor="" className="form-label font-semibold text-base">
-                    Huyện
-                  </label>
-                  <select
-                    id="huyen"
-                    value={district}
-                    onChange={(e) => {
-                      setDistrict(e.target.value);
-                    }}
-                    className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="">Chọn Huyện ...</option>
-                    {listDistrict.map((district, index) => {
-                      return (
-                        <option key={index} value={district.name}>
-                          {district.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </FormElement>
               </div>
-
               <div className="flex w-full">
                 {editMode && (
                   <button
                     type="button"
                     className="py-3.5 px-7 text-base font-medium text-white bg-green-800 rounded-lg mt-5 ml-auto mr-12"
-                    // onClick={handleSaveChanges}
+                    onClick={handleSaveChanges}
                   >
                     Lưu thay đổi
                   </button>
