@@ -208,7 +208,9 @@ const ProductShopListScreen: React.FC = () => {
                   <div className="order-info-group">
                     <div className="order-info-item">
                       <span className="text-black-50 font-bold">Liên hệ:</span>
-                      <span className="text-gray-150 font-bold">{profileShop?.contact}</span>
+                      <a href={profileShop?.contact as string} target="_blank" className="text-gray-150">
+                        <span className="text-black-50 font-bold  hover:text-red-600">Liên hệ tại đây</span>
+                      </a>
                     </div>
                     <div className="order-info-item">
                       <span className="text-black-50 font-bold">Địa chỉ:</span>

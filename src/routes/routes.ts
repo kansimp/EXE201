@@ -25,6 +25,8 @@ import OrderDetailScreen from "@components/pages/Order/OrderDetail";
 import ConfirmScreen from "@components/pages/CheckOut/PaymentSuccess";
 import ErrorScreen from "@components/pages/CheckOut/PaymentError";
 import ProductShopListScreen from "@components/pages/ProductShop/ProductShop";
+import ManagerLayout from "@components/pages/Manager/ManagerLayout";
+import ManagerScreen from "@components/pages/Manager/ManagerScreen";
 
 export type RouteType = {
   path: string;
@@ -152,6 +154,11 @@ const publicRoute: RouteType[] = [
     path: "/shop/:shopId",
     component: ProductShopListScreen,
     layout: MainLayout,
+  },
+  {
+    path: "/manager",
+    component: ManagerScreen,
+    layout: ManagerLayout,
   },
 ];
 

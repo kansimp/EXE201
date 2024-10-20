@@ -3,7 +3,10 @@ import { Container } from '@styles/styles';
 import image from '@images/confirmed_img.svg';
 import { BaseLinkGreen } from '@styles/button';
 import { defaultTheme } from '@styles/themes/default';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '@redux/hook';
+import { DataCheckOutSuccess, paymentSuccess } from '@redux/slices/paymentSlice';
+import { useEffect } from 'react';
 
 const ConfirmScreenWrapper = styled.main`
     margin: 24px 0;
@@ -25,6 +28,22 @@ const ConfirmScreenWrapper = styled.main`
 
 const ConfirmScreen = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        const k = location.search;
+        const queryString = k.split('?')[1];
+        const params = new URLSearchParams(queryString);
+        const data: DataCheckOutSuccess = {
+            id: params.get('id'),
+            code: params.get('code'),
+            status: params.get('status'),
+            orderCode: params.get('orderCode'),
+            cancel: params.get('cancel') === 'true',
+        };
+        dispatch(paymentSuccess(data));
+    }, []);
     return (
         <ConfirmScreenWrapper className="page-py-spacing">
             <Container>

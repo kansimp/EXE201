@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import myAxios from "@setup/axiosConfig";
 
 export type ShopProfile = {
-  contact: string | null;
+  contact: string | null | undefined;
   description: string | null;
   address: string | null;
   shop_id: number | null;

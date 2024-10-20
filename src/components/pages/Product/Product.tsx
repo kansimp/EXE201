@@ -148,7 +148,14 @@ const ProductListScreen: React.FC = () => {
                             </ul>
                         </div>
 
-                        {isLoading === true ? <>Loading...</> : <ProductListPage products={listPostByPage} />}
+                        {isLoading ? (
+                            <div>Loading...</div>
+                        ) : listPostByPage ? (
+                            <ProductListPage products={listPostByPage} />
+                        ) : (
+                            <div>Không có sản phẩm nào</div>
+                        )}
+
                         {/* số lượng product hiện ra */}
                         {searchValue === '' ? (
                             <div className="mt-20 flex justify-center">
