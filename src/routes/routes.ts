@@ -27,6 +27,11 @@ import ErrorScreen from "@components/pages/CheckOut/PaymentError";
 import ProductShopListScreen from "@components/pages/ProductShop/ProductShop";
 import ManagerLayout from "@components/pages/Manager/ManagerLayout";
 import ManagerScreen from "@components/pages/Manager/ManagerScreen";
+import SellerLayout from "@components/pages/Seller/SellerLayouts";
+import TableProductsSeller from "@components/pages/Seller/TableProductsSeller";
+import TablePostSeller from "@components/pages/Seller/TablePostSeller";
+import TableOrderSeller from "@components/pages/Seller/TableOrderSeller";
+import PostDetails from "@components/pages/Seller/PostDetail";
 
 export type RouteType = {
   path: string;
@@ -106,6 +111,26 @@ const publicRoute: RouteType[] = [
     layout: AdminLayout,
   },
   {
+    path: "/product-tables",
+    component: TableProductsSeller,
+    layout: SellerLayout,
+  },
+  {
+    path: "/post-tables",
+    component: TablePostSeller,
+    layout: SellerLayout,
+  },
+  {
+    path: "/posts/:postId/products",
+    component: PostDetails,
+    layout: SellerLayout,
+  },
+  {
+    path: "/seller-order",
+    component: TableOrderSeller,
+    layout: SellerLayout,
+  },
+  {
     path: "/cart",
     component: Cart,
     layout: MainLayout,
@@ -159,6 +184,16 @@ const publicRoute: RouteType[] = [
     path: "/manager",
     component: ManagerScreen,
     layout: ManagerLayout,
+  },
+  {
+    path: "/manager",
+    component: ManagerScreen,
+    layout: ManagerLayout,
+  },
+  {
+    path: "/seller",
+    component: Dashboard,
+    layout: SellerLayout,
   },
 ];
 

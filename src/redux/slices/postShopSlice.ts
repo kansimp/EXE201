@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import myAxios from "@setup/axiosConfig";
 
 export const getAllPostsByShopId = createAsyncThunk(
   "post/getPostsByShopId",
@@ -8,6 +9,26 @@ export const getAllPostsByShopId = createAsyncThunk(
       `https://souvi-be-v1.onrender.com/post/shop?shopId=${shopId}&pageNo=${page}&pageSize=9&sortBy=SORT_BY_DATE_DESC`
     );
     return response.data.data;
+  }
+);
+
+export const addPost = createAsyncThunk(
+  "products/addPost",
+  async (
+    postData: {
+      title: string;
+      description: string;
+      shopId: number | null | undefined;
+      products: number[];
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await myAxios.post("https://souvi-be-v1.onrender.com/post/new", postData);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 
@@ -70,6 +91,18 @@ const postShopSlice = createSlice({
       .addCase(getAllPostsByShopId.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+      })
+      .addCase(addPost.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(addPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+      })
+      .addCase(addPost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
       });
   },
 });
