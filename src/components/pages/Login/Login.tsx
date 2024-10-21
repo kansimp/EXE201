@@ -90,6 +90,7 @@ const LoginForm = () => {
           } else if (role === "MANAGER") {
             navigate("/manager");
           } else if (role === "SELLER") {
+            dispatch(userProfile());
             navigate("/seller");
           }
         }

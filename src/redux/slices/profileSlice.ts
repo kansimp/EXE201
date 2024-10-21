@@ -13,6 +13,10 @@ export type UserProfile = {
   avatar: string | null | undefined;
   locked: boolean | null;
   enable: boolean | null;
+  role_id: number | null;
+  role_Name: string | null;
+  shop_id: number | null;
+  shop_name: string | null;
 };
 
 type ProfileType = {

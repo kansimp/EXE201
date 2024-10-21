@@ -41,7 +41,7 @@ const initialState: OrderState = {
   error: null,
 };
 
-// Thunk để lấy dữ liệu orders từ API
+// Thunk để lấy dữ liệu orders từ API get order by Buyyer
 export const getAllOrders = createAsyncThunk("orders/getAllOrders", async (buyerId: string, { rejectWithValue }) => {
   try {
     const response = await myAxios.get(
@@ -52,6 +52,20 @@ export const getAllOrders = createAsyncThunk("orders/getAllOrders", async (buyer
     return rejectWithValue(error.response?.data || "Something went wrong");
   }
 });
+
+export const getSellerOrders = createAsyncThunk(
+  "orders/getSellerOrders",
+  async (sellerId: string, { rejectWithValue }) => {
+    try {
+      const response = await myAxios.get(
+        `https://souvi-be-v1.onrender.com/order/seller/details?pageNo=0&pageSize=10&sortBy=SORT_BY_DATE_DESC&sellerId=${sellerId}`
+      );
+      return response.data.content;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "orders",
@@ -68,6 +82,18 @@ const orderSlice = createSlice({
         state.orders = action.payload;
       })
       .addCase(getAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getSellerOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getSellerOrders.fulfilled, (state, action: PayloadAction<Order[]>) => {
+        state.loading = false;
+        state.orders = action.payload;
+      })
+      .addCase(getSellerOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
