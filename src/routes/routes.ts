@@ -32,6 +32,7 @@ import TableProductsSeller from "@components/pages/Seller/TableProductsSeller";
 import TablePostSeller from "@components/pages/Seller/TablePostSeller";
 import TableOrderSeller from "@components/pages/Seller/TableOrderSeller";
 import PostDetails from "@components/pages/Seller/PostDetail";
+import DashboardSeller from "@components/pages/Seller/DashboardSeller";
 
 export type RouteType = {
   path: string;
@@ -192,7 +193,7 @@ const publicRoute: RouteType[] = [
   },
   {
     path: "/seller",
-    component: Dashboard,
+    component: DashboardSeller,
     layout: SellerLayout,
   },
 ];
