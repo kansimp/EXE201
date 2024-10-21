@@ -20,6 +20,7 @@ import paymentReducer from "./slices/paymentSlice";
 import postShopReducer from "./slices/postShopSlice";
 import shopProfileReducer from "./slices/shopProfileSlice";
 import productShopReducer from "./slices/productShopSlice";
+import dashboardReducer from "./slices/dashboardSlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -43,6 +44,7 @@ export const store = configureStore({
     postShop: postShopReducer,
     shopProfile: shopProfileReducer,
     productShop: productShopReducer,
+    dashboard: dashboardReducer,
   },
 });
 
