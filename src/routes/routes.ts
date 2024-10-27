@@ -33,6 +33,7 @@ import TablePostSeller from "@components/pages/Seller/TablePostSeller";
 import TableOrderSeller from "@components/pages/Seller/TableOrderSeller";
 import PostDetails from "@components/pages/Seller/PostDetail";
 import DashboardSeller from "@components/pages/Seller/DashboardSeller";
+import OrderTable from "@components/pages/Admin/OrderTable";
 
 export type RouteType = {
   path: string;
@@ -109,6 +110,11 @@ const publicRoute: RouteType[] = [
   {
     path: "/tables",
     component: UserTable,
+    layout: AdminLayout,
+  },
+  {
+    path: "/admin-order",
+    component: OrderTable,
     layout: AdminLayout,
   },
   {
