@@ -13,8 +13,15 @@ export type ProductShop = {
   product_name: string;
   category_name: string;
   shop_name: string;
+  categoryId: number;
 };
-
+export type ProductEdit = {
+  description: string;
+  price: number;
+  stock: number;
+  product_id?: number;
+  product_name: string;
+};
 interface ProductState {
   products: ProductShop[];
   loading: boolean;
@@ -65,6 +72,20 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
+export const editPro = createAsyncThunk(
+  "products/editProduct",
+  async ({ productId, productData }: { productId: number; productData: ProductEdit }, { rejectWithValue }) => {
+    try {
+      const response = await myAxios.put(
+        `https://souvi-be-v1.onrender.com/product/edit?productId=${productId}`,
+        productData
+      );
+      return response.data; // Assuming the API returns the updated product
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Something went wrong");
+    }
+  }
+);
 
 const productSlice = createSlice({
   name: "products",
@@ -93,6 +114,18 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(addProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(editPro.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editPro.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(editPro.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

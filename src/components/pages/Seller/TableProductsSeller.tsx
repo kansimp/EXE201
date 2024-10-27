@@ -2,74 +2,87 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "@redux/hook";
-import { getAllProductsByShopId, addProduct } from "@redux/slices/productShopSlice"; // Thêm addProduct vào import
+import { getAllProductsByShopId, addProduct, ProductShop, ProductEdit, editPro } from "@redux/slices/productShopSlice"; // Thêm addProduct vào import
 import { currencyFormat } from "@ultils/helper";
 import { BaseButtonGreen } from "@styles/button";
 import { Modal, ModalBody, ModalHeader } from "@components/atom/modal/Modal";
 import { getAllCategory } from "@redux/slices/categorySlice";
 import { uploadProductImage } from "@redux/slices/uploadImageProduct";
 import { toast } from "react-toastify";
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "STT", width: 90, headerClassName: "super-app-theme--header" },
-  {
-    field: "image",
-    headerClassName: "super-app-theme--header",
-    headerName: "Ảnh",
-    width: 150,
-    renderCell: (params) => (
-      <img
-        src={params.value}
-        alt="product"
-        style={{ width: "55px", height: "55px", paddingBottom: "5px", objectFit: "cover", borderRadius: "8px" }}
-      />
-    ),
-  },
-  {
-    field: "product_name",
-    headerClassName: "super-app-theme--header",
-    headerName: "Tên sản phẩm",
-    width: 250,
-  },
-  {
-    field: "shop_name",
-    headerClassName: "super-app-theme--header",
-    headerName: "Tên cửa hàng",
-    width: 150,
-  },
-  {
-    field: "price",
-    headerClassName: "super-app-theme--header",
-    headerName: "Giá",
-    width: 150,
-  },
-  {
-    field: "status",
-    headerClassName: "super-app-theme--header",
-    headerName: "Trạng thái",
-    width: 150,
-    renderCell: (params) => (params.value === "ACTIVE" ? "Đã duyệt" : "Chờ xác nhận"),
-  },
-  {
-    field: "category_name",
-    headerClassName: "super-app-theme--header",
-    headerName: "Loại",
-    width: 180,
-  },
-  {
-    field: "change",
-    headerClassName: "super-app-theme--header",
-    headerName: "Thay đổi",
-    width: 100,
-  },
-];
+import EditIcon from "@mui/icons-material/Edit";
+import { log } from "console";
 
 export default function TableProductsSeller() {
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "STT", width: 90, headerClassName: "super-app-theme--header" },
+    {
+      field: "image",
+      headerClassName: "super-app-theme--header",
+      headerName: "Ảnh",
+      width: 150,
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          alt="product"
+          style={{ width: "55px", height: "55px", paddingBottom: "5px", objectFit: "cover", borderRadius: "8px" }}
+          onClick={() => handleImageClick(params)}
+        />
+      ),
+    },
+    {
+      field: "product_name",
+      headerClassName: "super-app-theme--header",
+      headerName: "Tên sản phẩm",
+      width: 250,
+    },
+    {
+      field: "price",
+      headerClassName: "super-app-theme--header",
+      headerName: "Giá",
+      width: 150,
+    },
+    {
+      field: "stock",
+      headerClassName: "super-app-theme--header",
+      headerName: "Số lượng",
+      width: 150,
+    },
+    {
+      field: "status",
+      headerClassName: "super-app-theme--header",
+      headerName: "Trạng thái",
+      width: 150,
+      renderCell: (params) => (params.value === "ACTIVE" ? "Đã duyệt" : "Chờ xác nhận"),
+    },
+    {
+      field: "category_name",
+      headerClassName: "super-app-theme--header",
+      headerName: "Loại",
+      width: 180,
+    },
+    {
+      field: "change",
+      headerClassName: "super-app-theme--header",
+      headerName: "Thay đổi",
+      width: 100,
+      renderCell: (params) => (
+        <button
+          onClick={() => {
+            console.log(params.row);
+            handleEditClick(params.row);
+          }}
+        >
+          <EditIcon />
+        </button>
+      ),
+    },
+  ];
   const [addShow, setAddShow] = React.useState(false);
+  const [editShow, setEditShow] = React.useState(false);
   const [uploadShow, setUploadShow] = React.useState(false);
   const [formData, setFormData] = React.useState({
     product_name: "",
-    quantity: 0,
+    stock: 0,
     price: 0,
     categoryId: 0,
     description: "",
@@ -90,20 +103,82 @@ export default function TableProductsSeller() {
   }, [dispatch, shopId]);
 
   const handleAddShow = () => setAddShow(true);
+  const handleEditShow = () => setEditShow(true);
   const handleAddClose = () => {
     setAddShow(false);
     setFormData({
       product_name: "",
-      quantity: 0,
+      stock: 0,
       price: 0,
       categoryId: 0,
       description: "",
       image: "",
     });
   };
+  const handleEditClose = () => {
+    setEditShow(false);
+    // setFormData({
+    //   product_name: "",
+    //   quantity: 0,
+    //   price: 0,
+    //   categoryId: 0,
+    //   description: "",
+    //   image: "",
+    // });
+  };
+  const [selectedProduct, setSelectedProduct] = React.useState<ProductShop | null>(null);
+  const [editProduct, setEditProduct] = React.useState<ProductEdit | null>(null);
 
-  const handleRowClick = (params: any) => {
-    setSelectedProductId(params.row.productId);
+  const handleEditClick = (product: ProductShop) => {
+    setEditProduct({
+      product_id: product.product_id,
+      product_name: product.product_name,
+      price: product.price,
+      description: product.description,
+      stock: product.stock,
+    });
+    setEditShow(true);
+  };
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+
+    if (editProduct) {
+      setEditProduct({
+        ...editProduct,
+        [name]: value,
+      });
+    }
+  };
+  const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("e", editProduct);
+    if (!editProduct || editProduct.product_id === undefined) {
+      toast.error("Vui lòng chọn sản phẩm để chỉnh sửa.");
+      return;
+    }
+
+    const productData = {
+      product_name: editProduct.product_name,
+      price: editProduct.price,
+      description: editProduct.description,
+      stock: editProduct.stock,
+    };
+    try {
+      await dispatch(editPro({ productId: editProduct.product_id, productData }));
+
+      if (shopId) {
+        await dispatch(getAllProductsByShopId(shopId));
+      }
+
+      toast.success("Cập nhật sản phẩm thành công.");
+      handleEditClose();
+    } catch (error) {
+      toast.error("Cập nhật sản phẩm thất bại. Vui lòng thử lại.");
+    }
+  };
+
+  const handleImageClick = (params: any) => {
+    setSelectedProductId(params.row.product_id);
     setUploadShow(true);
   };
   const handleChange = (e: any) => {
@@ -143,7 +218,7 @@ export default function TableProductsSeller() {
       description: formData.description,
       price: formData.price,
       image: formData.image,
-      stock: formData.quantity,
+      stock: formData.stock,
       categoryId: formData.categoryId,
       shopId: shopId || 0,
       product_name: formData.product_name,
@@ -153,7 +228,7 @@ export default function TableProductsSeller() {
     if (shopId) {
       dispatch(getAllProductsByShopId(shopId));
     }
-    toast.success("Cập nhật sản phẩm thành công.");
+    toast.success("Thêm sản phẩm thành công.");
     handleAddClose();
   };
 
@@ -161,11 +236,12 @@ export default function TableProductsSeller() {
     id: index + 1,
     image: product.image,
     product_name: product.product_name,
-    shop_name: product.shop_name,
     price: currencyFormat(product.price),
     status: product.status,
     category_name: product.category_name,
-    productId: product.product_id,
+    product_id: product.product_id,
+    stock: product.stock,
+    description: product.description,
   }));
 
   if (loading) return <p>Loading...</p>;
@@ -199,11 +275,12 @@ export default function TableProductsSeller() {
             display: "none",
           },
         }}
-        onRowClick={handleRowClick}
+        // onRowClick={handleRowClick}
         disableRowSelectionOnClick
         disableColumnMenu
         disableColumnFilter
       />
+      {/* Modal them san pham */}
       <Modal show={addShow} onHide={handleAddClose} size={"sm"}>
         <ModalHeader content={"Thêm sản phẩm"} />
         <div>
@@ -236,7 +313,7 @@ export default function TableProductsSeller() {
                     type="number"
                     name="quantity"
                     id="quantity"
-                    value={formData.quantity}
+                    value={formData.stock}
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type quantity"
@@ -296,7 +373,81 @@ export default function TableProductsSeller() {
           </ModalBody>
         </div>
       </Modal>
-
+      {/* Modal edit san pham */}
+      <Modal show={editShow} onHide={handleEditClose} size={"sm"}>
+        <ModalHeader content={"Cập nhật sản phẩm"} />
+        <div>
+          <ModalBody>
+            <form className="p-4 md:p-5" onSubmit={handleEditSubmit}>
+              <div className="grid gap-4 mb-4 grid-cols-2">
+                <div className="col-span-2">
+                  <label
+                    htmlFor="product_name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Tên sản phẩm
+                  </label>
+                  <input
+                    type="text"
+                    name="product_name"
+                    id="product_name"
+                    value={editProduct?.product_name}
+                    onChange={handleEditChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Type product name"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label htmlFor="quantity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Số lượng
+                  </label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    value={editProduct?.stock}
+                    onChange={handleEditChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Type quantity"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Giá
+                  </label>
+                  <input
+                    type="number"
+                    name="price"
+                    id="price"
+                    value={editProduct?.price}
+                    onChange={handleEditChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="$2999"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Mô tả
+                  </label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    value={editProduct?.description}
+                    onChange={handleChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Type description"
+                  />
+                </div>
+              </div>
+              <BaseButtonGreen type="submit">Cập nhật sản phẩm</BaseButtonGreen>
+            </form>
+          </ModalBody>
+        </div>
+      </Modal>
+      {/* Modal them ảnh  */}
       <Modal show={uploadShow} onHide={() => setUploadShow(false)} size={"sm"}>
         <ModalHeader content={"Upload Ảnh"} />
         <div>

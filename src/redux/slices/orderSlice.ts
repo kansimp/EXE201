@@ -66,6 +66,16 @@ export const getSellerOrders = createAsyncThunk(
     }
   }
 );
+export const getAdminOrders = createAsyncThunk("orders/getAdminOrders", async () => {
+  try {
+    const response = await myAxios.get(
+      `https://souvi-be-v1.onrender.com/order/admin/details?pageNo=0&pageSize=10&sortBy=SORT_BY_DATE_DESC`
+    );
+    return response.data.content;
+  } catch (error: any) {
+    return console.log(error);
+  }
+});
 
 const orderSlice = createSlice({
   name: "orders",
@@ -94,6 +104,18 @@ const orderSlice = createSlice({
         state.orders = action.payload;
       })
       .addCase(getSellerOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getAdminOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAdminOrders.fulfilled, (state, action: PayloadAction<Order[]>) => {
+        state.loading = false;
+        state.orders = action.payload;
+      })
+      .addCase(getAdminOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

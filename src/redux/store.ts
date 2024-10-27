@@ -21,6 +21,7 @@ import postShopReducer from "./slices/postShopSlice";
 import shopProfileReducer from "./slices/shopProfileSlice";
 import productShopReducer from "./slices/productShopSlice";
 import dashboardReducer from "./slices/dashboardSlice";
+import productsReducer from "./slices/productSlice";
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -45,6 +46,7 @@ export const store = configureStore({
     shopProfile: shopProfileReducer,
     productShop: productShopReducer,
     dashboard: dashboardReducer,
+    product: productsReducer,
   },
 });
 
