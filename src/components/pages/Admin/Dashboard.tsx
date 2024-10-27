@@ -1,5 +1,5 @@
 import CardDataStats from '@components/atom/admin/CardDataStats';
-
+import { currencyFormat } from '@ultils/helper';
 import ChartOne from './Charts/ChartOne';
 import ChartTwo from './Charts/ChartTwo';
 import { useAppDispatch, useAppSelector } from '@redux/hook';
@@ -15,19 +15,18 @@ const Dashboard: React.FC = () => {
         const month: string = String(today.getMonth() + 1).padStart(2, '0');
         const day: string = String(today.getDate()).padStart(2, '0');
         const dayend = `${year}-${month}-${day}`;
-
-        const today1: Date = new Date();
-        today1.setDate(today1.getDate() - 30);
-        const year1: number = today1.getFullYear();
-        const month1: string = String(today1.getMonth() + 1).padStart(2, '0');
-        const day1: string = String(today1.getDate()).padStart(2, '0');
-        const daystart = `${year1}-${month1}-${day1}`;
+        const daystart = `${year}-${month}-01`;
         dispatch(getDashBoard({ startDay: daystart, endDay: dayend }));
     }, []);
     return (
         <>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Lượt Truy Cập" total="100" rate="100%" levelUp>
+                <CardDataStats
+                    title="Tiền hoa hồng (Tháng này)"
+                    total={currencyFormat(addDashboard?.total_commission ?? 0)}
+                    rate={JSON.stringify(addDashboard?.commission_percentage_changes)}
+                    levelUp
+                >
                     <svg
                         className="fill-current text-[#3C50E0] dark:text-white"
                         width="22"
@@ -47,8 +46,8 @@ const Dashboard: React.FC = () => {
                     </svg>
                 </CardDataStats>
                 <CardDataStats
-                    title="Tổng Doanh Thu"
-                    total={JSON.stringify(addDashboard?.total_sales)}
+                    title="Tổng Doanh Thu (Tháng này)"
+                    total={currencyFormat(addDashboard?.total_sales ?? 0)}
                     rate={JSON.stringify(addDashboard?.sale_percentage_changes)}
                     levelUp
                 >
@@ -75,7 +74,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                 </CardDataStats>
                 <CardDataStats
-                    title="Tổng Sản Phẩm"
+                    title="Tổng Sản Phẩm (Tháng này)"
                     total={JSON.stringify(addDashboard?.total_products)}
                     rate={JSON.stringify(addDashboard?.product_percentage_changes)}
                     levelUp
@@ -99,7 +98,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                 </CardDataStats>
                 <CardDataStats
-                    title="Tổng Người Dùng"
+                    title="Tổng Người Dùng (Tháng này)"
                     total={JSON.stringify(addDashboard?.total_customers)}
                     rate={JSON.stringify(addDashboard?.customers_percentage_changes)}
                     levelUp

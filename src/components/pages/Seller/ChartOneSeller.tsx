@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@redux/hook';
-import { getAllOrder, Order } from '@redux/slices/dashboardSlice';
+import { getAllOrderSeller } from '@redux/slices/dashboardSlice';
+import { userProfile } from '@redux/slices/profileSlice';
 import { ApexOptions } from 'apexcharts';
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -12,10 +13,11 @@ interface ChartOneState {
     }[];
 }
 
-const ChartOne: React.FC = () => {
-    const listOrder = useAppSelector((state) => state.dashboard.listOrder);
-    const isLoading = useAppSelector((state) => state.dashboard.isLoading);
-    console.log(listOrder);
+const ChartOneSeller: React.FC = () => {
+    const listOrder = useAppSelector((state) => state.dashboard.listOrderSeller);
+    const isLoading = useAppSelector((state) => state.dashboard.isLoadingSeller);
+    const id = useAppSelector((state) => state.profile.user?.account_id);
+    const shopId = useAppSelector((state) => state.profile.user?.shop_id);
     const [dayStart, setDayStart] = useState('');
     const [dayEnd, setDayEnd] = useState('');
     const dispatch = useAppDispatch();
@@ -115,10 +117,15 @@ const ChartOne: React.FC = () => {
                 },
             },
             min: 0,
-            max: 100000,
+            max: 50000,
         },
     };
+    console.log('id', id);
+
     useEffect(() => {
+        if (!id) {
+            dispatch(userProfile());
+        }
         const today: Date = new Date();
         const year: number = today.getFullYear();
         const month: string = String(today.getMonth() + 1).padStart(2, '0');
@@ -132,8 +139,12 @@ const ChartOne: React.FC = () => {
         const day1: string = String(today1.getDate()).padStart(2, '0');
         const daystart = `${year1}-${month1}-${day1}`;
 
-        dispatch(getAllOrder({ startDay: daystart, endDay: dayend }));
-    }, []);
+        if (id) {
+            dispatch(
+                getAllOrderSeller({ startDay: daystart, endDay: dayend, id: id as string, shopId: shopId as number }),
+            );
+        }
+    }, [id]);
     let series = [
         {
             name: 'Doanh Thu',
@@ -142,15 +153,15 @@ const ChartOne: React.FC = () => {
     ];
 
     const handleSubmit = () => {
-        dispatch(getAllOrder({ startDay: dayStart, endDay: dayEnd }));
+        dispatch(getAllOrderSeller({ startDay: dayStart, endDay: dayEnd, id: id as string, shopId: shopId as number }));
     };
     const dataCSV = listOrder.map((order) => {
         return [order.day, order.total_price, (order.total_price * 0.05).toFixed(2)];
     });
     const totalCSV = listOrder.reduce((acc, order) => acc + order.total_price, 0);
-    const totalAdmin = (totalCSV * 0.05).toFixed(2);
+    const totalAdmin = (totalCSV * 0.95).toFixed(2);
 
-    const csvData = [['Ngày', 'Doanh Thu', 'Hoa Hồng'], ...dataCSV, ['', totalCSV, totalAdmin]];
+    const csvData = [['Ngày', 'Doanh Số Bán Hàng', 'Doanh Số Thực'], ...dataCSV, ['', totalCSV, totalAdmin]];
 
     return (
         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7 xl:col-span-8">
@@ -222,4 +233,4 @@ const ChartOne: React.FC = () => {
     );
 };
 
-export default ChartOne;
+export default ChartOneSeller;

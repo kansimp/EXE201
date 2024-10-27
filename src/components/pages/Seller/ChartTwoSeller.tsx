@@ -10,8 +10,8 @@ interface ChartTwoState {
     }[];
 }
 
-const ChartTwo: React.FC = () => {
-    const listOrder = useAppSelector((state) => state.dashboard.listOrder);
+const ChartTwoSeller: React.FC = () => {
+    const listOrder = useAppSelector((state) => state.dashboard.listOrderSeller);
 
     const options: ApexOptions = {
         colors: ['#3C50E0', '#80CAEE'],
@@ -69,7 +69,7 @@ const ChartTwo: React.FC = () => {
     let series = [
         {
             name: 'Hoa Hồng',
-            data: listOrder.map((order) => parseFloat((order.total_price * 0.05).toFixed(2))),
+            data: listOrder.map((order) => parseFloat((order.total_price * 0.95).toFixed(2))),
         },
     ];
 
@@ -78,7 +78,7 @@ const ChartTwo: React.FC = () => {
             <div className="mb-4 justify-between gap-4 sm:flex">
                 <div>
                     <h4 className="text-xl font-semibold text-black dark:text-white mb-6 p-4">
-                        Đồ Thị Biểu Thị Tiền Hoa Hồng
+                        Đồ Thị Biểu Thị Doanh Số Thực
                     </h4>
                 </div>
             </div>
@@ -92,4 +92,4 @@ const ChartTwo: React.FC = () => {
     );
 };
 
-export default ChartTwo;
+export default ChartTwoSeller;
