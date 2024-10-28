@@ -39,7 +39,7 @@ const columns: GridColDef[] = [
     field: "create_date",
     headerClassName: "super-app-theme--header",
     headerName: "Ngày",
-    width: 200,
+    flex: 1,
   },
 ];
 

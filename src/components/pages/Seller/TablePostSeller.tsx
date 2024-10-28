@@ -8,6 +8,7 @@ import { addPost, getAllPostsByShopId } from "@redux/slices/postShopSlice";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody, ModalHeader } from "@components/atom/modal/Modal";
 import { toast } from "react-toastify";
+import { userProfile } from "@redux/slices/profileSlice";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "STT", width: 90, headerClassName: "super-app-theme--header" },
@@ -28,7 +29,7 @@ const columns: GridColDef[] = [
     field: "createdDate",
     headerClassName: "super-app-theme--header",
     headerName: "Ngày",
-    width: 200,
+    flex: 1,
   },
 ];
 
@@ -82,6 +83,9 @@ export default function TablePostSeller() {
   };
 
   React.useEffect(() => {
+    if (!shopId) {
+      dispatch(userProfile());
+    }
     if (shopId) {
       dispatch(getAllPostsByShopId({ shopId: shopId, page: 0 }));
       dispatch(getAllProductsByShopId(shopId));
