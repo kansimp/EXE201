@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@redux/hook";
 import { currencyFormat } from "@ultils/helper";
 import { BaseButtonGreen } from "@styles/button";
 import { getSellerOrders } from "@redux/slices/orderSlice";
+import { userProfile } from "@redux/slices/profileSlice";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID đặt hàng", width: 150, headerClassName: "super-app-theme--header" },
@@ -39,7 +40,7 @@ const columns: GridColDef[] = [
     field: "create_date",
     headerClassName: "super-app-theme--header",
     headerName: "Ngày",
-    width: 200,
+    flex: 1,
   },
 ];
 
@@ -48,6 +49,9 @@ export default function TableOrderSeller() {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
+    if (!sellerId) {
+      dispatch(userProfile());
+    }
     if (sellerId) {
       dispatch(getSellerOrders(sellerId));
     }

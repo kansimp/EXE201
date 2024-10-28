@@ -130,7 +130,7 @@ export default function DataGridDemo() {
       field: "change",
       headerClassName: "super-app-theme--header",
       headerName: "Thay đổi",
-      width: 100,
+      flex: 1,
       renderCell: (params) => (
         <button
           onClick={() => {

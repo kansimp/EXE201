@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
   { field: "role_Name", headerName: "Role", width: 150 },
   { field: "email", headerName: "Email", width: 250 },
   { field: "address", headerName: "Address", width: 300 },
-  { field: "phone", headerName: "Phone", width: 150 },
+  { field: "phone", headerName: "Phone", flex: 1 },
 ];
 
 const paginationModel = { page: 0, pageSize: 5 };

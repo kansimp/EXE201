@@ -11,6 +11,7 @@ import { uploadProductImage } from "@redux/slices/uploadImageProduct";
 import { toast } from "react-toastify";
 import EditIcon from "@mui/icons-material/Edit";
 import { log } from "console";
+import { userProfile } from "@redux/slices/profileSlice";
 
 export default function TableProductsSeller() {
   const columns: GridColDef[] = [
@@ -64,7 +65,7 @@ export default function TableProductsSeller() {
       field: "change",
       headerClassName: "super-app-theme--header",
       headerName: "Thay đổi",
-      width: 100,
+      flex: 1,
       renderCell: (params) => (
         <button
           onClick={() => {
@@ -96,6 +97,9 @@ export default function TableProductsSeller() {
   const [imageFile, setImageFile] = React.useState<File | null>(null);
   const [selectedProductId, setSelectedProductId] = React.useState<string | null>(null);
   React.useEffect(() => {
+    if (!shopId) {
+      dispatch(userProfile());
+    }
     if (shopId) {
       dispatch(getAllProductsByShopId(shopId));
     }
