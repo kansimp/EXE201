@@ -156,7 +156,7 @@ const ChartOneSeller: React.FC = () => {
         dispatch(getAllOrderSeller({ startDay: dayStart, endDay: dayEnd, id: id as string, shopId: shopId as number }));
     };
     const dataCSV = listOrder.map((order) => {
-        return [order.day, order.total_price, (order.total_price * 0.05).toFixed(2)];
+        return [order.day, order.total_price, (order.total_price * 0.95).toFixed(2)];
     });
     const totalCSV = listOrder.reduce((acc, order) => acc + order.total_price, 0);
     const totalAdmin = (totalCSV * 0.95).toFixed(2);
