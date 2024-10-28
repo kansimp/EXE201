@@ -156,12 +156,12 @@ const ChartOneSeller: React.FC = () => {
         dispatch(getAllOrderSeller({ startDay: dayStart, endDay: dayEnd, id: id as string, shopId: shopId as number }));
     };
     const dataCSV = listOrder.map((order) => {
-        return [order.day, order.total_price, (order.total_price * 0.05).toFixed(2)];
+        return [order.day, order.total_price, (order.total_price * 0.95).toFixed(2)];
     });
     const totalCSV = listOrder.reduce((acc, order) => acc + order.total_price, 0);
     const totalAdmin = (totalCSV * 0.95).toFixed(2);
 
-    const csvData = [['Ngày', 'Doanh Số Bán Được', 'Doanh Số Thực'], ...dataCSV, ['', totalCSV, totalAdmin]];
+    const csvData = [['Ngày', 'Doanh Số Bán Hàng', 'Doanh Số Thực'], ...dataCSV, ['', totalCSV, totalAdmin]];
 
     return (
         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7 xl:col-span-8">
