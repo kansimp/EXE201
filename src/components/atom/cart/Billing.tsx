@@ -11,6 +11,7 @@ import { CartItem } from '@redux/slices/cartSlice';
 import { createPayment } from '@redux/slices/paymentSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { userProfile } from '@redux/slices/profileSlice';
 
 const BillingOrderWrapper = styled.div`
     gap: 60px;
@@ -164,6 +165,9 @@ const Billing = () => {
         dispatch(getAllProvince());
         dispatch(getAllDistrict(idProvice.id));
     }, [idProvice.id]);
+    useEffect(() => {
+        dispatch(userProfile());
+    }, []);
     const validateForm = () => {
         const errors = {
             name: '',

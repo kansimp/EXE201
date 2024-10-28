@@ -135,16 +135,6 @@ const ProductListScreen: React.FC = () => {
                                         Đề xuất
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/" className="text-lg font-semibold">
-                                        Giá tăng dần
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/" className="text-lg font-semibold">
-                                        Giá giảm dần
-                                    </Link>
-                                </li>
                             </ul>
                         </div>
 
