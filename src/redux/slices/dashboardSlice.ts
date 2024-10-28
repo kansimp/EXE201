@@ -81,9 +81,16 @@ export const getAllOrderSeller = createAsyncThunk(
                 const day = order.create_date.split(' ')[0];
                 const existingDay = acc.find((group) => group.day === day);
                 if (existingDay) {
-                    existingDay.total_price += order.total_price;
+                    existingDay.total_price += order.product_list.reduce((accumulator: number, p: Product) => {
+                        return accumulator + p.line_total;
+                    }, 0);
                 } else {
-                    acc.push({ day, total_price: order.total_price });
+                    acc.push({
+                        day,
+                        total_price: order.product_list.reduce((accumulator: number, p: Product) => {
+                            return accumulator + p.line_total;
+                        }, 0),
+                    });
                 }
                 return acc;
             }, []);

@@ -80,8 +80,8 @@ const DashboardSeller: React.FC = () => {
                 <CardDataStats
                     title="Tổng Sản Phẩm"
                     total={JSON.stringify(addDashboard?.total_products)}
-                    rate="100"
-                    levelUp
+                    rate=""
+                    // levelUp
                 >
                     <svg
                         className="fill-current text-[#3C50E0] dark:text-white"
@@ -104,8 +104,8 @@ const DashboardSeller: React.FC = () => {
                 <CardDataStats
                     title="Tổng Sản Phẩm Đang Xử Lý"
                     total={JSON.stringify(addDashboard?.pending_products)}
-                    rate="100"
-                    levelUp
+                    rate=""
+                    // levelUp
                 >
                     <svg
                         className="fill-current text-[#3C50E0] dark:text-white"
