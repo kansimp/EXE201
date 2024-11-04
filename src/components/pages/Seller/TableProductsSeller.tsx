@@ -409,8 +409,8 @@ export default function TableProductsSeller() {
                   </label>
                   <input
                     type="number"
-                    name="quantity"
-                    id="quantity"
+                    name="stock"
+                    id="stock"
                     value={editProduct?.stock}
                     onChange={handleEditChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -429,7 +429,7 @@ export default function TableProductsSeller() {
                     value={editProduct?.price}
                     onChange={handleEditChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="$2999"
+                    placeholder="30000"
                     required
                   />
                 </div>
@@ -441,7 +441,7 @@ export default function TableProductsSeller() {
                     name="description"
                     id="description"
                     value={editProduct?.description}
-                    onChange={handleChange}
+                    onChange={handleEditChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type description"
                   />
