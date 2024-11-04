@@ -115,7 +115,7 @@ const ChartOne: React.FC = () => {
                 },
             },
             min: 0,
-            max: 100000,
+            max: 500000,
         },
     };
     useEffect(() => {

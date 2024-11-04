@@ -117,7 +117,7 @@ const ChartOneSeller: React.FC = () => {
                 },
             },
             min: 0,
-            max: 50000,
+            max: 500000,
         },
     };
     console.log('id', id);

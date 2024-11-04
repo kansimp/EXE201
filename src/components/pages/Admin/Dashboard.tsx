@@ -74,10 +74,10 @@ const Dashboard: React.FC = () => {
                     </svg>
                 </CardDataStats>
                 <CardDataStats
-                    title="Tổng Sản Phẩm (Tháng này)"
-                    total={JSON.stringify(addDashboard?.total_products)}
-                    rate={JSON.stringify(addDashboard?.product_percentage_changes)}
-                    levelUp
+                    title="Số Lượng Giao Dịch (Tháng này)"
+                    total={JSON.stringify(addDashboard?.total_transactions)}
+                    rate=""
+                    // levelUp
                 >
                     <svg
                         className="fill-current text-[#3C50E0] dark:text-white"
@@ -100,8 +100,8 @@ const Dashboard: React.FC = () => {
                 <CardDataStats
                     title="Tổng Người Dùng (Tháng này)"
                     total={JSON.stringify(addDashboard?.total_customers)}
-                    rate={JSON.stringify(addDashboard?.customers_percentage_changes)}
-                    levelUp
+                    rate=""
+                    // levelUp
                 >
                     <svg
                         className="fill-current text-[#3C50E0] dark:text-white"

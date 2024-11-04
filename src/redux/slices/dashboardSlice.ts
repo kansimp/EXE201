@@ -146,6 +146,7 @@ interface DataStatistics {
     customers_percentage_changes: number | undefined;
     total_commission: number | undefined;
     commission_percentage_changes: number | undefined;
+    total_transactions: number | undefined;
 }
 interface DataStatisticsSeller {
     total_products: number | undefined;

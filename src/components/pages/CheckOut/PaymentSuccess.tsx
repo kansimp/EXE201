@@ -30,7 +30,9 @@ const ConfirmScreen = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const location = useLocation();
-
+    const resetCart = async () => {
+        await localStorage.removeItem('cartItems');
+    };
     useEffect(() => {
         const k = location.search;
         const queryString = k.split('?')[1];
@@ -43,6 +45,7 @@ const ConfirmScreen = () => {
             cancel: params.get('cancel') === 'true',
         };
         dispatch(paymentSuccess(data));
+        resetCart();
     }, []);
     return (
         <ConfirmScreenWrapper className="page-py-spacing">
@@ -55,7 +58,6 @@ const ConfirmScreen = () => {
                         <p className="text-4xl font-semibold text-outerspace">Bạn Đã Đặt Hàng Thành Công</p>
                         <BaseLinkGreen
                             onClick={async () => {
-                                await localStorage.removeItem('cartItems');
                                 window.location.href = '/';
                             }}
                         >
