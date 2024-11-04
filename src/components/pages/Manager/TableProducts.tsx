@@ -124,7 +124,20 @@ export default function DataGridDemo() {
       headerClassName: "super-app-theme--header",
       headerName: "Trạng thái",
       width: 150,
-      renderCell: (params) => (params.value === "PENDING" ? "Chờ xác nhận" : "Đã duyệt"),
+      renderCell: (params) => {
+        switch (params.value) {
+          case "PENDING":
+            return "Chờ xác nhận";
+          case "REJECTED":
+            return "Từ chối";
+          case "ACTIVE":
+            return "Đã duyệt";
+          case "CLOSED":
+            return "Đã đóng";
+          default:
+            return "Không xác định";
+        }
+      },
     },
     {
       field: "change",
@@ -163,16 +176,23 @@ export default function DataGridDemo() {
   const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(null);
   const [uploadShow, setUploadShow] = React.useState(false);
   const handleSelectClick = (product: Product) => {
-    setSelectedProduct(product);
-    setUploadShow(true);
+    if (product.status === "CLOSED") {
+      toast.warning("Sản phẩm đã bị đóng.");
+    } else if (product.status === "REJECTED") {
+      toast.warning("Sản phẩm đã bị từ chối.");
+    } else {
+      setSelectedProduct(product);
+      setUploadShow(true);
+    }
   };
-  const handleApprove = (status: "PENDING" | "ACTIVE") => {
+
+  const handleApprove = (status: "REJECTED" | "ACTIVE" | "CLOSED") => {
     if (selectedProduct) {
       dispatch(approveProduct({ productId: selectedProduct.product_id, status }))
         .unwrap()
         .then(() => {
           dispatch(getAllProducts());
-          toast.success("Cập nhật ảnh sản phẩm thành công.");
+          toast.success("Cập nhật trạng thái sản phẩm thành công.");
           setUploadShow(false);
         })
         .catch((error) => {
@@ -215,20 +235,32 @@ export default function DataGridDemo() {
         <ModalBody>
           <div className="p-4 text-center">
             <h3 className="mb-5 text-lg font-normal text-black-60">Chọn trạng thái cho sản phẩm này</h3>
-            <button
-              type="button"
-              className="text-white bg-red-600 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-              onClick={() => handleApprove("PENDING")}
-            >
-              Chờ xác nhận
-            </button>
-            <button
-              type="button"
-              className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 ms-3 text-center"
-              onClick={() => handleApprove("ACTIVE")}
-            >
-              Duyệt
-            </button>
+            {selectedProduct?.status === "PENDING" ? (
+              <>
+                <button
+                  type="button"
+                  className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                  onClick={() => handleApprove("REJECTED")}
+                >
+                  Từ chối
+                </button>
+                <button
+                  type="button"
+                  className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 ms-3 text-center"
+                  onClick={() => handleApprove("ACTIVE")}
+                >
+                  Duyệt
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                onClick={() => handleApprove("CLOSED")}
+              >
+                Đóng
+              </button>
+            )}
           </div>
         </ModalBody>
       </Modal>

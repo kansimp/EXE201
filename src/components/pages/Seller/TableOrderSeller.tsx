@@ -59,14 +59,26 @@ export default function TableOrderSeller() {
 
   const { orders, loading, error } = useAppSelector((state) => state.order);
 
-  const rows = orders.map((order, index) => ({
-    id: order.orderCode,
-    product_list: order.product_list,
-    address: order.address,
-    total_price: order.total_price,
-    status: order.status,
-    create_date: order.create_date,
-  }));
+  // Remove duplicate rows based on the `id`
+  const uniqueRows = (() => {
+    const seenIds = new Set();
+    return orders
+      .filter((order) => {
+        if (seenIds.has(order.orderCode)) {
+          return false;
+        }
+        seenIds.add(order.orderCode);
+        return true;
+      })
+      .map((order) => ({
+        id: order.orderCode,
+        product_list: order.product_list,
+        address: order.address,
+        total_price: order.total_price,
+        status: order.status,
+        create_date: order.create_date,
+      }));
+  })();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -74,7 +86,7 @@ export default function TableOrderSeller() {
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={uniqueRows}
         columns={columns}
         initialState={{
           pagination: {
